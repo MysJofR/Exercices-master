@@ -23,7 +23,7 @@ https://dribbble.com/shots/2292415-Daily-UI-001-Day-001-Sign-Up
 */
 
 function onLoad(){
-    fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/frontend/auth/login/index.html/auth",{
+    fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/auth",{
         method: "GET",
         body: JSON.stringify({
             token: localStorage.getItem("token")
@@ -41,7 +41,7 @@ function onLoad(){
 
 function login(){
 
-fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/frontend/auth/login/index.html/auth/login",{
+fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/auth/login",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
