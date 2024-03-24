@@ -46,10 +46,10 @@
           
          
           <li>
-            <a href="/login" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
+            <a href="/frontend/auth/login/index.html/index.html" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
           </li>
           <li>
-            <a href="/add"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
+            <a href="/frontend/exercice/index.html"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
           </li>
         </ul>
       </div>
@@ -63,7 +63,7 @@
     <div id="tabelas" class="m-4 flex flex-col text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
 
        
-        <a class="text-gray-100 underline p-4 self-center" href="/leaderboard">Leaderboard</a> 
+        <a class="text-gray-100 underline p-4 self-center" href="/frontend/menu/leaderboard/index.html">Leaderboard</a> 
         <p class="text-gray-100 font-sans p-4 font-semibold ">Faça exercicios e domine a tabela de liderança!</p>
 
     </div> 
@@ -71,7 +71,7 @@
     <div id="começar" class="m-4 flex flex-col text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
 
        
-        <a class="text-gray-100 underline p-4 self-center" href="/start">Programar</a> 
+        <a class="text-gray-100 underline p-4 self-center" href="/frontend/index.html">Programar</a> 
         <p class="text-gray-100 font-sans p-4 font-semibold ">Faça os exercicios propostos e pratique lógica de programação de forma facil e rápida!</p>
 
     </div>
@@ -80,7 +80,7 @@
     <div id="perfil" class="m-2 flex flex-col text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
 
        
-        <a class="text-gray-100 underline p-4 self-center" href="/profile">Seu Perfil</a> 
+        <a class="text-gray-100 underline p-4 self-center" href="/frontend/menu/profile/index.html">Seu Perfil</a> 
         <p class="text-gray-100 font-sans p-4 font-semibold ">Veja seu Perfil e suas estatisticas no LogiC.</p>
 
     </div>
@@ -133,7 +133,7 @@
             } catch (err) {
                 
                 localStorage.removeItem("token");
-                window.location.href = '/login'
+                window.location.href = '/frontend/auth/login/index.html'
             }
 
                 
@@ -167,7 +167,7 @@
                 if (data.valid != true) {
                    alert("Token inválido");
                     localStorage.removeItem("token");
-                    window.location.href = '/login'
+                    window.location.href = '/frontend/auth/login/index.html'
                 }
 
                 valida()
@@ -175,14 +175,14 @@
             } catch (err) {
                 
                 localStorage.removeItem("token");
-                window.location.href = '/login'
+                window.location.href = '/frontend/auth/login/index.html'
             }
 
         }
 
         function logout(){
     localStorage.removeItem("token");
-       window.location.href = '/login'
+       window.location.href = '/frontend/auth/login/index.html'
 }
        
         
