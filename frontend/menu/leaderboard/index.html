@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="portugol-studio-dark.css">
+
+    <title>Document</title>
+</head>
+<style>
+#botaoSubmit {
+    display: none;
+}
+
+#criar {
+    display: none;
+}
+
+</style>
+
+
+<body onload="onLoad()">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <body onload="onLoad()" class="bg-gray-900">
+        <div id="container" class="w-full h-full ">
+            
+
+<nav class="bg-gray-800 max-h-20 dark:bg-gray-900 border-yellow-400 border-b-2">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      
+          
+          <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">LogiC</span>
+   
+
+     
+      <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
+
+
+        
+        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-800 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-800 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          
+            <li>
+                <a href="/"  id="start" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Inicio</a>
+              </li>
+
+
+          <li>
+            <a href="/login" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
+          </li>
+          <li>
+            <a href="/add"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+
+
+  
+
+<div class=" w-full h-screen flex align-center justify-center overflow-x-auto roundedshadow-md sm:rounded-lg">
+    <table id="table" class=" h-2/6 w-3/6 mt-10 border-2 border-gray-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700  uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Posição
+                </th>
+                <th scope="col" class="px-12 py-3">
+                    Nome
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Exercicios concluidos nivel 1:
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Exercicios concluidos nivel 2:
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Exercicios concluidos nivel 3:
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Exercicios concluidos nivel 4:
+                </th>
+
+                <th scope="col" class="px-6 py-3">
+                    Exercicios concluidos nivel 5:
+                </th>
+
+                <th scope="col" class="px-6 py-3">
+                    Total de exercicios:
+                </th>
+            </tr>
+        </thead>
+
+    </table>
+</div>
+
+      
+
+
+
+    
+
+  </div>
+            
+            
+           
+    <script>
+
+
+    </script>
+
+
+    <script>
+        
+       async function leaderboard(){
+        try{ 
+
+    var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+            myHeaders.append("token", localStorage.getItem("token"));
+
+var requestOptions = {
+method: 'GET',
+headers: myHeaders,
+redirect: 'follow'
+};
+
+const response = await fetch("http://127.0.0.1:3000/auth/users", requestOptions)
+
+const data = await response.json();
+
+
+if(response.status == 200){
+
+console.log(data)
+const table = document.getElementById('table') 
+const tbody = document.createElement('tbody')
+table.appendChild(tbody)
+
+var pos = []
+
+for(let i = 0; data.users.length>i; i++){
+
+
+    for(let p = -1; p<data.users.length-1; p++){
+       
+        
+        if(!pos[posicao(data.users[i])+p]){
+      pos[posicao(data.users[i])+p] = data.users[i]
+   break
+     } 
+     
+
+        }
+    
+    
+    // for(let t = 0; t<8; t++){
+        
+    //     const td = document.createElement('td')
+    //     if(t==0) td.innerText = posicao(data.users[i]);
+    //     if(t==1) td.innerText = data.users[i].name;
+    //     if(t==2)   td.innerText =  contaExercicios(1, data.users[i]);
+    //     if(t==3 )   td.innerText =  contaExercicios(2, data.users[i]);
+    //     if(t==4 )   td.innerText =  contaExercicios(3, data.users[i]);
+    //     if(t==5 )   td.innerText =  contaExercicios(4, data.users[i]);
+    //     if(t==6 )   td.innerText =  contaExercicios(5, data.users[i]);
+    //     if(t==7) td.innerText = data.users[i].exercisesDone.length
+        
+    //     tr.appendChild(td)
+
+
+
+    // }
+   
+    } 
+    console.log(pos)
+    for(let i = 0; i<pos.length; i++){
+        
+        const tr = document.createElement('tr') 
+        tr.classList = 'bg-gray-800 border-b dark:bg-gray-800 dark:border-gray-700 text-gray-100 dark:hover:bg-gray-600'
+        tbody.appendChild(tr);
+
+
+        for(let t = 0; t<8; t++){
+        
+        const td = document.createElement('td')
+        td.classList = "px-10 py-4"
+         if(t==0) td.innerText = i+1;
+         if(t==1){ if(pos[i].name == localStorage.getItem('name')){td.innerText = pos[i].name + ' (você)' }else{
+            td.innerText = pos[i].name 
+          } }
+         if(t==2)   td.innerText =  contaExercicios(1, pos[i]);
+         if(t==3 )   td.innerText =  contaExercicios(2,  pos[i]);
+         if(t==4 )   td.innerText =  contaExercicios(3,  pos[i]);
+         if(t==5 )   td.innerText =  contaExercicios(4,  pos[i]);
+         if(t==6 )   td.innerText =  contaExercicios(5,  pos[i]);
+         if(t==7) td.innerText =  pos[i].exercisesDone.length
+        
+         tr.appendChild(td)
+
+        }
+
+
+    }
+    
+    
+
+      }
+
+
+function posicao(usuario){
+    let pos = data.users.length
+    for(let i = 0; i<data.users.length; i++){
+        if(usuario.name != data.users[i].name){ 
+        if(usuario.exercisesDone.length > data.users[i].exercisesDone.length){
+            pos-=1
+        } 
+        if(usuario.exercisesDone.length == data.users[i].exercisesDone.length) pos -= 1
+    }
+       
+    
+    }
+
+    return pos
+}
+
+function contaExercicios(num, user){
+        let n = 0
+
+    for(let i = 0; i<user.exercisesDone.length; i++){
+        if(user.exercisesDone[i].difficulty == num){
+            n += 1
+        }
+
+    }
+    return n
+
+}
+
+} catch (err) {
+console.log(err)
+localStorage.removeItem("token");
+//window.location.href = '/login'
+}
+
+
+
+
+       }
+        
+        async function valida(){
+                try{ 
+
+                    var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+                myHeaders.append("token", localStorage.getItem("token"));
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                const response = await fetch("http://127.0.0.1:3000/auth/isAdmin", requestOptions)
+
+                const data = await response.json();
+                
+
+                if(response.status == 200){
+
+                    console.log(data.routesAllow)
+                    if(data.routesAllow.includes('exerciceadd')){
+                        
+                        document.getElementById('criar').style.display = 'block';
+
+                    }
+                }
+               
+               
+            } catch (err) {
+                console.log(err)
+               // localStorage.removeItem("token");
+               // window.location.href = '/login'
+            }
+
+                
+
+
+        }
+
+
+
+        async function onLoad() {
+
+            try {
+                
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+                var urlencoded = new URLSearchParams();
+                urlencoded.append("token", localStorage.getItem("token"));
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: urlencoded,
+                    redirect: 'follow'
+                };
+
+                const response = await fetch("http://127.0.0.1:3000/auth/", requestOptions)
+
+                const data = await response.json();
+                
+                if (data.valid != true) {
+                  console.log(data);
+                    //localStorage.removeItem("token");
+                    //window.location.href = '/login'
+                }
+
+                
+                valida()
+
+                leaderboard()
+            } catch (err) {
+                
+                localStorage.removeItem("token");
+                window.location.href = '/login'
+            }
+
+        }
+        function logout(){
+    localStorage.removeItem("token");
+       window.location.href = '/login'
+}
+        
+    </script>
+
+
+    
+
+</body>
+
+</html>

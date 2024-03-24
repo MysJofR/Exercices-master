@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="portugol-studio-dark.css">
+
+    <title>Document</title>
+</head>
+<style>
+#botaoSubmit {
+    display: none;
+}
+
+#criar {
+    display: none;
+}
+
+</style>
+
+
+<body onload="onLoad()">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <body onload="onLoad()" class="bg-gray-900">
+        <div id="container" class="w-full ">
+            
+
+<nav class="bg-gray-800 max-h-20 dark:bg-gray-900 border-yellow-400 border-b-2">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      
+          
+          <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">LogiC</span>
+   
+
+     
+      <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
+
+
+        
+        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-800 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-800 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          
+         
+          <li>
+            <a href="/login" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
+          </li>
+          <li>
+            <a href="/add"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+       </div>
+  <div id="box" class="w-full h-screen flex justify-center  flex-row">
+
+
+
+    <div id="tabelas" class="m-4 flex flex-col text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
+
+       
+        <a class="text-gray-100 underline p-4 self-center" href="/leaderboard">Leaderboard</a> 
+        <p class="text-gray-100 font-sans p-4 font-semibold ">Faça exercicios e domine a tabela de liderança!</p>
+
+    </div> 
+
+    <div id="começar" class="m-4 flex flex-col text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
+
+       
+        <a class="text-gray-100 underline p-4 self-center" href="/start">Programar</a> 
+        <p class="text-gray-100 font-sans p-4 font-semibold ">Faça os exercicios propostos e pratique lógica de programação de forma facil e rápida!</p>
+
+    </div>
+
+
+    <div id="perfil" class="m-2 flex flex-col text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
+
+       
+        <a class="text-gray-100 underline p-4 self-center" href="/profile">Seu Perfil</a> 
+        <p class="text-gray-100 font-sans p-4 font-semibold ">Veja seu Perfil e suas estatisticas no LogiC.</p>
+
+    </div>
+
+
+
+  </div>
+            
+            
+           
+    <script>
+
+
+    </script>
+
+
+    <script>
+        
+       
+        
+        async function valida(){
+                try{ 
+
+                    var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+                myHeaders.append("token", localStorage.getItem("token"));
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                const response = await fetch("http://127.0.0.1:3000/auth/isAdmin", requestOptions)
+
+                const data = await response.json();
+                
+
+                if(response.status == 200){
+
+                    console.log(data.routesAllow)
+                    if(data.routesAllow.includes('exerciceadd')){
+                        
+                        document.getElementById('criar').style.display = 'block';
+
+                    }
+                }
+               
+               
+            } catch (err) {
+                
+                localStorage.removeItem("token");
+                window.location.href = '/login'
+            }
+
+                
+
+
+        }
+
+
+
+        async function onLoad() {
+
+            try {
+                
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+                var urlencoded = new URLSearchParams();
+                urlencoded.append("token", localStorage.getItem("token"));
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: urlencoded,
+                    redirect: 'follow'
+                };
+
+                const response = await fetch("http://127.0.0.1:3000/auth/", requestOptions)
+
+                const data = await response.json();
+                
+                if (data.valid != true) {
+                   alert("Token inválido");
+                    localStorage.removeItem("token");
+                    window.location.href = '/login'
+                }
+
+                valida()
+
+            } catch (err) {
+                
+                localStorage.removeItem("token");
+                window.location.href = '/login'
+            }
+
+        }
+
+        function logout(){
+    localStorage.removeItem("token");
+       window.location.href = '/login'
+}
+       
+        
+    </script>
+
+
+    
+
+</body>
+
+</html>

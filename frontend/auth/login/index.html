@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+
+ 
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800" onload="onLoad()">
+<!-- partial:index.partial.html -->
+
+<style>
+ 
+
+</style>
+
+<script>
+  /*
+
+inspiration: 
+https://dribbble.com/shots/2292415-Daily-UI-001-Day-001-Sign-Up
+
+*/
+
+function onLoad(){
+    fetch("http://localhost:3000/auth",{
+        method: "GET",
+        body: JSON.stringify({
+            token: localStorage.getItem("token")
+        }),
+    }).then(async (response) => {
+        const data = await response.json();
+        
+        if(data.valid == true){
+            localStorage.removeItem("token");
+            window.location.href = '/'
+        }
+    }).catch((err) => {
+    })
+}
+
+function login(){
+
+fetch("http://127.0.0.1:3000/auth/login",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                        
+            },
+            body: JSON.stringify({
+                username:document.getElementById('user').value,
+                password:document.getElementById('pass').value
+            })
+        }).then(async (response) => {
+
+            const data = await response.json();
+
+            if(response.status == 200){
+              
+              localStorage.setItem('name', document.getElementById('user').value)
+              localStorage.setItem('token', data.token);
+              window.location.href = "/";
+
+            }else{
+                alert(data.message);
+            }
+
+        }).catch((err) => {
+            alert("Erro ao logar");
+        })
+
+  return false;
+}
+</script>
+
+<div class="flex flex-col mt-20 items-center w-full h-full">
+    <h1 class="text-yellow-300 text-2xl   mb-3 font-sans font-semibold">Logar-se</h1>
+    <p class="text-gray-200 mb-7 font-sans font-semibold">Entre em sua conta LogiC ou cadastre-se para se aventurar no universo da programação!</p>
+    <div class="w-3/12 h-4/6">
+      <div class="">
+        <input id="user" class=" mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Usuário" >
+      </div>
+      <div class="">
+        <input id="pass"  class=" mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="password" placeholder="Senha">
+      </div>
+    </div>
+    <div class="flex flex-col items-center ">
+     
+      <button id="loginButton" onclick="login() " class="text-white bg-yellow-400 hover:bg-yellow-500  border-2 border-yellow-500  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  " >Login</button>
+      <p class=" underline mt-4 text-gray-100 font-sans font-semibold">Não possui uma conta? Faça seu 
+        <a href="/signup" class="text-blue-500">Cadastro</a >!   </p>
+        </div>
+</div>
+<!-- partial -->
+
+</body>
+</html>
