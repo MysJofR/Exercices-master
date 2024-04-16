@@ -7,6 +7,6 @@ import getUsersController from "../../controllers/auth/getUserController";
     
 const router = express.Router();
 
-router.get("/",validateJWT,validatePerms,getUsersController)
+router.get("/auth",listUsersController)
 
 export default router;

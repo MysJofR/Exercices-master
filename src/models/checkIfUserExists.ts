@@ -1,10 +1,10 @@
 import prisma from "../libs/prisma/prisma";
 
 
-export const checkIfUserExists = async (name:string) => {
+export const checkIfUserExists = async (id:string) => {
     const user = await prisma.user.findUnique({
         where: {
-            name: name
+            id: id
         }
     })
 

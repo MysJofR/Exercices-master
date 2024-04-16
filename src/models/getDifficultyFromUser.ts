@@ -1,7 +1,7 @@
 import prisma from "../libs/prisma/prisma";
 
 
-export default async function getUserDifficult(name: string){
+export default async function getUserDifficult(id: string){
 
     let exercicesDifficultyOne = await prisma.exercice.findMany({
         where: {
@@ -15,7 +15,7 @@ export default async function getUserDifficult(name: string){
     exercicesDifficultyOne = exercicesDifficultyOne.filter(exercice => {
         
         for(let i = 0; i < exercice.doneBy.length; i++){
-            if(exercice.doneBy[i].name == name){
+            if(exercice.doneBy[i].id == id){
                 return false
             }
         }
@@ -34,7 +34,7 @@ export default async function getUserDifficult(name: string){
     exercicesDifficultyTwo = exercicesDifficultyTwo.filter(exercice => {
         
         for(let i = 0; i < exercice.doneBy.length; i++){
-            if(exercice.doneBy[i].name == name){
+            if(exercice.doneBy[i].id == id){
                 return false
             }
         }
@@ -53,7 +53,7 @@ export default async function getUserDifficult(name: string){
     exercicesDifficultyThree = exercicesDifficultyThree.filter(exercice => {
         
         for(let i = 0; i < exercice.doneBy.length; i++){
-            if(exercice.doneBy[i].name == name){
+            if(exercice.doneBy[i].id == id){
                 return false
             }
         }
@@ -72,7 +72,7 @@ export default async function getUserDifficult(name: string){
     exercicesDifficultyFour = exercicesDifficultyFour.filter(exercice => {
         
         for(let i = 0; i < exercice.doneBy.length; i++){
-            if(exercice.doneBy[i].name == name){
+            if(exercice.doneBy[i].id == id){
                 return false
             }
         }
@@ -91,7 +91,7 @@ export default async function getUserDifficult(name: string){
     exercicesDifficultyFive = exercicesDifficultyFive.filter(exercice => {
         
         for(let i = 0; i < exercice.doneBy.length; i++){
-            if(exercice.doneBy[i].name == name){
+            if(exercice.doneBy[i].id == id){
                 return false
             }
         }

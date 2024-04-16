@@ -4,7 +4,8 @@ export default async function listAllExercices() {
     const exercies = await prisma.exercice.findMany({
         
         include:{
-            tests:true
+            tests:true,
+            doneBy: true
         }
 
     });

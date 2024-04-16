@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logic</title>
+    <title>LogiC</title>
 
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,7 +41,19 @@
     #IoCP{ 
         display: none;
     }
+   #editar {
+    display:none;
+   }
+   #voltar {
+    display: none;
+   }
    
+   #edit{
+    display:none;
+   }
+   #concluir{
+    display:none;
+   }
 </style>
 
 
@@ -179,7 +191,43 @@
         </div>
 
         <div id="lista" class="flex flex-col mt-5 items-center w-3/6 mr-10 ml-10 3/6">
-            <h1 class="text-center mb-5 text-yellow-300 text-2xl underline">Lista de Exercicios</h1>
+            <h1 id="h1" class="text-center mb-5 text-yellow-300 text-2xl underline">Lista de Exercicios</h1>
+            <div id="edit"  class="mt-4 flex mb-2 w-full">
+                
+                   
+
+<div class="w-3/6 ">
+    <table id="table" class="w-1/6 text-sm text-left rtl:text-right border-2 border-black text-black ">
+        <thead class="text-xs text-gray-900 bg-yellow-400 border-2 border-black uppercase ">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Enunciado
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Dificuldade
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Input
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Output
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+
+              
+                    
+
+            
+            </div>
             <ol id="ol" class="text-yellow-300">
 
 
@@ -187,10 +235,16 @@
 
           
             </ol>
+            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="concluir" onclick="update(3)">CONCLUIR</button>
             <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="excluir" onclick="excluir()">EXCLUIR</button>
-
-
+            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="editar" onclick="update(2)">EDITAR</button>
+            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="voltar" onclick="update(1)">VOLTAR</button>
         </div>
+</div>
+
+
+
+
     <script> 
     
 
@@ -294,7 +348,7 @@ try {
             const data = await response.json();
 
 if (response.status == 201) {
-   console.log(data)
+
    window.location.reload()
 } else {
    console.log('Erro ao criar exercicio') 
@@ -309,6 +363,238 @@ if (response.status == 201) {
 
       
 }
+
+
+function update(n){
+
+
+    const excluir =  document.getElementById('excluir');
+    const editar = document.getElementById('editar');
+        const voltar = document.getElementById('voltar')
+    const lista = document.getElementById('lista')
+    const h1 = document.getElementById('h1')
+    const checkbox=  document.querySelectorAll('.cb')
+    const a = document.querySelectorAll('.list')
+    const edit = document.getElementById('edit')
+    const concluir = document.getElementById('concluir')
+
+
+
+
+    if(n===1) {
+window.location.reload() }
+
+
+
+
+var requestOptions = {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "token": localStorage.getItem("token")
+                        
+            },
+            redirect: 'follow' }
+           
+            fetch("http://localhost:3000/exercice/list", requestOptions)
+        .then(async (response) => {
+
+            const data = await response.json();
+
+
+
+if (response.status == 200) {
+
+console.log(data)
+
+
+if(n===2){
+   
+
+       
+
+
+
+    voltar.style.display = 'block'
+    excluir.style.display = 'none' 
+   editar.style.display = 'none' 
+   concluir.style.display = 'block'
+ for(let i of a){
+    i.style.display = 'none'
+ }
+edit.style.display = 'flex'
+ 
+  h1.innerText = 'Selecione o exercicio que deseja editar:'
+  
+
+
+  const table = document.getElementById('table') 
+const tbody = document.createElement('tbody')
+table.appendChild(tbody)
+
+
+    
+    
+   
+    
+    
+    for(let i = 0; i<data.length; i++){
+        
+        const tr = document.createElement('tr') 
+        tr.id = i.toString()
+        tr.classList = 'bg-gray-800 border-b dark:bg-gray-800  text-black '
+        tbody.appendChild(tr);
+
+
+        for(let t = 0; t<5; t++){
+        
+        const td = document.createElement('td')
+       
+         if(t==0){ td.innerText = data[i].id; td.classList = 'text-gray-100 px-6 py-4' }else{
+            td.classList= 'text-black px-6 py-4 '
+         }
+         
+
+        
+         if(t==1){  const input = document.createElement('input')
+         input.classList = 'w-20 rounded px-2 py-1'
+            input.value = data[i].statement
+            
+            td.appendChild(input)
+            
+             
+           
+          } 
+         if(t==2){
+            const input = document.createElement('input')
+            input.value = data[i].difficulty
+            input.classList = 'w-20 rounded px-2 py-1'
+            td.appendChild(input)
+            
+             
+           
+
+         }  
+         if(t==3 )  {
+            const input = document.createElement('input')
+            input.classList = 'w-20 rounded px-2 py-1'
+            if(data[i].tests.length>0) input.value = data[i].tests[0].input.join(',')
+            
+            td.appendChild(input)
+            
+             
+           
+
+         }  
+         if(t==4 )   {
+            const input = document.createElement('input')
+            input.classList = 'w-20 rounded px-2 py-1'
+            if(data[i].tests.length>0) input.value = data[i].tests[0].output
+           
+            td.appendChild(input)
+            
+             
+           
+
+         }  
+        
+        
+         tr.appendChild(td)
+        }
+        }
+
+    }
+        if(n===3){
+
+          
+       for(let i = 0; i<data.length; i++){
+        const tr = document.getElementById(`${i}`)
+        
+
+       
+        var requestOptions = {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "token": localStorage.getItem("token")
+                    
+        },
+        redirect: 'follow',
+        body:  JSON.stringify({
+       exerciceId: data[i].id,
+       statement: (tr.children[1].children[0].value)?tr.children[1].children[0].value:data[i].statement,
+         difficulty:(tr.children[2].children[0].value)?tr.children[2].children[0].value:data[i].difficulty,
+         tests: (tr.children[3].children[0].value && tr.children[4].children[0].value)? [{ input:  (tr.children[3].children[0].value)?tr.children[3].children[0].value.split(','):[], output: tr.children[4].children[0].value }]:alert('Para alterar inputs e outputs certfique-se de não deixar os campos em branco, caso contrário os dois testes deixam de existir')
+        }),
+        
+    }
+   
+   
+    
+
+        fetch("http://localhost:3000/exercice/update", requestOptions)
+    .then(async (response) => {
+
+        const data = await response.json();
+
+if (response.status == 200) {
+   
+    console.log('Editado com sucesso')
+    console.log(data)
+window.location.reload()
+} else {
+
+console.log(data.message)
+throw new Error(data.message || "Erro ao enviar exercício");
+window.location.href = '/'
+}
+
+}).catch((err) => {
+
+throw new Error(err)
+})
+
+       }
+     
+        
+
+}
+
+
+
+
+    
+
+
+
+    
+    }
+
+   
+
+
+}).catch((err) => {
+    console.log(err)
+    throw new Error(err)
+})
+
+
+
+
+
+
+       
+  
+
+
+   
+}
+
+  
 
 function listar(){
     var requestOptions = {
@@ -329,6 +615,7 @@ function listar(){
 
 if(data.length>0){
     document.getElementById('excluir').style.display = 'block'
+    document.getElementById('editar').style.display = 'block'
 }else{
 
     const ol = document.getElementById('ol')
@@ -337,11 +624,13 @@ if(data.length>0){
     li.classList = 'flex flex-row p-2  border border-yellow-300'
     li.innerHTML = 'Não há nenhum exercicio criado no momento'
     document.getElementById('excluir').style.display = 'none'
+    document.getElementById('editar').style.display = 'none'
 }
 
 
 if (response.status == 200) {
-console.log(data)
+
+
     for(let i = 0; i<data.length; i++){
      
         const ol = document.getElementById('ol')
@@ -350,14 +639,18 @@ console.log(data)
        
         
        })
-       li.classList = 'flex flex-row p-2  border border-yellow-300'
+       const a = document.createElement('a')
+      
+       a.classList = 'list flex flex-row p-2  border border-yellow-300'
        li.id = String(i)
       input.type = 'checkbox'
-       input.classList = 'on ml-3 mt-1 mb-3 w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
+      
+       input.classList = 'cb on ml-3 mt-1 mb-3 w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
        ol.appendChild(li)
-              li.innerHTML = data[i].statement
-              console.log(li.innerHTML)
-              li.appendChild(input)
+              a.innerHTML = 'id: ' + data[i].id  + ' | Dificuldade: ' + data[i].difficulty + ' | Enunciado: ' + data[i].statement
+              li.appendChild(a)
+              a.appendChild(input) 
+             
     }
 } else {
     window.location.href = '/';
@@ -396,11 +689,10 @@ function deletar(statement){
             const data = await response.json();
 
 if (response.status == 200){
-   
   window.location.reload()
 } else {
    console.log('Erro ao excluir')
-  // window.location.href = '/'
+// window.location.href = '/'
    throw new Error(data.message || "Erro ao enviar exercício");
 }
 
@@ -421,8 +713,8 @@ async function excluir(){
     for(let i = 0; i<inputs.length; i++){
         if(inputs[i].checked){
             
-      const parent = inputs[i].parentElement.innerHTML.replace('<input type="checkbox" class="on ml-3 mt-1 mb-3 w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">', '')
-     console.log(parent)
+      const parent = inputs[i].parentElement.innerText.slice(71)
+    console.log(parent)
       await deletar(parent)
         }
 

@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="portugol-studio-dark.css">
+ 
 
-    <title>Document</title>
-</head>
+    <title>LogiC</title>
+</head>    
 <style>
 #botaoSubmit {
     display: none;
@@ -24,8 +24,8 @@
 
 
 <body onload="onLoad()">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <body onload="onLoad()" class="bg-gray-900">
         <div id="container" class="w-full  ">
             
@@ -66,14 +66,16 @@
             <div id="box" class="flex flex-row mt-4 w-full h-full "> 
                 <div id="code" class="w-4/6 ">
                   
-                    <pre><textarea onkeyup="cores()" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;
-                    return false;}" class="w-full h-96 bg-gray-900 mx-4 text-white border-2 rounded p-0 border-yellow-400" id="codigo" contenteditable="true" spellcheck="false"> programa{
-       funcao inicio(){
+                    <pre><code><textarea onkeyup="cores()" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;
+                    return false;}" class=" w-full h-96 bg-gray-900 mx-4 text-white border-2 rounded p-0 border-yellow-400" id="codigo" contenteditable="true" spellcheck="false">
+    programa{
 
+       funcao inicio(){
+        
                 
      }
   }
-</textarea></pre></div>
+</textarea></code></pre></div>
 
 
                 
@@ -90,6 +92,8 @@
 
 
     </script>
+
+
 
 
     <script>
@@ -172,7 +176,7 @@
 
                 if(response.status == 200){
 
-                    console.log(data.routesAllow)
+                   
                     if(data.routesAllow.includes('exerciceadd')){
                         
                         document.getElementById('criar').style.display = 'block';
@@ -225,14 +229,14 @@
                 valida()
 
             } catch (err) {
-                
+                console.log(err)
                 localStorage.removeItem("token");
-                window.location.href = '/login'
+               window.location.href = '/login'
             }
 
         }
         function enviar() {
-            const codigo = document.getElementById("codigo").innerHTML;
+            const codigo = document.getElementById("codigo").value;
             fetch("http://localhost:3000/exercice/submit", {
                 method: "POST",
                 headers: {

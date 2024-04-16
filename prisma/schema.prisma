@@ -21,8 +21,13 @@ model exercice {
 
 model user {
   id        String   @id @default(uuid())
-  name      String @unique
-  password  String
+  fullname       String
+  email          String
+  schoolId       String @unique
+  profilePicture String
+
+  year   String
+  course String
 
   exercisesDone exercice[]
 
@@ -47,6 +52,7 @@ enum Routes{
   exercicelist
   exercicesubmit
   exerciceupdate
+  me
 }
 
 model tests {
@@ -66,3 +72,4 @@ enum tiposPortugol {
   caracter
   logico
 }
+

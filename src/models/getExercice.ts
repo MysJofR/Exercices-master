@@ -1,12 +1,13 @@
 import prisma from "../libs/prisma/prisma";
 import AppErrorConstructor from '../Errors/errorConstructor'
 import getUserDifficult from './getDifficultyFromUser'
+import { string } from "yup";
 
-export default async function getExercice(name: string) {
+export default async function getExercice(id: string) {
 
     const user = await prisma.user.findUnique({
         where: {
-            name: name
+            id: id
         },
         include: {
             exercisesDone: true
@@ -14,7 +15,7 @@ export default async function getExercice(name: string) {
     })
     if (user == undefined) throw new AppErrorConstructor("User not found", 404)
     
-        const difficulty = await getUserDifficult(name)
+        const difficulty = await getUserDifficult(id)
 
         if(difficulty == 6){
             const randomExercice = await prisma.exercice.findMany()

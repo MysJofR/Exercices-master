@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="portugol-studio-dark.css">
-
-    <title>Document</title>
+   
+    <title>LogiC</title>
 </head>
 <style>
 #botaoSubmit {
@@ -67,10 +66,10 @@
   
 
 <div class=" w-full h-screen flex align-center justify-center overflow-x-auto roundedshadow-md sm:rounded-lg">
-    <table id="table" class=" h-2/6 w-3/6 mt-10 border-2 border-gray-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700  uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+    <table id="table" class=" h-2/6 w-3/6 mt-10 border-2  border-gray-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="underline text-gray-100 font-bold bg-blue-800 uppercase border-b border-gray-100 ">
             <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class=" px-6 py-3">
                     Posição
                 </th>
                 <th scope="col" class="px-12 py-3">
@@ -133,14 +132,14 @@ headers: myHeaders,
 redirect: 'follow'
 };
 
-const response = await fetch("http://127.0.0.1:3000/auth/users", requestOptions)
+const response = await fetch("http://localhost:3000/list/auth", requestOptions)
 
 const data = await response.json();
 
 
 if(response.status == 200){
 
-console.log(data)
+
 const table = document.getElementById('table') 
 const tbody = document.createElement('tbody')
 table.appendChild(tbody)
@@ -181,7 +180,7 @@ for(let i = 0; data.users.length>i; i++){
     // }
    
     } 
-    console.log(pos)
+    
     for(let i = 0; i<pos.length; i++){
         
         const tr = document.createElement('tr') 
@@ -192,11 +191,23 @@ for(let i = 0; data.users.length>i; i++){
         for(let t = 0; t<8; t++){
         
         const td = document.createElement('td')
-        td.classList = "px-10 py-4"
-         if(t==0) td.innerText = i+1;
-         if(t==1){ if(pos[i].name == localStorage.getItem('name')){td.innerText = pos[i].name + ' (você)' }else{
-            td.innerText = pos[i].name 
-          } }
+        td.classList= 'text-gray-100 px-10 py-4 '
+         if(t==0){ td.innerText = i+1; if(i+1===1)   td.classList = 'text-blue-800 px-10 py-4' ;
+         if(i+1===2)   td.classList = 'text-green-800 px-10 py-4';
+         if(i+1===3)   td.classList = 'text-yellow-800 px-10 py-4'  ;
+         if(i+1>3) td.classList =   'text-gray-100 px-10 py-4'  ;
+
+           }
+
+        
+         if(t==1){ if(pos[i].fullname == localStorage.getItem('name') && pos[i].fullname.length == localStorage.getItem('name').length){
+            td.innerText = pos[i].fullname + '(você)'
+         }else{td.innerText = pos[i].fullname}
+        
+            
+             
+            td.classList= 'text-gray-100 px-10 py-4 font-bold  '
+          } 
          if(t==2)   td.innerText =  contaExercicios(1, pos[i]);
          if(t==3 )   td.innerText =  contaExercicios(2,  pos[i]);
          if(t==4 )   td.innerText =  contaExercicios(3,  pos[i]);
@@ -248,7 +259,7 @@ function contaExercicios(num, user){
 } catch (err) {
 console.log(err)
 localStorage.removeItem("token");
-//window.location.href = '/login'
+window.location.href = '/login'
 }
 
 
@@ -276,7 +287,7 @@ localStorage.removeItem("token");
 
                 if(response.status == 200){
 
-                    console.log(data.routesAllow)
+                    
                     if(data.routesAllow.includes('exerciceadd')){
                         
                         document.getElementById('criar').style.display = 'block';
@@ -287,8 +298,8 @@ localStorage.removeItem("token");
                
             } catch (err) {
                 console.log(err)
-               // localStorage.removeItem("token");
-               // window.location.href = '/login'
+               localStorage.removeItem("token");
+                window.location.href = '/login'
             }
 
                 
@@ -320,9 +331,9 @@ localStorage.removeItem("token");
                 const data = await response.json();
                 
                 if (data.valid != true) {
-                  console.log(data);
-                    //localStorage.removeItem("token");
-                    //window.location.href = '/login'
+                  
+                    localStorage.removeItem("token");
+                    window.location.href = '/login'
                 }
 
                 

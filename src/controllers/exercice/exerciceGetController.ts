@@ -12,7 +12,7 @@ export default async function getExerciceController(req:Request,res:Response){
         }
     })
     if(user == undefined) throw new AppErrorConstructor("User not found",404)
-    const response = await getExercice(user.name)
+    const response = await getExercice(user.id)
 
     if(response){
         res.status(200).json(response)

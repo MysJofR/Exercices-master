@@ -6,8 +6,8 @@ export default async function listAllUsers() {
     try{ 
     const users = await prisma.user.findMany({
         
-        include:{
-            
+        select:{
+            fullname: true,
             exercisesDone: true
         }
 

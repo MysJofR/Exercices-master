@@ -14,7 +14,7 @@ export async function addExercice(req: Request<{}, {}, body>, res: Response) {
     if (await checkIfExerciceExists(req.body.statement)) {
         throw new AppErrorConstructor('Exercice already exists', 400)
     }
-
+    
     const { genRandomData, ioData, entries, code } = req.body;
     let testCases: testCasesDTO = {
         testCases: []

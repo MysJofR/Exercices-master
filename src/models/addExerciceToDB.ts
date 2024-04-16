@@ -23,7 +23,7 @@ try {
                         input:{
                             set:testCase.inputs || []
                         },
-                        output:testCase.output
+                        output:testCase.output 
                     }
                 })
 

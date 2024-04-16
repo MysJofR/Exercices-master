@@ -16,7 +16,7 @@ export default async function validateCode(exerciceId: string, code: string): Pr
                     const compilerService = new compiler()
 
                     const result = await compilerService.runCode(code, tests[i].input)
-
+                    
                     if (result !== tests[i].output) {
                         reject({ errorOn: i, expected: tests[i].output, got: result })
                     }

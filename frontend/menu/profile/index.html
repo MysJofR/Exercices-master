@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="portugol-studio-dark.css">
+ 
 
-    <title>Document</title>
+    <title>LogiC</title>
 </head>
 <style>
 #botaoSubmit {
@@ -18,6 +18,10 @@
 
 #criar {
     display: none;
+}
+
+#box {
+    visibility: hidden;
 }
 
 </style>
@@ -60,18 +64,30 @@
     </div>
   </nav>
       
-  <div id="box" class=" w-full flex h-screen  justify-center  ">
-    <div class=" flex flex-row w-4/6 h-full p-20 ">
-        <div id="img" class="border-2 border-gray-100 w-1/6 h-2/6 ">
 
-            <img src="png1.png" class="h-full w-full" alt="">
+
+  <div id="box" class=" w-full flex h-screen justify-center  ">
+    <div class="rounded-lg  bg-green-800 border-2 border-gray-100  mt-3  mb-3 flex flex-col w-4/6 h-full p-20 ">
+
+        <div class="  flex flex-row w-full h-2/6 mb-2  ">  
+        <div id="image" class=" bg-white rounded-lg border-2 border-gray-100 w-1/6 h-full ">
+
+            <img id="img" class="px-2 py-5 "  >
         </div>
-        <div id="infodiv" class="border-2  border-gray-100 w-5/6 h-2/6"> <p class="font-sans font-semibold text-gray-100  mt-5 ml-4 ">Nome: <label class="underline text-gray-100 " id="name"></label> </p>
-        <p class="font-sans font-semibold text-gray-100 flex ml-4">Posição no ranking: <label id="rank" class="underline text-gray-100 ml-1 "> </label> </p>
+        <div id="infodiv" class="ml-2  border-2 rounded-lg border-gray-100 w-5/6 h-full"> <p class="font-sans font-semibold text-gray-100  mt-3 ml-4 ">Nome: <label class="underline text-gray-100 " id="name"></label> </p>
+        <p class="font-sans font-semibold text-gray-100 flex ml-4">Matricula: <label id="rank" class="underline text-gray-100 ml-1 "> </label> </p>
         <p class="font-sans font-semibold text-gray-100 flex ml-4">Conta criada em: <label id="created" class="underline text-gray-100 ml-1 "> </label> </p>
         <p class="font-sans font-semibold text-gray-100 flex ml-4">Exercicios Concluidos: <label id="exercice" class="underline text-gray-100 ml-1 "> </label> </p>
+        <p class="font-sans font-semibold text-gray-100 flex ml-4 ">Curso: <label id="course" class="underline text-gray-100 ml-1 "> </label> </p>
         </div>
+            
+    </div>
 
+        <div class="rounded-lg border-2 border-gray-100 w-full h-5/6"> 
+
+            
+
+        </div>
 
     </div>
 
@@ -88,7 +104,7 @@
             
            
     <script>
-        document.getElementById('name').innerText = localStorage.getItem("name")
+        
        
 
 
@@ -108,58 +124,37 @@ headers: myHeaders,
 redirect: 'follow'
 };
 
-const response = await fetch("http://127.0.0.1:3000/auth/users", requestOptions)
+const response = await fetch("http://127.0.0.1:3000/me", requestOptions)
 
 const data = await response.json();
 
 
 if(response.status == 200){
     
-    const user = data.users.find((name) => { 
-        if(name.name == localStorage.getItem("name")) console.log(name) ; return name
+    
+  
+    document.getElementById('name').innerText = data.fullname
+  document.getElementById('exercice').innerHTML = data.exercisesDone.length
+  document.getElementById('created').innerText = data.createdAt.slice(0,10)
+  document.getElementById('rank').innerText = data.schoolId
+  document.getElementById('img').src = data.profilePicture
+  document.getElementById('course').innerText = data.course.slice(4,11)
+  
+        document.getElementById('box').style.visibility = 'visible'  
+      
         
-    } )
-   
-    document.getElementById('exercice').innerHTML = user.exercisesDone.length
-    document.getElementById('created').innerText = user.createdAt.slice(0,10)
-    document.getElementById('rank').innerText = posicao(user)
+      
+
       }
      
 
 
-function posicao(usuario){
-    let pos = data.users.length
-    for(let i = 0; i<data.users.length; i++){
-        if(usuario.name != data.users[i].name){ 
-        if(usuario.exercisesDone.length > data.users[i].exercisesDone.length){
-            pos-=1
-        } 
-        if(usuario.exercisesDone.length == data.users[i].exercisesDone.length) pos -= 1
-    }
-       
-    
-    }
 
-    return pos
-}
-
-function contaExercicios(num, user){
-        let n = 0
-
-    for(let i = 0; i<user.exercisesDone.length; i++){
-        if(user.exercisesDone[i].difficulty == num){
-            n += 1
-        }
-
-    }
-    return n
-
-}
 
 } catch (err) {
 console.log(err)
 localStorage.removeItem("token");
-//window.location.href = '/login'
+window.location.href = '/login'
 }
 
 
@@ -171,6 +166,7 @@ localStorage.removeItem("token");
 
     <script>
         
+
        
         
         async function valida(){
@@ -193,7 +189,6 @@ localStorage.removeItem("token");
 
                 if(response.status == 200){
 
-                    console.log(data.routesAllow)
                     if(data.routesAllow.includes('exerciceadd')){
                         
                         document.getElementById('criar').style.display = 'block';
@@ -253,6 +248,7 @@ localStorage.removeItem("token");
         }
         function logout(){
     localStorage.removeItem("token");
+    localStorage.removeItem("name")
        window.location.href = '/login'
 }
         

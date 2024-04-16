@@ -5,5 +5,6 @@ export default interface exerciceUpdateDTO {
     tests?: {
         input: string[],
         output: string
-    }[]
+    }[],
+   
 }

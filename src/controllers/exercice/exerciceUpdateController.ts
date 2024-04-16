@@ -12,7 +12,8 @@ const exercice = await updateExercice({
     id: req.body.exerciceId,
     statement: req.body.statement,
     difficulty: req.body.difficulty,
-    tests: req.body.tests
+    tests: req.body.tests,
+    
 })
 res.status(200).json(exercice)
 
