@@ -50,14 +50,14 @@
           
 
             <li>
-                <a href="/"  id="start" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Inicio</a>
+                <a href="/frontend/menu/index.html"  id="start" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Inicio</a>
               </li>
          
           <li>
-            <a href="/login" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
+            <a href="/frontend/auth/login/index.html" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
           </li>
           <li>
-            <a href="/add"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
+            <a href="frontend/auth/exercice/index.html"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
           </li>
         </ul>
       </div>
@@ -154,7 +154,7 @@ if(response.status == 200){
 } catch (err) {
 console.log(err)
 localStorage.removeItem("token");
-window.location.href = '/login'
+//window.location.href = '/frontend/auth/login/index.html'
 }
 
 
@@ -200,7 +200,7 @@ window.location.href = '/login'
             } catch (err) {
                 
                 localStorage.removeItem("token");
-                window.location.href = '/login'
+                window.location.href = '/frontend/auth/login/index.html'
             }
 
                 
@@ -234,7 +234,7 @@ window.location.href = '/login'
                 if (data.valid != true) {
                    alert("Token inválido");
                     localStorage.removeItem("token");
-                    window.location.href = '/login'
+                    window.location.href = '/frontend/auth/login/index.html'
                 }
 
                 valida()
@@ -242,14 +242,13 @@ window.location.href = '/login'
             } catch (err) {
                 
                 localStorage.removeItem("token");
-                window.location.href = '/login'
+                window.location.href = '/frontend/auth/login/index.html'
             }
 
         }
         function logout(){
     localStorage.removeItem("token");
-    localStorage.removeItem("name")
-       window.location.href = '/login'
+       window.location.href = '/frontend/auth/login/index.html'
 }
         
     </script>

@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "env-cmd -f .env ts-node-dev --transpile-only --respawn src/index.ts && prisma generate",
-    "start": "env-cmd -f .env ts-node-dev --transpile-only --respawn src/index.ts && prisma generate",
+    "start": "prisma generate && env-cmd -f .env ts-node-dev --transpile-only --respawn src/index.ts",
     "test": "env-cmd -f .env.test vitest --no-threads"
   },
   "keywords": [],

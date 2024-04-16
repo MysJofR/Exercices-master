@@ -23,7 +23,7 @@
       <button id="signUpButton"  class="text-white bg-yellow-400 hover:bg-yellow-500  border-2 border-yellow-500  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  " onclick="signUp()">Concluir Cadastro</button>
 
       <p class=" underline mt-4 text-gray-100 font-sans font-semibold"> Já possui uma conta? Faça seu 
-      <a href="/login" class="text-blue-500">Login</a >!   </p>
+      <a href="/frontend/auth/login/index.html" class="text-blue-500">Login</a >!   </p>
     </div>
 </div>
 
@@ -146,7 +146,7 @@ https://dribbble.com/shots/2292415-Daily-UI-001-Day-001-Sign-Up
 
 */
 function onLoad(){
-  fetch("http://localhost:3000/auth",{
+  fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/auth",{
             method: "GET",
             body: JSON.stringify({
                 token: localStorage.getItem("token")
@@ -183,7 +183,7 @@ function signUp(){
   
               if(response.status == 201){
                   
-               window.location.href = '/login'
+               window.location.href = '/frontend/auth/login/index.html'
 
                 
               }else{

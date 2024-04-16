@@ -23,7 +23,7 @@ https://dribbble.com/shots/2292415-Daily-UI-001-Day-001-Sign-Up
 */
 
 function onLoad(){
-    fetch("http://localhost:3000/auth",{
+    fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/auth",{
         method: "GET",
         body: JSON.stringify({
             token: localStorage.getItem("token")
@@ -33,7 +33,7 @@ function onLoad(){
         
         if(data.valid == true){
             localStorage.removeItem("token");
-            window.location.href = '/'
+            window.location.href = '/frontend/menu/index.html'
         }
     }).catch((err) => {
     })
@@ -41,7 +41,7 @@ function onLoad(){
 
 function login(){
 
-fetch("http://127.0.0.1:3000/auth/login",{
+fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/auth/login",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -61,8 +61,7 @@ fetch("http://127.0.0.1:3000/auth/login",{
       
              
               localStorage.setItem('token', data.token);
-              
-              window.location.href = "/";
+              window.location.href = "/frontend/menu/index.html";
 
             }else{
                alert("Preencha os Campos Vazios");
@@ -89,8 +88,9 @@ fetch("http://127.0.0.1:3000/auth/login",{
     </div>
     <div class="flex flex-col items-center ">
      
-      <button id="loginButton"   onclick="login() " class="text-white bg-yellow-400 hover:bg-yellow-500  border-2 border-yellow-500  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  " >Login</button>
-      
+      <button id="loginButton" onclick="login() " class="text-white bg-yellow-400 hover:bg-yellow-500  border-2 border-yellow-500  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  " >Login</button>
+      <p class=" underline mt-4 text-gray-100 font-sans font-semibold">Não possui uma conta? Faça seu 
+        <a href="/frontend/auth/signup/index.html" class="text-blue-500">Cadastro</a >!   </p>
         </div>
 </div>
 <!-- partial -->

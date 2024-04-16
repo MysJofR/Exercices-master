@@ -46,10 +46,10 @@
           
          
           <li>
-            <a href="/login" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
+            <a href="/frontend/auth/login/index.html/index.html" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
           </li>
           <li>
-            <a href="/add"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
+            <a href="/frontend/exercice/index.html"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
           </li>
         </ul>
       </div>
@@ -60,63 +60,29 @@
 
 
 
-    <div  id="tabelas" class= "rounded-lg hover:bg-blue-800 bg-blue-900 m-4 flex flex-col   text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
-        <a href="/leaderboard" class="h-3/6 w-full ">
-            <p class="text-gray-100 font-bold  p-4 self-center" >Ranking</p> 
-            <p class="text-gray-100 font-sans p-4 font-bold ">Faça exercicios e domine a tabela de liderança!</p>
-            <div class="w-full h-full ">
-    
-    
-                <svg class="w-11/12 ml-3 mt-10 " width="64px" height="64px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#00d5ff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.6799999999999997"></g><g id="SVGRepo_iconCarrier"> <path d="M8.67 14H4C2.9 14 2 14.9 2 16V22H8.67V14Z" stroke="#ffffff" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M13.33 10H10.66C9.56003 10 8.66003 10.9 8.66003 12V22H15.33V12C15.33 10.9 14.44 10 13.33 10Z" stroke="#ffffff" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M20 17H15.33V22H22V19C22 17.9 21.1 17 20 17Z" stroke="#ffffff" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12.52 2.07007L13.05 3.13006C13.12 3.28006 13.31 3.42006 13.47 3.44006L14.43 3.60007C15.04 3.70007 15.19 4.15005 14.75 4.58005L14 5.33005C13.87 5.46005 13.8 5.70006 13.84 5.87006L14.05 6.79007C14.22 7.52007 13.83 7.80007 13.19 7.42007L12.29 6.89007C12.13 6.79007 11.86 6.79007 11.7 6.89007L10.8 7.42007C10.16 7.80007 9.76998 7.52007 9.93998 6.79007L10.15 5.87006C10.19 5.70006 10.12 5.45005 9.98999 5.33005L9.24999 4.59006C8.80999 4.15006 8.94999 3.71005 9.56999 3.61005L10.53 3.45007C10.69 3.42007 10.88 3.28007 10.95 3.14007L11.48 2.08005C11.77 1.50005 12.23 1.50007 12.52 2.07007Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-               
-       
-            </div>
+    <div id="tabelas" class="m-4 flex flex-col text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
 
-
-        </a>
        
-        
+        <a class="text-gray-100 underline p-4 self-center" href="/frontend/menu/leaderboard/index.html">Leaderboard</a> 
+        <p class="text-gray-100 font-sans p-4 font-semibold ">Faça exercicios e domine a tabela de liderança!</p>
+
     </div> 
 
     <div id="começar" class="rounded-lg hover:bg-yellow-400 bg-yellow-500 m-4 flex flex-col text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
 
-       <a href="/start"  class="h-4/6 w-full" >
-        <p class="text-gray-100  font-bold p-4 self-center">Programar</p> 
        
-        <p class="text-gray-100 font-sans  p-4 font-bold ">Faça os exercicios propostos e pratique lógica de programação de forma facil e rápida!</p>
-       
-        <div class="w-full h-4/6">
-    
-    
-            <svg class="w-11/12 ml-3 mt-5 " width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.5 9L15.6716 9.17157C17.0049 10.5049 17.6716 11.1716 17.6716 12C17.6716 12.8284 17.0049 13.4951 15.6716 14.8284L15.5 15" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M13.2942 7.17041L12.0001 12L10.706 16.8297" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M8.49994 9L8.32837 9.17157C6.99504 10.5049 6.32837 11.1716 6.32837 12C6.32837 12.8284 6.99504 13.4951 8.32837 14.8284L8.49994 15" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
-           
-   
-        </div>
-        </a>
-
+        <a class="text-gray-100 underline p-4 self-center" href="/frontend/index.html">Programar</a> 
+        <p class="text-gray-100 font-sans p-4 font-semibold ">Faça os exercicios propostos e pratique lógica de programação de forma facil e rápida!</p>
 
     </div>
 
 
     <div id="perfil" class="rounded-lg hover:bg-green-500 bg-green-600 m-2 flex flex-col items-center text-center w-3/12 h-3/6 border-2 border-gray-100 mt-10 ">
 
-       <a href="/profile" class="h-3/6 w-full">
-        <p class="text-gray-100 font-bold  p-4 self-center" >Perfil</p> 
-        <p class="text-gray-100 font-sans p-4 font-bold ">Veja seu Perfil e suas estatisticas no LogiC.</p>
-   
-   
-        <div class="w-full h-full">
-    
-    
-            <svg class="w-11/12 ml-3 mt-9   " width="64px" height="64px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>profile_round [#ffffff]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-140.000000, -2159.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M100.562548,2016.99998 L87.4381713,2016.99998 C86.7317804,2016.99998 86.2101535,2016.30298 86.4765813,2015.66198 C87.7127655,2012.69798 90.6169306,2010.99998 93.9998492,2010.99998 C97.3837885,2010.99998 100.287954,2012.69798 101.524138,2015.66198 C101.790566,2016.30298 101.268939,2016.99998 100.562548,2016.99998 M89.9166645,2004.99998 C89.9166645,2002.79398 91.7489936,2000.99998 93.9998492,2000.99998 C96.2517256,2000.99998 98.0830339,2002.79398 98.0830339,2004.99998 C98.0830339,2007.20598 96.2517256,2008.99998 93.9998492,2008.99998 C91.7489936,2008.99998 89.9166645,2007.20598 89.9166645,2004.99998 M103.955674,2016.63598 C103.213556,2013.27698 100.892265,2010.79798 97.837022,2009.67298 C99.4560048,2008.39598 100.400241,2006.33098 100.053171,2004.06998 C99.6509769,2001.44698 97.4235996,1999.34798 94.7348224,1999.04198 C91.0232075,1998.61898 87.8750721,2001.44898 87.8750721,2004.99998 C87.8750721,2006.88998 88.7692896,2008.57398 90.1636971,2009.67298 C87.1074334,2010.79798 84.7871636,2013.27698 84.044024,2016.63598 C83.7745338,2017.85698 84.7789973,2018.99998 86.0539717,2018.99998 L101.945727,2018.99998 C103.221722,2018.99998 104.226185,2017.85698 103.955674,2016.63598" id="profile_round-[#ffffff]"> </path> </g> </g> </g> </g></svg>
-           
-   
-        </div>
-   
-    
-   
-   
-    </a>
+       
+        <a class="text-gray-100 underline p-4 self-center" href="/frontend/menu/profile/index.html">Seu Perfil</a> 
+        <p class="text-gray-100 font-sans p-4 font-semibold ">Veja seu Perfil e suas estatisticas no LogiC.</p>
+
     </div>
 
 
@@ -197,7 +163,7 @@ window.location.href = '/login'
                     redirect: 'follow'
                 };
 
-                const response = await fetch("http://127.0.0.1:3000/auth/isAdmin", requestOptions)
+                const response = await fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/frontend/menu/index.html/auth/isAdmin", requestOptions)
 
                 const data = await response.json();
                 
@@ -216,7 +182,7 @@ window.location.href = '/login'
             } catch (err) {
                 
                 localStorage.removeItem("token");
-                window.location.href = '/login'
+                window.location.href = '/frontend/auth/login/index.html'
             }
 
                 
@@ -243,14 +209,14 @@ window.location.href = '/login'
                     redirect: 'follow'
                 };
 
-                const response = await fetch("http://127.0.0.1:3000/auth/", requestOptions)
+                const response = await fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/auth/", requestOptions)
 
                 const data = await response.json();
                 
                 if (data.valid != true) {
                    alert("Token inválido");
                     localStorage.removeItem("token");
-                    window.location.href = '/login'
+                    window.location.href = '/frontend/auth/login/index.html'
                 }
 
                 valida()
@@ -259,14 +225,14 @@ window.location.href = '/login'
             } catch (err) {
                 
                 localStorage.removeItem("token");
-                window.location.href = '/login'
+                window.location.href = '/frontend/auth/login/index.html'
             }
 
         }
 
         function logout(){
     localStorage.removeItem("token");
-       window.location.href = '/login'
+       window.location.href = '/frontend/auth/login/index.html'
 }
        
         
