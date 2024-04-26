@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+   
+<link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.min.css">
+ 
+
+    <title>LogiC</title>
+</head>    
+<style>
+#botaoSubmit {
+    display: none;
+}
+
+#criar {
+    display: none;
+}
+
+</style>
+
+
+
+    <body onload="onLoad()" class="bg-gray-900">
+        <div id="container" class="w-full ">
+
+
+
+
+            <script>var require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' } }   </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.nls.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.js"></script>
+
+
+      
+            
+
+<nav class="bg-gray-800 max-h-20 dark:bg-gray-900 border-yellow-400 border-b-2">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      
+          
+          <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">LogiC</span>
+   
+
+      <div id="button" class="flex items-center justify-center ">
+        <button id="botaoSubmit"onclick="enviar()"  class="   mt-2    text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Enviar Exercicio</button> 
+    </div>
+     
+      <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
+
+
+        
+        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-800 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-800 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          
+          <li>
+            <a href="/" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Inicio</a>
+          </li>
+          <li>
+            <a href="/login" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
+          </li>
+          <li>
+            <a href="/add"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+       
+            
+            
+            <div id="box" class="flex flex-row mt-4 w-full h-full "> 
+                <div id="code" class="w-4/6 h-[400px] ">
+                  
+                    </div>
+
+
+                
+                <div id="error" class=" flex flex-col space-y-20 ml-8 mr-4 rounded border-2 border-yellow-400 w-2/6 h-6/6">
+                    <h1 class="justify-center self-center text-white">Saída
+                    </h1>
+                    <p id="saida" class="self-center text-white justify-center mx-4 font-sans"></p>
+                </div>
+                <div id="enunciado" class=" flex  font-medium items-center justify-center h-6/6 w-2/6 rounded border-2 border-yellow-400 mr-2  font-sans  flex flex-row   ">
+                    <p id="enunciadotext" class=" underline decoration-solid  text-white justify-center "></p></div> 
+            </div>
+        </div>
+    <script>
+
+
+    </script>
+
+
+    <script>
+monaco.editor.create(document.getElementById('code'), {
+  value: `programa {
+  funcao inicio() {
+
+
+
+  }
+}`,
+  language: 'portugol',
+  theme: 'vs-dark',
+});
+</script>
+
+
+<script>
+
+
+monaco.languages.register({
+        id: "portugol",
+        extensions: [".por"],
+        aliases: ["Portugol"],
+      });
+
+      monaco.languages.setLanguageConfiguration("portugol", {
+        wordPattern: /(-?\d*\.\d\w*)|([^\s!"#%&'()*+,./:;<=>?@[\\\]^`{|}~\-]+)/g,
+
+        comments: {
+          lineComment: "//",
+          blockComment: ["/*", "*/"],
+        },
+
+        brackets: [
+          ["{", "}"],
+          ["[", "]"],
+          ["(", ")"],
+        ],
+
+        onEnterRules: [
+          {
+            // e.g. /** | */
+            beforeText: /^\s*\/\*\*(?!\/)([^*]|\*(?!\/))*$/,
+            afterText: /^\s*\*\/$/,
+            action: {
+              indentAction: monaco.languages.IndentAction.IndentOutdent,
+              appendText: " * ",
+            },
+          },
+          {
+            // e.g. /** ...|
+            beforeText: /^\s*\/\*\*(?!\/)([^*]|\*(?!\/))*$/,
+            action: {
+              indentAction: monaco.languages.IndentAction.None,
+              appendText: " * ",
+            },
+          },
+          {
+            // e.g.  * ...|
+            beforeText: /^(\t|( {2}))* \*( ([^*]|\*(?!\/))*)?$/,
+            action: {
+              indentAction: monaco.languages.IndentAction.None,
+              appendText: "* ",
+            },
+          },
+          {
+            // e.g.  */|
+            beforeText: /^(\t|( {2}))* \*\/\s*$/,
+            action: {
+              indentAction: monaco.languages.IndentAction.None,
+              removeText: 1,
+            },
+          },
+        ],
+
+        autoClosingPairs: [
+          { open: "{", close: "}" },
+          { open: "[", close: "]" },
+          { open: "(", close: ")" },
+          { open: '"', close: '"', notIn: ["string"] },
+          { open: "'", close: "'", notIn: ["string", "comment"] },
+          { open: "`", close: "`", notIn: ["string", "comment"] },
+          { open: "/**", close: " */", notIn: ["string"] },
+        ],
+
+        folding: {
+          markers: {
+            start: /^\s*\/\/\s*#?region\b/,
+            end: /^\s*\/\/\s*#?endregion\b/,
+          },
+        },
+      });
+
+      // @see: https://microsoft.github.io/monaco-editor/monarch.html
+      monaco.languages.setMonarchTokensProvider("portugol", {
+        defaultToken: "invalid",
+        tokenPostfix: ".portugol",
+        autoClosingPairs: [
+          { open: "{", close: "}" },
+          { open: "[", close: "]" },
+          { open: "(", close: ")" },
+          { open: '"', close: '"', notIn: ["string"] },
+          { open: "'", close: "'", notIn: ["string", "comment"] },
+          { open: "`", close: "`", notIn: ["string", "comment"] },
+          { open: "/**", close: " */", notIn: ["string"] },
+        ],
+
+        keywords: [
+          "faca",
+          "enquanto",
+          "para",
+          "se",
+          "senao",
+          "const",
+          "funcao",
+          "programa",
+          "escolha",
+          "caso",
+          "contrario",
+          "pare",
+          "retorne",
+          "inclua",
+          "biblioteca",
+          "verdadeiro",
+          "falso",
+        ],
+
+        typeKeywords: ["real", "inteiro", "vazio", "logico", "cadeia", "caracter"],
+
+        operators: [
+          "nao",
+          "e",
+          "ou",
+          "-",
+          "+",
+          "*",
+          "/",
+          "%",
+          "=",
+          "==",
+          "!=",
+          ">",
+          "<",
+          "<=",
+          ">=",
+          "++",
+          "--",
+          "<<",
+          ">>",
+          "^",
+          "|",
+          "~",
+          "-->",
+          "&",
+          "+=",
+          "-=",
+          "*=",
+          "/=",
+        ],
+
+        // we include these common regular expressions
+        symbols: /[!%&*+/:<=>?^|~\-]+/,
+        escapes: /\\(?:["'\\abfnrtv]|x[\dA-Fa-f]{1,4}|u[\dA-Fa-f]{4}|U[\dA-Fa-f]{8})/,
+        digits: /\d+(_+\d+)*/,
+        octaldigits: /[0-7]+(_+[0-7]+)*/,
+        binarydigits: /[01]+(_+[01]+)*/,
+        hexdigits: /[\dA-F[a-f]+(_+[\dA-Fa-f]+)*/,
+
+        // The main tokenizer for our languages
+        tokenizer: {
+          root: [[/[{}]/, "delimiter.bracket"], [/([1A-Z_a-z{}]\w+)(?=\s*\()/, "functions"], { include: "common" }],
+          common: [
+            // identifiers and keywords
+            [
+              /[$_a-z][\w$]*/,
+              {
+                cases: {
+                  "@typeKeywords": "keyword",
+                  "@keywords": "keyword",
+                  "@default": "identifier",
+                },
+              },
+            ],
+            [/[A-Z][\w$]*/, "type.identifier"], // to show class names nicely
+
+            // whitespace
+            { include: "@whitespace" },
+
+            // delimiters and operators
+            [/[()[\]{}]/, "@brackets"],
+            [/[<>](?!@symbols)/, "@brackets"],
+            [/@symbols/, { cases: { "@operators": "operator", "@default": "" } }],
+
+            // numbers
+            [/\d*\.\d+([Ee][+\-]?\d+)?/, "number.float"],
+            [/0[Xx][\dA-Fa-f]+/, "number.hex"],
+            [/\d+/, "number"],
+
+            // delimiter: after number because of .\d floats
+            [/[,.;]/, "delimiter"],
+
+            // strings
+            [/"([^"\\]|\\.)*$/, "string.invalid"], // non-teminated string
+            [/"/, { token: "string.quote", bracket: "@open", next: "@string" }],
+
+            // characters
+            [/'[^'\\]'/, "string"],
+            [/(')(@escapes)(')/, ["string", "string.escape", "string"]],
+            [/'/, "string.invalid"],
+          ],
+
+          comment: [
+            [/[^*/]+/, "comment"],
+            [/\/\*/, "comment", "@push"], // nested comment
+            ["\\*/", "comment", "@pop"],
+            [/[*/]/, "comment"],
+          ],
+
+          string: [
+            [/[^"\\]+/, "string"],
+            [/@escapes/, "string.escape"],
+            [/\\./, "string.escape.invalid"],
+            [/"/, { token: "string.quote", bracket: "@close", next: "@pop" }],
+          ],
+
+          whitespace: [
+            [/[\t\n\r ]+/, "white"],
+            [/\/\*/, "comment", "@comment"],
+            [/\/\/.*$/, "comment"],
+          ],
+
+          bracketCounting: [
+            [/{/, "delimiter.bracket", "@bracketCounting"],
+            [/}/, "delimiter.bracket", "@pop"],
+            { include: "common" },
+          ],
+        },
+      })
+      monaco.editor.defineTheme("portugol", {
+        base: "vs-dark",
+        inherit: true,
+        rules: [
+          { token: "functions", foreground: "F5D7A9" },
+          { token: "string.escape", foreground: "D2BB85" },
+          { token: "string.escape.invalid", foreground: "DF5953" },
+        ],
+        colors: {},
+      });
+</script>
+
+
+
+
+
+    <script>
+            function cores(){
+              const text =  document.getElementById('codigo').innerText
+               
+            }
+
+
+
+        function loadExercice() {
+           
+            var myHeaders = new Headers();
+            myHeaders.append("token", localStorage.getItem("token"));
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+
+            fetch("http://localhost:3000/exercice/", requestOptions)
+                .then(async (response) => { 
+
+                    
+                    const data = await response.json();
+
+                    if(response.status == 200){
+              
+                        if(data.hasDoneAll){
+                    
+                            document.getElementById("enunciadotext").innerHTML = 'Parabens! Você fez todos os exercicios'
+                            document.getElementById("botaoSubmit").style.display = 'none'
+                            document.getElementById('saida').innerHTML = "Não há exercicios pendentes."
+                            
+
+                           
+
+
+                        }else{ 
+                            document.getElementById('saida').innerHTML = "Você tem exercicios pendentes"
+                            
+                            document.exerciceId = data.exercice.id;
+                        document.getElementById("enunciadotext").innerHTML = data.exercice.statement;
+                        document.getElementById("botaoSubmit").style.display = 'block'
+
+                        }
+                        
+                        
+                    }else{
+                        throw new Error(data.message || "Erro ao carregar exercício");
+                    }
+                    
+                }).catch((err) => {    
+                    localStorage.removeItem("token");
+                    window.location.href = '/login'
+                    console.log(err);
+                })
+
+        }
+        
+        async function valida(){
+                try{ 
+
+                    var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+                myHeaders.append("token", localStorage.getItem("token"));
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                const response = await fetch("http://127.0.0.1:3000/auth/isAdmin", requestOptions)
+
+                const data = await response.json();
+                
+
+                if(response.status == 200){
+
+                   
+                    if(data.routesAllow.includes('exerciceadd')){
+                        
+                        document.getElementById('criar').style.display = 'block';
+
+                    }
+                }
+               
+               
+            } catch (err) {
+                
+                localStorage.removeItem("token");
+                window.location.href = '/login'
+            }
+
+                
+
+
+        }
+
+
+
+        async function onLoad() {
+
+            try {
+                
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+                var urlencoded = new URLSearchParams();
+                urlencoded.append("token", localStorage.getItem("token"));
+
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: urlencoded,
+                    redirect: 'follow'
+                };
+
+                const response = await fetch("http://127.0.0.1:3000/auth/", requestOptions)
+
+                const data = await response.json();
+                
+                if (data.valid != true) {
+                    console.log("Token inválido");
+                    localStorage.removeItem("token");
+                    window.location.href = '/login'
+                }
+
+                loadExercice()
+                valida()
+
+            } catch (err) {
+                console.log(err)
+                localStorage.removeItem("token");
+                window.location.href = '/login'
+            }
+
+        }
+        function enviar() {
+            const codigo = document.getElementById("codigo").value;
+            console.log(codigo)
+            fetch("http://localhost:3000/exercice/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "token": localStorage.getItem("token")
+
+                },
+                body: JSON.stringify({
+                    exerciceId: document.exerciceId,
+                    code: codigo,
+                    name: localStorage.getItem("name"),
+                })
+            }).then(async (response) => {
+
+                const data = await response.json();
+
+                if (response.status == 200) {
+                   alert(data.message)
+                    loadExercice()
+
+                } else {
+                    document.getElementById('saida').innerHTML = data.message
+                   // throw new Error(data.message || "Erro ao enviar exercício");
+                }
+
+            }).catch((err) => {
+                document.getElementById('saida').innerHTML = err;   
+            })
+        }
+
+
+        function logout(){
+    localStorage.removeItem("token");
+       window.location.href = '/login'
+}
+
+        
+    </script>
+
+
+    
+
+</body>
+
+</html>

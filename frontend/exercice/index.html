@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiC</title>
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    #excluir {
+        display: none;
+    }
+
+    
+    #code {
+        display:none;
+    }
+    #codeL {
+        display:none;
+    }
+    #entriesL {
+        display: none; 
+    }
+
+    #entries {
+        display: none;
+    }
+
+
+    input { 
+        display:block;
+       
+
+    }
+
+    #IoC {
+        display: none;
+    }
+    #IoCP{ 
+        display: none;
+    }
+   #editar {
+    display:none;
+   }
+   #voltar {
+    display: none;
+   }
+   
+   #edit{
+    display:none;
+   }
+   #concluir{
+    display:none;
+   }
+</style>
+
+
+
+<body  class="bg-gray-800" onLoad="onLoad()">
+   
+
+    <nav class="bg-gray-800 max-h-20 dark:bg-gray-900 border-yellow-400 border-b-2">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          
+              
+              <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">LogiC</span>
+       
+    
+          
+         
+          <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
+    
+    
+            
+            <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-800 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-800 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              
+              <li>
+                <a href="/" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Começar</a>
+              </li>
+              <li>
+                <a  onclick="logout()" href="/login" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+           
+    
+
+
+                <div id=container class="flex flex-row ">
+
+                    <div id="block" class="ml-4 mb-3 mt-5 px-20 border-r-2 border-yellow-400 flex flex-col items-center h-full w-3/6 
+                     ">
+
+
+                    <h1 class="text-center mb-5 text-yellow-300 text-2xl underline">Criar Exercicio</h1>
+
+                     <p class=" flex flex-row self-start block mb-2 ml-3 text-sm font-medium text-yellow-300 dark:text-white" id="cA">
+                        Correção aleatória:   <input id="randomData" class=" ml-3 mt-1 mb-3 w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                         type="checkbox" 
+                         onchange="if(!document.getElementById('randomData').checked){ window.location.reload()}" onclick="document.getElementById('entries').style.display = 'block'; document.getElementById('code').style.display = 'block'; document.getElementById('entriesL').style.display = 'block'; document.getElementById('codeL').style.display = 'block'; document.getElementById('ioData').style.display = 'none'; document.getElementById('ioDataO').style.display = 'none'; document.getElementById('ioDataP').style.display = 'none'; document.getElementById('ioDataOP').style.display = 'none';
+                         document.getElementById('IoC').style.display = 'block'; document.getElementById('IoCP').style.display = 'block'"  >
+                        
+                    </p>
+        
+        
+                    
+        
+        
+                   
+        
+
+
+
+       
+          <p   class="self-start block  mb-2 ml-3 text-sm font-medium text-yellow-300" >Descrição do exercício:</p>
+          <input type="text" class=" mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="statement" >
+       
+       
+        
+         
+        
+       
+         
+       
+          <p class="self-start block mb-2 ml-3 text-sm font-medium text-yellow-300 dark:text-white" id="codeL">Código exemplar: </p>
+       <textarea id="code" cols="20" rows="10" class=" mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}" >programa {
+            funcao inicio() {
+              
+            }
+          }
+       </textarea>
+      
+
+       
+
+
+
+           
+        
+            
+          <p class=" self-start block mb-2 ml-3 text-sm font-medium text-yellow-300 dark:text-white" id="entriesL"> Entradas: </p>
+          <input type="text" class="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="entries">
+
+
+
+          <p id="IoCP" class=" flex flex-row self-start block mb-2 ml-3 text-sm font-medium text-yellow-300 dark:text-white" id="cA">
+           Inputs e Outputs   <input id="IoC" class=" ml-3 mt-1 mb-3 w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+             type="checkbox" 
+             onchange="if(!document.getElementById('IoC').checked){ document.getElementById('ioData').style.display = 'none'; document.getElementById('ioDataO').style.display = 'none';
+              document.getElementById('ioDataP').style.display = 'none'; document.getElementById('ioDataOP').style.display = 'none'}" onclick="document.getElementById('ioData').style.display = 'block'; 
+              document.getElementById('ioDataO').style.display = 'block'; document.getElementById('ioDataP').style.display = 'block'; document.getElementById('ioDataOP').style.display = 'block'  "  >
+            
+        </p>
+
+
+          <p id="ioDataP" class=" self-start block mb-2 ml-3 text-sm font-medium text-yellow-300 dark:text-white">Inputs (caso correção automática não é obrigatório inserir inputs): </p>
+          <input type="text" class="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="ioData">
+          <p id="ioDataOP" class=" self-start block mb-2 ml-3 text-sm font-medium text-yellow-300 dark:text-white">Outputs (caso correção automática não é obrigatório inserir outputs): </p>
+          <input type="text" class="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="ioDataO">
+
+
+
+
+
+          
+
+          <p class="self-start block mb-2 ml-3 text-sm font-medium text-yellow-300" >Dificuldade do exercicio:  <select  class=" ml-3 self-start mb-3 w-8 h-6 text-black border border-black-600 rounded focus:ring-3 "  id="difficulty">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>  </p>
+
+          <button onclick="exercice()" class="text-white bg-yellow-400 hover:bg-yellow-500    font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  " value="3">ENVIAR</button>
+
+
+
+
+          
+         
+       
+
+         
+
+        </div>
+
+        <div id="lista" class="flex flex-col mt-5 items-center w-3/6 mr-10 ml-10 3/6">
+            <h1 id="h1" class="text-center mb-5 text-yellow-300 text-2xl underline">Lista de Exercicios</h1>
+            <div id="edit"  class="mt-4 flex mb-2 w-full">
+                
+                   
+
+<div class="w-3/6 ">
+    <table id="table" class="w-1/6 text-sm text-left rtl:text-right border-2 border-black text-black ">
+        <thead class="text-xs text-gray-900 bg-yellow-400 border-2 border-black uppercase ">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Enunciado
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Dificuldade
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Input
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Output
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+
+              
+                    
+
+            
+            </div>
+            <ol id="ol" class="text-yellow-300">
+
+
+
+
+          
+            </ol>
+            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="concluir" onclick="update(3)">CONCLUIR</button>
+            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="excluir" onclick="excluir()">EXCLUIR</button>
+            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="editar" onclick="update(2)">EDITAR</button>
+            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="voltar" onclick="update(1)">VOLTAR</button>
+        </div>
+</div>
+
+
+
+
+    <script> 
+    
+
+  
+    async function onLoad() {
+
+try {
+    
+    var myHeaders = new Headers();
+    myHeaders.append("token", localStorage.getItem("token"));
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("token", localStorage.getItem("token"));
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+    };
+
+    const response = await fetch("http://127.0.0.1:3000/auth", requestOptions)
+
+    const data = await response.json();
+    
+    listar()
+    if (data.valid != true) {
+        
+        localStorage.removeItem("token");
+       window.location.href = '/login'
+    }
+
+   
+
+} catch(err) {
+   console.log(err);
+    localStorage.removeItem("token");
+    window.location.href = '/login'
+}
+
+}
+
+
+
+
+    function exercice(){
+
+      
+       if(document.getElementById('IoC').checked || !document.getElementById('randomData').checked){
+        var requestOptions = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "token": localStorage.getItem("token")
+                        
+            },
+            redirect: 'follow',
+            body:  JSON.stringify({
+            statement:  document.getElementById('statement').value,
+            difficulty:document.getElementById('difficulty').value,
+            genRandomData: document.getElementById('randomData').checked,
+            code: (document.getElementById('randomData').checked)?document.getElementById('code').value.replace(/\s/g, '\n'):undefined,
+            entries:(document.getElementById('randomData').checked)?document.getElementById('entries').value.split(","):undefined,
+            ioData: [{inputs: document.getElementById('ioData').value.split(','),
+        output: document.getElementById('ioDataO').value}]         
+
+            }),
+            
+        }
+       }else{ 
+        var requestOptions = {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "token": localStorage.getItem("token")
+                        
+            },
+            redirect: 'follow',
+            body:  JSON.stringify({
+            statement:  document.getElementById('statement').value,
+            difficulty:document.getElementById('difficulty').value,
+            genRandomData: document.getElementById('randomData').checked,
+            code: (document.getElementById('randomData').checked)?document.getElementById('code').value.replace(/\s/g, '\n'):undefined,
+            entries:(document.getElementById('randomData').checked)?document.getElementById('entries').value.split(","):undefined,
+                      
+
+            }),
+            
+        }
+       }
+       
+        
+
+            fetch("http://localhost:3000/exercice/add", requestOptions)
+        .then(async (response) => {
+
+            const data = await response.json();
+
+if (response.status == 201) {
+
+   window.location.reload()
+} else {
+   console.log('Erro ao criar exercicio') 
+   throw new Error(data.message || "Erro ao enviar exercício");
+   window.location.href = '/'
+}
+
+}).catch((err) => {
+    alert(err)
+    throw new Error(err)
+})
+
+      
+}
+
+
+function update(n){
+
+
+    const excluir =  document.getElementById('excluir');
+    const editar = document.getElementById('editar');
+        const voltar = document.getElementById('voltar')
+    const lista = document.getElementById('lista')
+    const h1 = document.getElementById('h1')
+    const checkbox=  document.querySelectorAll('.cb')
+    const a = document.querySelectorAll('.list')
+    const edit = document.getElementById('edit')
+    const concluir = document.getElementById('concluir')
+
+
+
+
+    if(n===1) {
+window.location.reload() }
+
+
+
+
+var requestOptions = {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "token": localStorage.getItem("token")
+                        
+            },
+            redirect: 'follow' }
+           
+            fetch("http://localhost:3000/exercice/list", requestOptions)
+        .then(async (response) => {
+
+            const data = await response.json();
+
+
+
+if (response.status == 200) {
+
+console.log(data)
+
+
+if(n===2){
+   
+
+       
+
+
+
+    voltar.style.display = 'block'
+    excluir.style.display = 'none' 
+   editar.style.display = 'none' 
+   concluir.style.display = 'block'
+ for(let i of a){
+    i.style.display = 'none'
+ }
+edit.style.display = 'flex'
+ 
+  h1.innerText = 'Selecione o exercicio que deseja editar:'
+  
+
+
+  const table = document.getElementById('table') 
+const tbody = document.createElement('tbody')
+table.appendChild(tbody)
+
+
+    
+    
+   
+    
+    
+    for(let i = 0; i<data.length; i++){
+        
+        const tr = document.createElement('tr') 
+        tr.id = i.toString()
+        tr.classList = 'bg-gray-800 border-b dark:bg-gray-800  text-black '
+        tbody.appendChild(tr);
+
+
+        for(let t = 0; t<5; t++){
+        
+        const td = document.createElement('td')
+       
+         if(t==0){ td.innerText = data[i].id; td.classList = 'text-gray-100 px-6 py-4' }else{
+            td.classList= 'text-black px-6 py-4 '
+         }
+         
+
+        
+         if(t==1){  const input = document.createElement('input')
+         input.classList = 'w-20 rounded px-2 py-1'
+            input.value = data[i].statement
+            
+            td.appendChild(input)
+            
+             
+           
+          } 
+         if(t==2){
+            const input = document.createElement('input')
+            input.value = data[i].difficulty
+            input.classList = 'w-20 rounded px-2 py-1'
+            td.appendChild(input)
+            
+             
+           
+
+         }  
+         if(t==3 )  {
+            const input = document.createElement('input')
+            input.classList = 'w-20 rounded px-2 py-1'
+            if(data[i].tests.length>0) input.value = data[i].tests[0].input.join(',')
+            
+            td.appendChild(input)
+            
+             
+           
+
+         }  
+         if(t==4 )   {
+            const input = document.createElement('input')
+            input.classList = 'w-20 rounded px-2 py-1'
+            if(data[i].tests.length>0) input.value = data[i].tests[0].output
+           
+            td.appendChild(input)
+            
+             
+           
+
+         }  
+        
+        
+         tr.appendChild(td)
+        }
+        }
+
+    }
+        if(n===3){
+
+          
+       for(let i = 0; i<data.length; i++){
+        const tr = document.getElementById(`${i}`)
+        
+
+       
+        var requestOptions = {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "token": localStorage.getItem("token")
+                    
+        },
+        redirect: 'follow',
+        body:  JSON.stringify({
+       exerciceId: data[i].id,
+       statement: (tr.children[1].children[0].value)?tr.children[1].children[0].value:data[i].statement,
+         difficulty:(tr.children[2].children[0].value)?tr.children[2].children[0].value:data[i].difficulty,
+         tests: (tr.children[3].children[0].value && tr.children[4].children[0].value)? [{ input:  (tr.children[3].children[0].value)?tr.children[3].children[0].value.split(','):[], output: tr.children[4].children[0].value }]:alert('Para alterar inputs e outputs certfique-se de não deixar os campos em branco, caso contrário os dois testes deixam de existir')
+        }),
+        
+    }
+   
+   
+    
+
+        fetch("http://localhost:3000/exercice/update", requestOptions)
+    .then(async (response) => {
+
+        const data = await response.json();
+
+if (response.status == 200) {
+   
+    console.log('Editado com sucesso')
+    console.log(data)
+window.location.reload()
+} else {
+
+console.log(data.message)
+throw new Error(data.message || "Erro ao enviar exercício");
+window.location.href = '/'
+}
+
+}).catch((err) => {
+
+throw new Error(err)
+})
+
+       }
+     
+        
+
+}
+
+
+
+
+    
+
+
+
+    
+    }
+
+   
+
+
+}).catch((err) => {
+    console.log(err)
+    throw new Error(err)
+})
+
+
+
+
+
+
+       
+  
+
+
+   
+}
+
+  
+
+function listar(){
+    var requestOptions = {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "token": localStorage.getItem("token")
+                        
+            },
+            redirect: 'follow' }
+           
+            fetch("http://localhost:3000/exercice/list", requestOptions)
+        .then(async (response) => {
+
+            const data = await response.json();
+
+if(data.length>0){
+    document.getElementById('excluir').style.display = 'block'
+    document.getElementById('editar').style.display = 'block'
+}else{
+
+    const ol = document.getElementById('ol')
+    const li = document.createElement('li')
+    ol.appendChild(li)
+    li.classList = 'flex flex-row p-2  border border-yellow-300'
+    li.innerHTML = 'Não há nenhum exercicio criado no momento'
+    document.getElementById('excluir').style.display = 'none'
+    document.getElementById('editar').style.display = 'none'
+}
+
+
+if (response.status == 200) {
+
+
+    for(let i = 0; i<data.length; i++){
+     
+        const ol = document.getElementById('ol')
+       const li = document.createElement('li')
+       const input = document.createElement('input', {
+       
+        
+       })
+       const a = document.createElement('a')
+      
+       a.classList = 'list flex flex-row p-2  border border-yellow-300'
+       li.id = String(i)
+      input.type = 'checkbox'
+      
+       input.classList = 'cb on ml-3 mt-1 mb-3 w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800'
+       ol.appendChild(li)
+              a.innerHTML = 'id: ' + data[i].id  + ' | Dificuldade: ' + data[i].difficulty + ' | Enunciado: ' + data[i].statement
+              li.appendChild(a)
+              a.appendChild(input) 
+             
+    }
+} else {
+    window.location.href = '/';
+   throw new Error(data.message || "Erro ao enviar exercício");
+   
+}
+
+}).catch((err) => {
+    console.log(err)
+    throw new Error(err)
+})
+
+      
+
+}
+
+
+function deletar(statement){
+    var requestOptions = {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "token": localStorage.getItem("token")
+                        
+            },
+            redirect: 'follow',
+            body:  JSON.stringify({statement: statement
+            })      
+                  
+        };
+            fetch("http://localhost:3000/exercice/delete", requestOptions)
+        .then(async (response) => {
+
+            const data = await response.json();
+
+if (response.status == 200){
+  window.location.reload()
+} else {
+   console.log('Erro ao excluir')
+// window.location.href = '/'
+   throw new Error(data.message || "Erro ao enviar exercício");
+}
+
+}).catch((err) => {
+    
+    console.log(err)    
+    throw new Error(err)
+})
+
+
+}
+
+async function excluir(){
+    const inputs = document.querySelectorAll('.on')
+   
+    if(inputs.length>=0){
+        
+    for(let i = 0; i<inputs.length; i++){
+        if(inputs[i].checked){
+            
+      const parent = inputs[i].parentElement.innerText.slice(71)
+    console.log(parent)
+      await deletar(parent)
+        }
+
+    } }
+    
+    
+}
+
+function logout(){
+    localStorage.removeItem("token");
+       window.location.href = '/login'
+}
+    </script>
+</body>
+</html>
