@@ -33,37 +33,37 @@ export default function expressConfig(): Express {
     //Configure routes
 
 
-    app.use('/storage', express.static('C:\\Users\\logic\\Documents\\João\\Exercices-master-main\\src\\storage')) 
+    app.use('/storage', express.static('C:\\Users\\user\\Documents\\Exercices-master\\src\\storage')) 
 
 
 
    
     app.get("/", (req, res) => {
-        res.sendFile("C:\\Users\\logic\\Documents\\João\\Exercices-master-main\\frontend\\menu\\index.html")
+        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\menu\\index.html")
     })
 
     app.get("/login", (req, res) => {
-        res.sendFile("C:\\Users\\logic\\Documents\\João\\Exercices-master-main\\frontend\\auth\\login\\index.html")
+        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\auth\\login\\index.html")
     })
     
     app.get("/add", (req,res) => {
-        res.sendFile("C:\\Users\\logic\\Documents\\João\\Exercices-master-main\\frontend\\exercice\\index.html")
+        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\exercice\\index.html")
 
 
     })
 
    
     app.get("/start", (req,res) => {
-        res.sendFile("C:\\Users\\logic\\Documents\\João\\Exercices-master-main\\frontend\\index.html")
+        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\index.html")
     })
 
     app.get("/profile", (req,res) => {
-        res.sendFile("C:\\Users\\logic\\Documents\\João\\Exercices-master-main\\frontend\\menu\\profile\\index.html")
+        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\menu\\profile\\index.html")
     })
 
 
     app.get("/leaderboard", (req,res) => {
-        res.sendFile("C:\\Users\\logic\\Documents\\João\\Exercices-master-main\\frontend\\menu\\leaderboard\\index.html")
+        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\menu\\leaderboard\\index.html")
     })
     app.use("/auth", authRoutes.signUpRoute)
     app.use("/auth", authRoutes.loginRoute)

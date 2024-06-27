@@ -1,73 +1,80 @@
 <!DOCTYPE html>
-<html lang="PT-BR">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-   
-    <title>LogiC</title>
+    <title>Barra de Navegação</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Estilos personalizados */
+        #sideBar {
+            right: -300px; /* Esconde a sidebar completamente */
+            transition: right 0.5s ease; /* Adiciona uma transição suave para a animação */
+        }
+        .main-content-push {
+            transition: margin-right 0.5s ease; /* Adiciona uma transição suave para empurrar o conteúdo principal */
+        }
+        #criar {
+            display: none;
+        }
+    </style>
 </head>
-<style>
-#botaoSubmit {
-    display: none;
-}
+<body onload="onLoad()" class="bg-gradient-to-r from-gray-400  to-blue-400 flex justify-center items-center h-screen">
 
-#criar {
-    display: none;
-}
-
-</style>
-
-
-<body onload="onLoad()">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-    <body onload="onLoad()" class="bg-gray-900">
-        <div id="container" class="w-full h-full ">
-            
-
-<nav class="bg-gray-800 max-h-20 dark:bg-gray-900 border-yellow-400 border-b-2">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      
-          
-          <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">LogiC</span>
-   
-
-     
-      <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
-
-
-        
-        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-800 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-800 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-          
-            <li>
-                <a href="/"  id="start" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Inicio</a>
-              </li>
-
-
-          <li>
-            <a href="/login" onclick="logout()" id="sair" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sair</a>
-          </li>
-          <li>
-            <a href="/add"  id="criar" class="block py-2 px-3 text-gray-100 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Criar exercicios</a>
-          </li>
-        </ul>
-      </div>
+<nav class="bg-gradient-to-r from-gray-400  to-blue-400 absolute top-0 left-0 right-0 z-50 w-full h-16 flex justify-between items-center px-4">
+    <div>
+        <p  class="text-2xl font-bold ml-4 text-gray-900 font-bold focus:outline-none transition duration-300 hover:text-gray-100">LogiC</p>
     </div>
-  </nav>
+    <div class="flex items-center space-x-4">
+        
+        <button id="menuBtn" onclick="toggleSideBar()" class="text-gray-900 focus:outline-none transition duration-300 hover:text-gray-100">
+            <i class="fas fa-bars text-xl animate-fadeIn"></i>
+        </button>
+    </div>
+</nav>
+
+<div id="sideBar" class="fixed inset-y-0 top-0 w-64 bg-gray-900 text-white shadow-lg z-50">
+  <div id="profileDiv" class="flex  flex-row top-0 w-full text-gray-300 m-4">
+    <img id="profilePicture" src="" class=" rounded-lg absolute left-0 ml-2 w-10 h-10 animate-fadeIn" >
+    <a id="profile" class="absolute  text-xs left-10 ml-8 w-5/6 h-8 animate-fadeIn">
+
+        <a id="schoolId" class="absolute mt-4  text-xs left-10 ml-8 w-5/6 h-8 animate-fadeIn"></a>
+    </a>
+   
+    <button onclick="toggleSideBar()" class="absolute right-0 mr-2 focus:outline-none hover:text-white animate-fadeIn">
+        <i class="fas fa-times"></i>
+    </button>
+    </div>
+    <div id="abas" class="flex mt-12 flex-col justify-center w-full text-gray-300 m-4 animate-fadeIn"  >
+        <a href="/" class="flex mb-2 items-center space-x-2 text-sm hover:underline hover:text-white">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
 
 
+      
+
+        <a href="/ajuda" class="flex mb-2 items-center space-x-2 text-sm hover:underline hover:text-white">
+            <i class="fas fa-question-circle animate-fadeIn"></i>
+            <span>Ajuda</span>
+        </a>
+
+        <a href="/login" onclick="logout()" class="flex items-center space-x-2 text-sm hover:underline hover:text-white">
+            <i class="fas fa-sign-out-alt animate-fadeIn"></i>
+            <span>Sair</span>
+        </a>
+
+    </div>
+</div>
 
 
 
   
 
 <div class=" w-full h-screen flex align-center justify-center overflow-x-auto roundedshadow-md sm:rounded-lg">
-    <table id="table" class=" h-2/6 w-3/6 mt-10 border-2  border-gray-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="underline text-gray-100 font-bold bg-blue-800 uppercase border-b border-gray-100 ">
+    <table id="table" class=" h-2/6 w-3/6 mt-20 border-2  border-gray-100 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="underline text-gray-200  bg-black font-bold  uppercase border-b border-gray-100 ">
             <tr>
                 <th scope="col" class=" px-6 py-3">
                     Posição
@@ -153,7 +160,9 @@ for(let i = 0; data.users.length>i; i++){
        
         
         if(!pos[posicao(data.users[i])+p]){
+            console.log(posicao(data.users[i]))
       pos[posicao(data.users[i])+p] = data.users[i]
+      console.log(data.users[i])
    break
      } 
      
@@ -184,18 +193,19 @@ for(let i = 0; data.users.length>i; i++){
     for(let i = 0; i<pos.length; i++){
         
         const tr = document.createElement('tr') 
-        tr.classList = 'bg-gray-800 border-b dark:bg-gray-800 dark:border-gray-700 text-gray-100 dark:hover:bg-gray-600'
+        tr.classList = ' border-b bg-black dark:border-gray-700 text-black'
         tbody.appendChild(tr);
 
 
         for(let t = 0; t<8; t++){
         
+            if(pos[i]){
         const td = document.createElement('td')
         td.classList= 'text-gray-100 px-10 py-4 '
-         if(t==0){ td.innerText = i+1; if(i+1===1)   td.classList = 'text-blue-800 px-10 py-4' ;
-         if(i+1===2)   td.classList = 'text-green-800 px-10 py-4';
-         if(i+1===3)   td.classList = 'text-yellow-800 px-10 py-4'  ;
-         if(i+1>3) td.classList =   'text-gray-100 px-10 py-4'  ;
+         if(t==0){ td.innerText = i+1; if(i+1===1)   td.classList = 'font-bold text-blue-800 px-10 py-4' ;
+         if(i+1===2)   td.classList = 'font-bold text-green-800 px-10 py-4';
+         if(i+1===3)   td.classList = 'font-bold text-yellow-800 px-10 py-4'  ;
+         if(i+1>3) td.classList =   'font-bold text-gray-100 px-10 py-4'  ;
 
            }
 
@@ -216,7 +226,7 @@ for(let i = 0; data.users.length>i; i++){
          if(t==7) td.innerText =  pos[i].exercisesDone.length
         
          tr.appendChild(td)
-
+        }
         }
 
 
@@ -230,7 +240,7 @@ for(let i = 0; data.users.length>i; i++){
 function posicao(usuario){
     let pos = data.users.length
     for(let i = 0; i<data.users.length; i++){
-        if(usuario.name != data.users[i].name){ 
+        if(usuario.fullname != data.users[i].fullname){ 
         if(usuario.exercisesDone.length > data.users[i].exercisesDone.length){
             pos-=1
         } 
@@ -259,7 +269,7 @@ function contaExercicios(num, user){
 } catch (err) {
 console.log(err)
 localStorage.removeItem("token");
-window.location.href = '/login'
+//window.location.href = '/login'
 }
 
 
@@ -337,8 +347,8 @@ window.location.href = '/login'
                 }
 
                 
-                valida()
-
+              
+                users()
                 leaderboard()
             } catch (err) {
                 
@@ -354,7 +364,49 @@ window.location.href = '/login'
         
     </script>
 
+<script>
+    function toggleSideBar() {
+        var sideBar = document.getElementById('sideBar');
+        var mainContent = document.querySelector('.main-content-push');
+        if (sideBar.style.right === '-300px' || sideBar.style.right === '') {
+            sideBar.style.right = '0';
+            mainContent.style.marginRight = '300px'; // Empurra o conteúdo principal para a direita
+        } else {
+            sideBar.style.right = '-300px';
+            mainContent.style.marginRight = '0'; // Retorna o conteúdo principal ao seu lugar original
+        }
+    }
+</script>
 
+<script>
+    async function users(){
+        try { 
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+            myHeaders.append("token", localStorage.getItem("token"));
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            const response = await fetch("http://127.0.0.1:3000/me", requestOptions)
+            const data = await response.json();
+
+            if(response.status == 200){
+               
+                document.getElementById('profile').innerText = data.fullname;
+                document.getElementById('schoolId').innerText = data.schoolId;
+                document.getElementById('profilePicture').src = data.profilePicture;
+            }
+        } catch (err) {
+            console.log(err);
+            localStorage.removeItem("token");
+            window.location.href = '/login';
+        }
+    }
+    </script>
     
 
 </body>

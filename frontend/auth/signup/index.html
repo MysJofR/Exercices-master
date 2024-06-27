@@ -146,7 +146,7 @@ https://dribbble.com/shots/2292415-Daily-UI-001-Day-001-Sign-Up
 
 */
 function onLoad(){
-  fetch("https://exercices-master-fvuwpja1f-mysjofrs-projects.vercel.app/auth",{
+  fetch("localhost:3000/auth",{
             method: "GET",
             body: JSON.stringify({
                 token: localStorage.getItem("token")

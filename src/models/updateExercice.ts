@@ -1,9 +1,10 @@
 import prisma from "../libs/prisma/prisma";
 import exerciceUpdateDTO from '../interfaces/exerciceUpdateDTO'
 import AppErrorConstructor from '../Errors/errorConstructor'
+import checkIfUserExistsByschoolId from "./user/checkIfUserExistsByschoolId";
 
 export default async function updateExercice(data: exerciceUpdateDTO){
-
+    try {
 const exercice = await prisma.exercice.findUnique({
     where: {
         id: data.id
@@ -11,15 +12,15 @@ const exercice = await prisma.exercice.findUnique({
 })
 if(!exercice) throw new AppErrorConstructor("Exercice not found", 404)
 
-let doneByFormatted=data.doneBy?.map((e)=>{
-    console.log(e)
+let doneByFormatted=data.doneBy?.map( function (e){
+   
     return{
         schoolId:e
     }
     })
 
 
-
+    
 const newExercice = await prisma.exercice.update({
     where: {
         id: data.id
@@ -34,13 +35,25 @@ const newExercice = await prisma.exercice.update({
             }
         },
         doneBy: {
-           connect:doneByFormatted
+           set: [],
+           connect:doneByFormatted 
         }
+    },
+    include: {
+        doneBy: true,
+        tests: true
     }
 })
 
 if(!newExercice) throw new AppErrorConstructor("Exercice not updated", 500)
+    return newExercice
+}
+catch (err){
+   
+    throw new AppErrorConstructor("Exercice not updated", 500)
+}
 
-return newExercice
+
+
 
 }

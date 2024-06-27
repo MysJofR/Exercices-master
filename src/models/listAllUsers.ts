@@ -8,7 +8,8 @@ export default async function listAllUsers() {
         
         select:{
             fullname: true,
-            exercisesDone: true
+            exercisesDone: true,
+            schoolId: true
         }
 
     });
