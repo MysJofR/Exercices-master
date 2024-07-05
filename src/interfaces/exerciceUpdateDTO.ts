@@ -1,5 +1,6 @@
 export default interface exerciceUpdateDTO {
     id: string,
+    name: string,
     statement?: string,
     difficulty?: number,
     tests?: {

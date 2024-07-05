@@ -11,11 +11,10 @@ type body = InferType<typeof submitExercicesSchema>;
 export default async function submitExercice(req: Request<{}, {}, body>, res: Response) {
 
 const validate = await validateCode(req.body.exerciceId, req.body.code)
-console.log(validate)
+
 if(validate.error instanceof AppErrorConstructor) throw new AppErrorConstructor(validate.error.message, 500)
 else{
-    console.log(validate)
-    console.log(validate.error)
+   
     if(validate.passed == false) throw new AppErrorConstructor(`Resolução incorreta! Leia o enunciado com atenção e tente novamente!` // ${validate.error?.errorOn} do seu programa da resolucao: Esperado ${validate.error?.expected} mas obteve ${validate.error?.got
     ,500)
     if(validate.passed == true) {

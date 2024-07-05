@@ -17,6 +17,7 @@
             right: -300px; /* Esconde a sidebar completamente */
             transition: right 0.5s ease; /* Adiciona uma transição suave para a animação */
         }
+        
         .main-content-push {
             transition: margin-right 0.5s ease; /* Adiciona uma transição suave para empurrar o conteúdo principal */
         }
@@ -28,57 +29,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <style>
-    #excluir {
-        display: none;
-    }
-
-    
-    #code {
-        display:none;
-    }
-    #codeL {
-        display:none;
-    }
-    #entriesL {
-        display: none; 
-    }
-
-    #entries {
-        display: none;
-    }
-
-
-    input { 
-        display:block;
-       
-
-    }
-
-    #IoC {
-        display: none;
-    }
-    #IoCP{ 
-        display: none;
-    }
-   #editar {
-    display:none;
-   }
-   #voltar {
-    display: none;
-   }
-   
-   #edit{
-    display:none;
-   }
   
-   #editor { 
-    display:none;
-   }
-
-   #editor {
-    border-radius: 0.75rem 0.75rem 0.75rem 0.75rem; /* Ajuste os valores conforme necessário */
-}
-
 
 
 
@@ -278,6 +229,21 @@
     </div>
            
 
+<div id="lista"  class="flex flex-col justify-center mt-20 items-center w-6/6 mr-10 ml-10 3/6">
+        <table class="min-w-full bg-white border border-gray-200">
+            <thead>
+                <tr>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Lista de Exercicios</th>
+                  
+                </tr>
+            </thead>
+            <tbody id="exerciceTableBody">
+               
+            </tbody>
+        </table>
+    </div>
+        
+
  
 
 <script>
@@ -310,26 +276,7 @@ const textarea = `
 
 
 
-        <div id="lista" style="display: none;" class="flex flex-col mt-5 items-center w-3/6 mr-10 ml-10 3/6">
-           
-
-            <ol id="exerciceList" class="text-yellow-300">
-
-
-
-
-          
-            </ol>
         
-            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="excluir" onclick="excluir()">EXCLUIR</button>
-            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="editar" onclick="async function edit()
-            { 
-                
-
-
-            }" >EDITAR</button>
-            <button type="button" class="mt-3 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="voltar"  >EDITAR</button>
-        </div>
 
 
 
@@ -342,7 +289,7 @@ const textarea = `
 
 
 
-  async function findExerciceByStatement(statement){
+  async function findExerciceByName(name){
    
         var requestOptions = {
             method: 'GET',
@@ -361,10 +308,10 @@ const textarea = `
             const data = await response.json();
             
 if (response.status == 200) {
-
+  console.log(data)
 for(let i in data){
  
-    if(data[i].statement == statement){ 
+    if(data[i].name == name){ 
        
        
       return data[i]
@@ -548,8 +495,7 @@ try {
     const data = await response.json();
    
     getUser()
-    await listarExercicios()
-    
+   await listarExercicios()
  
     if (data.valid != true) {
         
@@ -716,63 +662,92 @@ if (response.status == 201) {
       
 }
 
+
+ function expandExercice(exercice){
+    if(document.querySelector('.dropdown')){
+        document.querySelector('.dropdown').remove()
+    }
+    const tbody = document.getElementById('exerciceTableBody')
+   
+    let exerciceNode;
+    for(let i = 1; i<tbody.childNodes.length; i++){
+        console.log(tbody.childNodes[i].childNodes[1].innerText)
+        if(tbody.childNodes[i].childNodes[1].innerText == exercice.name){
+            
+            exerciceNode = tbody.childNodes[i]
+            
+        }   
+            
+        }
+        const dropdownTr = document.createElement('tr')
+        dropdownTr.classList = 'dropdown'
+        console.log(exercice)
+        if(exercice.tests.length>0){
+        for(let t in exercice.tests){
+            const outputTd = document.createElement('td')
+            outputTd.innerText = 'Saída: '+ exercice.tests[t].output
+         
+            const inputTd = document.createElement('td')
+            inputTd.innerText = 'Inputs: ' + exercice.tests[t].input
+            
+            dropdownTr.appendChild(inputTd)
+            dropdownTr.appendChild(outputTd)
+        }}
+
+        exerciceNode.insertAdjacentElement('afterend', dropdownTr)
+        const button = document.getElementById(exercice.name)
+        button.innerText = '▲'
+        button.onclick = () => {
+            closeDropdown(exercice)
+
+        }
+        
+    }
+function closeDropdown(exercice){
+    const dropdown = document.querySelector('.dropdown')
+    dropdown.remove()
+    console.log(dropdown)
+    const button = document.getElementById(exercice.name)
+    button.innerText = '▼'
+    button.onclick =()=> { expandExercice(exercice)
+    }
+}
 async function listarExercicios(){
     const lista = document.getElementById('lista')
+    const tbody = document.getElementById('exerciceTableBody')
    
     const exercicios = await getExercices()
-    const exerciceList = document.getElementById('exerciceList')
+    
  const load = document.querySelector('.loading')
          load.style.display = 'none'
           lista.style.display = 'block'
     for(let i in exercicios){
-        const li = document.createElement('li')
+        const tr = document.createElement('tr')
 
-      li.classList = ''
-        li.innerHTML = `<div class="mb-4">
-                <h3 class="text-xl font-bold">${exercicios[i].statement}</h3>
-                <p class="text-sm text-gray-600">Nivel da Dificuldade: ${exercicios[i].difficulty}</p>
-                <p class="text-sm text-gray-600">Data de Criação: ${exercicios[i].createdAt}</p>
-                <p class="text-sm text-gray-600">Última Atualização: ${exercicios[i].updatedAt}</p>
-            </div>
-            <div>
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr>
-                            <th class="border-b p-2">Entrada</th>
-                            <th class="border-b p-2">Valor</th>
-                        </tr>
-                    </thead>
+      tr.classList = 'p-8'
+      const button = document.createElement('td')
+      button.id = exercicios[i].name
+      button.classList= 'px-6 py-4 border-b border-gray-200'
+      button.innerText = '▼'
+     button.onclick =()=> { expandExercice(exercicios[i])
+     }
+        tr.innerHTML = `  
+         <td class="px-6 py-4 border-b border-gray-200">${exercicios[i].name}</h3>
+                <td class="px-6 py-4 border-b border-gray-200">${exercicios[i].statement}</h3>
+                <td class="px-6 py-4 border-b border-gray-200">Nivel da Dificuldade: ${exercicios[i].difficulty}</p>
+                <td class="px-6 py-4 border-b border-gray-200">Data de Criação: ${exercicios[i].createdAt}</p>
+                <td class="px-6 py-4 border-b border-gray-200">Última Atualização: ${exercicios[i].updatedAt}</p>
+           
 `
-                        for(let t in exercicios[i].tests){
-                            
-                            
-                        
-                        }
+                       
+                    tr.appendChild(button)
 
-`
-
-                    <tbody>
-                        <tr>
-                          
-                            <td class="border-b p-2">Valor 1</td>
-                        </tr>
-                        <tr>
-                            <td class="border-b p-2">Valor 2</td>
-                        </tr>
-                        <!-- Mais entradas aqui -->
-                    </tbody>
-                </table>
-                  <div class="mt-4">
-                <p class="text-sm text-gray-600">Número de Saída: 123</p>
-            </div>
+                 
+          
 
 
-            </div>
-          `
-
-
-
-        exerciceList.appendChild(li)
+                
+           tbody.appendChild(tr) 
 
     }
     

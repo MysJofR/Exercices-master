@@ -7,7 +7,7 @@ export const userPass = async (id: string, exerciceId: string) => {
 
     await prisma.user.update({
             where: {
-                id
+                id: id
             },
             data: {
                 exercisesDone:{

@@ -9,11 +9,12 @@ export default async function addExerciceToDB(exercice:exerciceDTO,testCases:tes
 
 try {
 
-    if(await checkIfExerciceExists(exercice.statement)){
+    if(await checkIfExerciceExists(exercice.name)){
         throw new AppErrorConstructor("Exercice with same statement already exists",400)
     }
     const result = await prisma.exercice.create({
         data:{
+            name: exercice.name,
             statement:exercice.statement,
             difficulty:exercice.difficulty,
             tests:{

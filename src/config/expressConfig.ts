@@ -17,6 +17,7 @@ import validateJWT from '../middleware/validateJWT';
 import isAdminRoute from '../routes/auth/isAdmRoute';
 import usersRoute from '../routes/auth/usersRoute';
 import listUsers from '../routes/auth/listUsersRoute';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 export default function expressConfig(): Express {
     const app = express();
@@ -37,34 +38,7 @@ export default function expressConfig(): Express {
 
 
 
-   
-    app.get("/", (req, res) => {
-        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\menu\\index.html")
-    })
-
-    app.get("/login", (req, res) => {
-        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\auth\\login\\index.html")
-    })
-    
-    app.get("/add", (req,res) => {
-        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\exercice\\index.html")
-
-
-    })
-
-   
-    app.get("/start", (req,res) => {
-        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\index.html")
-    })
-
-    app.get("/profile", (req,res) => {
-        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\menu\\profile\\index.html")
-    })
-
-
-    app.get("/leaderboard", (req,res) => {
-        res.sendFile("C:\\Users\\user\\Documents\\Exercices-master\\frontend\\menu\\leaderboard\\index.html")
-    })
+  
     app.use("/auth", authRoutes.signUpRoute)
     app.use("/auth", authRoutes.loginRoute)
     app.use("/auth", authRoutes.checkTokenRoute)    

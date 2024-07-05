@@ -2,13 +2,13 @@ import AppErrorConstructor from '../Errors/errorConstructor'
 import prisma from "../libs/prisma/prisma";
 
 
-export default async function checkIfExerciceExists(statement:string):Promise<boolean> {
+export default async function checkIfExerciceExists(name:string):Promise<boolean> {
 
 try {
 
     const result = await prisma.exercice.findUnique({
         where:{
-            statement:statement
+            name:name
         }
     })
     if(result === null){

@@ -1,7 +1,7 @@
 import yup,{object,array,string,number, boolean} from 'yup';
 
 const addExercicesSchema = object({
-    
+    name: string().required(),
     genRandomData: boolean().required(),
     statement: string().required(),
     difficulty: number().required().min(0).max(5),

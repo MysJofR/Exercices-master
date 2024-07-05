@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f .env ts-node-dev --transpile-only --respawn src/index.ts",
+    "dev": "concurrently  \"pnpm serve-backend\" \"pnpm --prefix my-vue-app dev\"",
+    "serve-backend": "cross-env NODE_ENV=development env-cmd -f .env ts-node-dev --transpile-only --respawn src/index.ts",
+    "build": "pnpm --prefix my-vue-app build",
+    "start": "NODE_ENV=production pnpm serve-backend",
     "test": "env-cmd -f .env.test vitest --no-threads"
   },
   "keywords": [],
@@ -21,9 +24,11 @@
     "axios": "^1.4.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "env-cmd": "^10.1.0",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "http-proxy-middleware": "^3.0.0",
     "jsonwebtoken": "^9.0.2",
     "prisma": "^5.0.0",
     "request": "^2.88.2",
@@ -36,6 +41,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "8.0.2",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "vitest": "^0.33.0"
   }
 }

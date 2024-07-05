@@ -11,7 +11,8 @@ type body = InferType<typeof addExercicesSchema>;
 
 //import
 export async function addExercice(req: Request<{}, {}, body>, res: Response) {
-    if (await checkIfExerciceExists(req.body.statement)) {
+    console.log(req.body)
+    if (await checkIfExerciceExists(req.body.name)) {
         throw new AppErrorConstructor('Exercice already exists', 400)
     }
     
@@ -64,6 +65,7 @@ export async function addExercice(req: Request<{}, {}, body>, res: Response) {
     try {
 
         const result = await addExerciceToDB({
+            name: req.body.name,
             difficulty: req.body.difficulty,
             statement: req.body.statement,
         }, testCases)

@@ -7,7 +7,7 @@ export default async function getYearAndCourse(token:string,id:number) {
         maxBodyLength: Infinity,
         url: `https://moodle.canoas.ifrs.edu.br/webservice/rest/server.php?wstoken=${token}&wsfunction=core_enrol_get_users_courses&moodlewsrestformat=json&userid=${id}`,
         headers: { }
-      })
+      })  
 
       
       if(!usersCourse.data) throw new AppErrorConstructor("Error",500)
@@ -20,6 +20,7 @@ export default async function getYearAndCourse(token:string,id:number) {
         let courseName:string = ""
 
       const courses = usersCourse.data
+      
       courses.forEach(course => {
 
         const name = course.displayname

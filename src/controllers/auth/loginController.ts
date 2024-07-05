@@ -21,10 +21,11 @@ export default async function loginController(req: Request<{},{},bodyType>, res:
    
     // Se chegou até aqui, o usuário está certo
     const userInfo = await getInfoFromUser(token,req.body.username)
-    
+    console.log(userInfo)
     const {fullname,email,idnumber,id} = userInfo
     
     const { year,courseName } = await getYearAndCourse(token,id)
+    console.log(courseName)
     const profilePicture = await saveImageToDb(token,userInfo.profileimageurl,fullname,id)
     
     if(await checkIfUserExistsByschoolId(idnumber)){
