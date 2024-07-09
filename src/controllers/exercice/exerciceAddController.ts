@@ -72,6 +72,7 @@ export async function addExercice(req: Request<{}, {}, body>, res: Response) {
         
         res.status(201).json(result)
     } catch (error) {
+     
         throw new AppErrorConstructor("Internal server error", 500)
     }
 

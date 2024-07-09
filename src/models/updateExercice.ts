@@ -26,6 +26,7 @@ const newExercice = await prisma.exercice.update({
         id: data.id
     },
     data: {
+        name: data.name,
         statement:data.statement,
         difficulty: data.difficulty,
         tests: {

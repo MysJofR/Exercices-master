@@ -2,18 +2,18 @@ import AppErrorConstructor from '../Errors/errorConstructor'
 import prisma from "../libs/prisma/prisma";
 
 
-export default async function deleteExercice(name: string) {
+export default async function deleteExercice(id: string) {
     
     const exercice = await prisma.exercice.findUnique({
         where:{
-            name: name
+            id: id
         }
     })
     if(!exercice) throw new AppErrorConstructor("Exercice not found",404)
 
     const exerciceDelete = prisma.exercice.delete({
         where:{
-            name: name
+            id: id
         }
     })
 

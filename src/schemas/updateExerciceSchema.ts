@@ -2,7 +2,7 @@ import yup,{object,array,string,number,addMethod} from 'yup';
 
 const updateExerciceSchema = object().shape({
     exerciceId: string().required(),
-
+    name: string().required(),
     statement: string(),
     difficulty: number().min(0).max(5),
     tests: array().of(object({

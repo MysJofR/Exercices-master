@@ -5,7 +5,15 @@ const route = useRoute()
 import { useColorMode } from '@vueuse/core'
 import { onMounted } from 'vue';
 import { RouterView, useRouter, useRoute } from 'vue-router';
-
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from '@/components/ui/navigation-menu'
 
 const mode = useColorMode()
 
@@ -18,6 +26,8 @@ mode.value = 'dark'
  
 
   <div class="h-screen w-full ">
+      
+    
     <RouterView />
 </div>
 

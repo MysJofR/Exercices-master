@@ -1,8 +1,9 @@
 <template>
-  <div id="button" class="flex flex-col items-center">
-    <div ref="monacoContainer" class="monaco-editor-container h-full"></div>
-    <Button
-      class="border-2 w-6/6 max-h-6/6 h-6/6 text-left border-black block bg-gray-100 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-black hover:text-gray-100 focus:bg-black focus:text-black"
+  <div  id="button" class="flex flex-col items-center">
+    <div @change="handleChange" ref="monacoContainer" class="monaco-editor-container h-full"></div>
+    <Button 
+    
+      class="border-2 w-6/6 max-h-6/6 h-6/6 text-left border-black block bg-gray-100 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-black hover:text-gray-100"
       @click="handleButtonClick"
     >
       Enviar Resolução
@@ -15,17 +16,34 @@ import { Button } from '@/components/ui/button';
 import { onMounted, ref, onBeforeUnmount } from 'vue';
 import * as monaco from 'monaco-editor';
 
+
 // Variáveis
 const monacoContainer = ref<HTMLDivElement | null>(null);
 let editor: monaco.editor.IStandaloneCodeEditor | null = null;
-const emit = defineEmits(['getValue']);
+const emit = defineEmits(['getValue', 'getChange']);
 
 // Funções
+
+
+const handleChange = () => {
+  if (editor) {
+    try {
+      const value = editor.getValue();
+    
+      emit('getChange', value);
+    } catch (error) {
+      console.error('Error getting editor value:', error);
+    }
+  } else {
+    console.error('Editor is not initialized');
+  }
+};
+
 const handleButtonClick = () => {
   if (editor) {
     try {
       const value = editor.getValue();
-      console.log('Editor Content:', value);
+    
       emit('getValue', value);
     } catch (error) {
       console.error('Error getting editor value:', error);

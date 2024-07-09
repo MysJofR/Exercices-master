@@ -19,6 +19,7 @@ export default async function checkIfUserExistsByschoolId(id: string):Promise<bo
         }
 
     } catch (err) {
+        console.log(err)
         throw new AppErrorConstructor('Error while checking if user exists', 500)
     }
 

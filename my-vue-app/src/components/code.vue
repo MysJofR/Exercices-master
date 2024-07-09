@@ -17,7 +17,7 @@ const exercicesPending = ref([]);
 const user = ref();
 const selectedDropdownItem = ref('Selecione uma opção');
 const exerciceSelected: Ref<any> = ref(null);
-const currentContent = ref<string | null>(null);
+const currentContent = ref<string | null>('console');
 
 // Functions
 async function getUser() {
@@ -43,6 +43,10 @@ async function getUser() {
     localStorage.removeItem("token");
   }
 }
+import { useToast } from '@/components/ui/toast/use-toast'
+import { Toaster } from '@/components/ui/toast'
+
+const { toast } = useToast()
 
 async function getExercices() {
   const requestOptions: RequestInit = {
@@ -76,6 +80,12 @@ async function getExercices() {
 }
 
 const handleEditorValue = async (value: string) => {
+  if(!exerciceSelected.value){
+    toast({
+    title: 'Você deve selecionar um exercício para enviar uma resolução.',
+    
+  })
+  }
   editorContent.value = value;
 
   try {
@@ -97,27 +107,35 @@ const handleEditorValue = async (value: string) => {
     const data = await response.json();
 
     if (response.status === 200) {
-      console.log(data.message);
+
+        submitResult.value = data.message
+        if(exercicesPending.value.some(obj => obj.id === exerciceSelected.value.id)){
+          exercicesDone.value.push(exerciceSelected.value)
+        const index =  exercicesPending.value.indexOf(exerciceSelected.value)
+        exercicesPending.value.splice(index, 1);
+        }
     } else {
-      throw new Error(data.message || "Erro ao enviar exercício");
+      submitResult.value = data.message
+      
     }
   } catch (err) {
     console.log(err);
   }
 };
-
+const submitResult = ref(null)
 const showContent = (content: string) => {
   currentContent.value = content;
 };
 
 const selectDropdownItem = (item: string) => {
   selectedDropdownItem.value = item;
-  console.log(selectedDropdownItem.value);
+ 
 };
 
 const handleExerciceSelect = (exercice: any) => {
   exerciceSelected.value = exercice;
-  console.log(exerciceSelected.value);
+ 
+  
 };
 
 // On mounted
@@ -128,6 +146,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <Toaster />
   <div class="h-screen flex flex-col">
     <div class="flex flex-row">
       <MonacoEditor class="p-2 w-4/6" @getValue="handleEditorValue" />
@@ -166,7 +185,7 @@ onMounted(async () => {
             <Button @click="handleExerciceSelect(item)" v-for="(item, index) in exercicesDone" :key="index" class="border-2 w-6/6 max-h-5/6 h-5/6 text-left border-black block bg-gray-100 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-black hover:text-gray-100 focus:bg-black focus:text-gray-100">
               <HoverCard>
                 <HoverCardTrigger>
-                  <h2 class="h-full w-full">{{ item.statement }}</h2>
+                  <h2 class="h-full w-full">{{ item.name }}</h2>
                 </HoverCardTrigger>
                 <HoverCardContent>
                   <h2>{{ item.createdAt }}</h2>
@@ -198,7 +217,7 @@ onMounted(async () => {
         <div class="mt-3 h-[107px] w-full">
           <div v-if="currentContent === 'console'">
             <h2>Resultado do Envio: </h2>
-            <p id="result"></p>
+            <p >{{ submitResult }}</p>
           </div>
           <div v-if="currentContent === 'debug'">
             <h2>Conteúdo 1</h2>

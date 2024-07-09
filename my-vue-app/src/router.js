@@ -5,12 +5,14 @@ import dashboard from "@/components/dashboard.vue"
 import code from "@/components/code.vue"
 import me from "@/components/me.vue"
 import tournaments from "@/components/tournaments.vue"
+import exercice from "@/components/exercice.vue"
 const routes = [
   {path: '/dashboard', component: dashboard},
   { path: '/login', component: login },
   { path: '/', component: landing },
   {path: '/me', component: me},
   {path: '/code', component: code},
+  {path: '/exercice', component: exercice},
   {path: '/tournaments', component: tournaments}
 ]
 
@@ -43,9 +45,9 @@ async function onload(){
       const response = await fetch("http://localhost:3000/auth/", requestOptions)
   
       const data = await response.json();
-      
+     
       if (data.valid != true) {
-        console.log(data)
+        
           localStorage.removeItem("token");
         router.push('/login')
          

@@ -8,7 +8,7 @@ type ReqBody = InferType<typeof deleteExerciceSchema>
 
 export default async function deleteExerciceController(req:Request<{},{},ReqBody>,res:Response){
 
-if(await deleteExercice(req.body.statement)){
+if(await deleteExercice(req.body.id)){
     res.status(200).send({
         message: "Exercice deleted"
     })
