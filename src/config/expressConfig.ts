@@ -10,7 +10,7 @@ import cors from "cors";
 
 import exerciceRoutes from "../routes/exercice/index";
 import authRoutes from "../routes/auth/index";
-
+import listMember from "../routes/courses/getCoursesRoute"
 import verifyPerm from "../middleware/verifyPerm"
 import errorHandler from "../Errors/errorHandler";
 import validateJWT from '../middleware/validateJWT';
@@ -49,7 +49,7 @@ export default function expressConfig(): Express {
     app.use("/list", listUsers)
     app.use(verifyPerm)
     app.use("/me", usersRoute)
-
+    app.use("/", listMember)
     app.use("/exercice", exerciceRoutes.updateExerciceRoute)
     app.use("/exercice", exerciceRoutes.addExerciceRoute)
     app.use("/exercice", exerciceRoutes.submitExerciceRoute)

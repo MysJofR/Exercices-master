@@ -42,12 +42,13 @@ try {
 
     const data = await response.json();
     
-    if (data.valid != true) {
+    if (data.valid !== true) {
       console.log(data)
         localStorage.removeItem("token");
       router.push('/login')
        
     }else{
+      console.log(data)
       router.push('/dashboard')
     }
 } catch (err) {

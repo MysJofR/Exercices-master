@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 import AppErrorConstructor from "../Errors/errorConstructor";
 
 export default async function validatePerms(req: Request, res: Response, next: NextFunction){
-
+    console.log(req.body.userId)
     const user = await prisma.user.findUnique({
         where:{
             id: req.body.userId
@@ -14,6 +14,8 @@ export default async function validatePerms(req: Request, res: Response, next: N
             role:true
         }       
     })
+
+
     if(!user) throw new AppErrorConstructor("User not found",404)
 
     const roleId = user?.roleId

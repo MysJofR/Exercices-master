@@ -15,7 +15,8 @@ const user = await prisma.user.findFirstOrThrow({
             include: {
                 
                 exercisesDone: true,
-                role: true
+                role: true,
+                courses: true
             }
 })
 

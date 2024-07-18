@@ -2,10 +2,11 @@ import yup,{object,array,string,number, boolean} from 'yup';
 
 const addExercicesSchema = object({
     name: string().required(),
+    userId: string(),
     genRandomData: boolean().required(),
     statement: string().required(),
     difficulty: number().required().min(0).max(5),
-        
+    courses: array().of(string().required()).required(),
     code: string().matches(/(programa|inicio)/).when("genRandomData", {
         is: true,
         then: (schema) => schema.required()

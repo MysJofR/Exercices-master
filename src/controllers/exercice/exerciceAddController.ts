@@ -11,11 +11,15 @@ type body = InferType<typeof addExercicesSchema>;
 
 //import
 export async function addExercice(req: Request<{}, {}, body>, res: Response) {
-    console.log(req.body)
+ 
     if (await checkIfExerciceExists(req.body.name)) {
         throw new AppErrorConstructor('Exercice already exists', 400)
     }
-    
+    if(!req.body.userId) throw new AppErrorConstructor("invalid token", 401)
+        const id = req.body.userId
+
+
+
     const { genRandomData, ioData, entries, code } = req.body;
     let testCases: testCasesDTO = {
         testCases: []
@@ -66,11 +70,16 @@ export async function addExercice(req: Request<{}, {}, body>, res: Response) {
 
         const result = await addExerciceToDB({
             name: req.body.name,
+            creator: id,
             difficulty: req.body.difficulty,
             statement: req.body.statement,
+            courses: req.body.courses
+           
         }, testCases)
         
-        res.status(201).json(result)
+        res.status(201).json(
+            result
+        )
     } catch (error) {
      
         throw new AppErrorConstructor("Internal server error", 500)

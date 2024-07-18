@@ -25,7 +25,7 @@ mode.value = 'dark'
 <template>
  
 
-  <div class="h-screen w-full ">
+  <div class=" h-full w-full ">
       
     
     <RouterView />

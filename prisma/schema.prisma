@@ -8,45 +8,72 @@ datasource db {
 }
 
 model exercice {
-  id         String          @id @default(uuid())
-  name String @unique
+  id         String   @id @default(uuid())
+  name       String   @unique
   statement  String 
   difficulty Int
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  doneBy     user[]
+  creatorId  String
+  creator    user     @relation("CreatedExercises", fields: [creatorId], references: [id])
+
+  courses    course[]
+  doneBy     user[]   @relation("DoneExercises")
 
   tests      tests[]
 }
 
-model user {
+model course {
   id        String   @id @default(uuid())
-  fullname       String
-  email          String
-  schoolId       String @unique
-  profilePicture String
-
-  year   String
-  course String
-
-  exercisesDone exercice[]
-
+  name      String   @unique
+  members   courseAndRole[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  role      Role     @relation(fields: [roleId], references: [id])
-  roleId    String
+  updatedAt DateTime @default(now())
+  exercices exercice[]
 }
 
-model Role{
-  id String @id @default(uuid())
-  name String @unique
-  routesAllow Routes[]
-  users user[]
+model courseAndRole {
+  id        String   @id @default(uuid())
+  courseId  String
+  course    course   @relation(fields: [courseId], references: [id])
+  role      courseRole
+  userId    String
+  user      user     @relation(fields: [userId], references: [id])
 }
 
-enum Routes{
+enum courseRole {
+  teacher
+  student
+}
+
+model user {
+  id              String         @id @default(uuid())
+  fullname        String
+  email           String
+  schoolId        String         @unique
+  profilePicture  String
+  course          String
+  courses         courseAndRole[]
+  year            String
+  exercisesDone   exercice[]     @relation("DoneExercises")
+  createdExercises exercice[]    @relation("CreatedExercises")
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now())
+
+  role            Role           @relation(fields: [roleId], references: [id])
+  roleId          String
+}
+
+model Role {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  routesAllow  Routes[]
+  users        user[]
+}
+
+enum Routes {
   exerciceadd
   exercicedelete
   exercice
@@ -54,6 +81,7 @@ enum Routes{
   exercicesubmit
   exerciceupdate
   me
+  courses
 }
 
 model tests {
@@ -62,7 +90,7 @@ model tests {
   input      String[]
   output     String
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime @default(now())
   exercise   exercice? @relation(fields: [exerciseId], references: [id])
 }
 
@@ -73,4 +101,3 @@ enum tiposPortugol {
   caracter
   logico
 }
-

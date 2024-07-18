@@ -3,20 +3,22 @@ import prisma from "../../libs/prisma/prisma"
 
 
 export default async function getUserById(id: string){
-    
-    try {
 
+    try {
+     
         const user = await prisma.user.findUnique({
             where: {
                 id: id
             },
             include:{
                 role:true,
-                exercisesDone: true
+                exercisesDone: true,
+                courses: true
                
             }
         })
-        if(!user) throw new AppErrorConstructor('User not found', 404)
+        
+        if(!user) throw new AppErrorConstructor('User not found', 4004)
 
 
         return {

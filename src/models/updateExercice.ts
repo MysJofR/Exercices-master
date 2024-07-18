@@ -18,7 +18,21 @@ let doneByFormatted=data.doneBy?.map( function (e){
         schoolId:e
     }
     })
+    let courses;
+if(data.courses){
+     courses = await prisma.course.findMany({
+        where: {
+            name: {
+                in: data.courses,
+            },
+        },
+    });
 
+    if (courses.length !== data.courses.length) {
+        throw new AppErrorConstructor('One or more courses could not be found', 400);
+    } 
+    
+}
 
     
 const newExercice = await prisma.exercice.update({
@@ -38,8 +52,15 @@ const newExercice = await prisma.exercice.update({
         doneBy: {
            set: [],
            connect:doneByFormatted 
-        }
+        },
+        courses: {
+            connect: courses.map(course => ({
+                id: course.id,
+            })),
+        },
     },
+
+    
     include: {
         doneBy: true,
         tests: true
