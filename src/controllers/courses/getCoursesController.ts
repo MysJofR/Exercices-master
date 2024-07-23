@@ -20,6 +20,17 @@ export default async function getCoursesController(req: Request<{}, {}, {}>, res
           userId: (req as any).user
         }
        }
+      },
+      include:{
+        members: {
+          include: {
+            user: {
+              include: {
+                exercisesDone: true
+              }
+            }
+          }
+        }
       }
     })
 

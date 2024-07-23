@@ -34,9 +34,9 @@ export default function expressConfig(): Express {
     //Configure routes
 
 
-    app.use('/storage', express.static('C:\\Users\\user\\Documents\\Exercices-master\\src\\storage')) 
+    const storagePath = path.resolve(__dirname, 'src', 'storage');
 
-
+app.use('/storage', express.static(storagePath));
 
   
     app.use("/auth", authRoutes.signUpRoute)

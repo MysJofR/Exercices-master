@@ -51,9 +51,10 @@ export default async function saveImageToDb(
                 try {
                     fs.writeFileSync(path.join(process.env.IMAGE_STORAGE_PATH as string,fileName+".jpg"),body,'binary')
                 } catch (error) {
+                    console.log(error)
                     reject(new AppErrorConstructor("Internal app error",500))
                 }
-                
+            
 
                 resolve(true)
             });

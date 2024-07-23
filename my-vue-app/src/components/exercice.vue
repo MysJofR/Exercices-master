@@ -146,6 +146,7 @@ async function getExercices() {
   if (response.status === 200) {
     if (data.length > 0) {
       exercices.value = data;
+      console.log(data)
     } 
   } else {
     throw new Error(data.message || "Erro ao enviar exercício");
@@ -260,16 +261,18 @@ function newExercice() {
       genRandomData: isSwitchOn.value,
       code: isSwitchOn.value ? editor.value : undefined,
       entries: isSwitchOn.value ? exerciceEntries.value.value.split(",") : undefined,
-      ioData: !isSwitchOn.value ? tests.value : undefined
+      ioData: !isSwitchOn.value ? tests.value : undefined,
+      courses: coursesToAdd.value
     })
   };
 
   fetch("http://localhost:3000/exercice/add", requestOptions)
     .then(async (response) => {
       const data = await response.json();
-
+      
       if (response.status == 201) {
-        await getExercices();
+        await getExercices()
+        
       } else {
         throw new Error(data.message || "Erro ao enviar exercício");
       }
@@ -317,7 +320,8 @@ const onSubmit = handleSubmit((values) => {
       statement: values.statement,
       tests: updateTests.value,
       doneBy: doneBy,
-      difficulty: values.difficulty
+      difficulty: values.difficulty,
+      courses: coursesToAdd.value
     })
   };
 
@@ -326,7 +330,7 @@ const onSubmit = handleSubmit((values) => {
       const data = await response.json();
 
       if (response.status === 200) {
-        await getExercices();
+        await getExercices()
       
       }
     }).catch(err => {
@@ -334,55 +338,62 @@ const onSubmit = handleSubmit((values) => {
       localStorage.removeItem("token");
     });
 });
+const usersToList = ref([])
 
-const getUsersDidntMade = (id) => {
+const setInfo = (item) => {
+  usersToList.value = []
+  item.courses.forEach(e => {
+    e.members.forEach(member => {
+      if(!usersToList.value.some(obj => obj.id == member.user.id)) usersToList.value.push(member.user)
+    
+    })
+} )
+}
+
+const setExercice = (item) => {
   coursesToAdd.value = []
+  usersToList.value = []
+  item.courses.forEach(e => {
+    e.members.forEach(member => {
+      if(!usersToList.value.some(obj => obj.id == member.user.id)) usersToList.value.push(member.user)
+    
+    })
+    coursesToAdd.value.push(e.name)
+  })
+
+  
   updateTests.value = [];
-  exerciceToUpdate.value = id;
+  exerciceToUpdate.value = item.id;
   toAdd.value = [];
   toRemove.value = [];
-  usersDidntMade.value = [];
-  usersThatMade.value = [];
-  users.value.forEach(e => {
-    if (e.exercisesDone.some(obj => obj.id == id)) {
-      usersThatMade.value.push(e);
-    } else {
-      usersDidntMade.value.push(e);
-    }
-  });
-};
 
-const handleToRemove = (schoolId) => {
-  usersThatMade.value = usersThatMade.value.filter(obj => obj.schoolId !== schoolId);
-  toRemove.value.push({ schoolId });
-  usersDidntMade.value.push({ schoolId });
-};
 
-const handleToAdd = (schoolId) => {
-  usersDidntMade.value = usersDidntMade.value.filter(obj => obj.schoolId !== schoolId);
-  toAdd.value.push({ schoolId });
-  usersThatMade.value.push({ schoolId });
-};
+ 
+
+  };
+;
+
 
 // Funções de montagem e inicialização
-const handleCourses = (name: string) => {
+const handleCourses = (name: string ,courses?) => {
 
   if(!coursesToAdd.value.includes(name)){
     coursesToAdd.value.push(name)
   }
 }
-const handleSelectedUsersToUpdate = (user) => {
+const handleSelectedUsersToUpdate = (user,item) => {
 
-if(usersDidntMade.value.includes(user)){
-  if(toAdd.value.includes(user)) return
-  toAdd.value.push(user)
-
-}else{
-  if(toRemove.value.includes(user)) return
+  if (user.exercisesDone.some(obj => obj.id == item.id)) {
+    if(toRemove.value.includes(user)) return
   toRemove.value.push(user)
 }
+     else {
+      if(toAdd.value.includes(user)) return
+      toAdd.value.push(user)
+    }
 
-}
+  }
+  
 onMounted(async () => {
   await getExercices();
   await getCourses();
@@ -515,9 +526,9 @@ onMounted(async () => {
           </div>
 
           <DialogFooter>
-     
+            <DialogClose>
             <Button  @click="newExercice" type="submit">Criar exercicio</Button>
-          
+          </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -541,7 +552,7 @@ onMounted(async () => {
             <TableCell class="text-right">{{ item.difficulty }}</TableCell>
             <TableCell class="text-right">
               <Drawer class="h-6/6">
-                <DrawerTrigger ><Button @click="selectedUser=null; selectedUserMade=false" variant="outline">Mais Informações</Button></DrawerTrigger>
+                <DrawerTrigger ><Button @click="selectedUser=null; selectedUserMade=false; setInfo(item)" variant="outline">Mais Informações</Button></DrawerTrigger>
                 <DrawerContent class="overflow-y-auto drawer-content">
                   <DrawerHeader>
                     <DrawerTitle>Informações do exercício:</DrawerTitle>
@@ -572,8 +583,9 @@ onMounted(async () => {
                             <CommandInput placeholder="Digite o nome ou matrícula do usuário..." />
                             <CommandList>
                               <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
-                              <CommandGroup heading=""  v-for="(course, index) in item.courses" :key="index">
-                                <CommandItem @click="handleSelectedUser(user, item)" v-for="(user, index) in course.members" :key="index" :value="`${user.user.schoolId} / ${user.user.fullname} / ${user.user.fullname.toLowerCase()}`">{{ user.user.fullname }}</CommandItem>
+                              <CommandGroup heading=""  >
+
+                                <CommandItem  @click="handleSelectedUser(user, item)" v-for="(user, index) in usersToList" :key="index" :value="`${user.schoolId} / ${user.fullname} / ${user.fullname.toLowerCase()}`">{{ user.fullname }}</CommandItem>
                               </CommandGroup>
                             </CommandList>
                           </Command>
@@ -596,7 +608,7 @@ onMounted(async () => {
             <TableCell> 
               <Dialog class="">
         <DialogTrigger as-child>
-          <Button @click="getUsersDidntMade(item.id)" variant="outline">Editar</Button>
+          <Button @click="setExercice(item)" variant="outline">Editar</Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[1000px] h-4/6 overflow-auto">
           <DialogHeader class="">
@@ -705,7 +717,7 @@ onMounted(async () => {
                             <CommandList>
                               <CommandEmpty>Nenhum curso encontrado.</CommandEmpty>
                               <CommandGroup heading="Cursos">
-                                <CommandItem @click="handleCourses(course.name)"   v-for="(course, index) in courses" :key="index" :value="`${course.name}`">{{ course.name }}</CommandItem>
+                                <CommandItem @click="handleCourses(course.name, item.courses)"   v-for="(course, index) in courses" :key="index" :value="`${course.name}`">{{ course.name }}</CommandItem>
                               </CommandGroup>
                             </CommandList>
                           </Command>
@@ -733,8 +745,9 @@ onMounted(async () => {
                             <CommandInput placeholder="Digite o nome ou matrícula do usuário..." />
                             <CommandList>
                               <CommandEmpty>Nenhum usuário encontrado.</CommandEmpty>
-                              <CommandGroup heading=""  v-for="(course, index) in item.courses" :key="index">
-                                <CommandItem  @click="handleSelectedUsersToUpdate(user)" v-for="(user, index) in course.members" :key="index" :value="`${user.user.schoolId} / ${user.user.fullname} / ${user.user.fullname.toLowerCase()}`">{{ user.user.fullname }}</CommandItem>
+                              <CommandGroup heading=""  >
+
+<CommandItem  @click="handleSelectedUsersToUpdate(user, item)" v-for="(user, index) in usersToList" :key="index" :value="`${user.schoolId} / ${user.fullname} / ${user.fullname.toLowerCase()}`">{{ user.fullname }}</CommandItem>
                               </CommandGroup>
                             </CommandList>
                           </Command>
@@ -759,16 +772,18 @@ onMounted(async () => {
                           <Button v-if="toAdd.length>0" @click.prevent="" @click="toAdd = []" class="ml-2  h-6 text-lg">Limpar</Button>
                        
                       </div>
+                      <DialogFooter>
+          
+        
+                      <DialogClose>
     <Button class="justify-center" type="submit">
       Submit
-    </Button>
+    </Button></DialogClose></DialogFooter>
   </form>
             </div>
           </div>
 
-          <DialogFooter>
-          
-          </DialogFooter>
+         
         </DialogContent>
       </Dialog>
             </TableCell>

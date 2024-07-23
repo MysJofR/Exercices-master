@@ -35,7 +35,11 @@ export default async function listAllExercices(userId: string) {
                 include: {
                     members: {
                         include: {
-                        user: true
+                        user: {
+                            include: {
+                                exercisesDone: true
+                            }
+                        }
                         }
                     }
                 }

@@ -17,7 +17,8 @@ import getUserCoursesAndRoles from '../../services/getRoles';
 
 
 export default async function loginController(req: Request<{},{},bodyType>, res: Response) {
-
+    console.log(req.body.username, req.body.password)
+    
     const token = await getToken(req.body.username,req.body.password)
    
   
