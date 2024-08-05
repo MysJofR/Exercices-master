@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 import AppErrorConstructor from "../Errors/errorConstructor";
 
 export default async function validatePerms(req: Request, res: Response, next: NextFunction){
-    console.log(req.body.userId)
+    
     const user = await prisma.user.findUnique({
         where:{
             id: req.body.userId
@@ -26,6 +26,7 @@ export default async function validatePerms(req: Request, res: Response, next: N
     })
     let path:Routes = ((req.baseUrl + req.path).replace(/\//g,"")) as Routes    
     if(!path.includes('public') && !path.includes('storage')){
+       
     if(!job?.routesAllow.includes(path)){
         
 

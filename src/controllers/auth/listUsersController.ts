@@ -12,9 +12,6 @@ export default async function listUsersController(req: Request<{}, {}, {}>, res:
 const user = await listAllUsers() 
 
 
-    res.status(200).json({
-      
-        users: user
-    })
+    res.status(201).json(user)
 
 }

@@ -13,49 +13,25 @@ import addUserToDb from "../../models/user/addUserToDb"
 import getYearAndCourse from '../../services/getYearAndCourse';
 import saveImageToDb from '../../functions/saveImageToDb';
 import exercice from '../../routes/exercice';
-import getUserCoursesAndRoles from '../../services/getRoles';
+
 
 
 export default async function loginController(req: Request<{},{},bodyType>, res: Response) {
-    console.log(req.body.username, req.body.password)
-    
+
     const token = await getToken(req.body.username,req.body.password)
    
-  
-    const userInfo = await getInfoFromUser(token ,req.body.username)
-
-    const {fullname,email,idnumber,id} = userInfo
+    // Se chegou até aqui, o usuário está certo
+    const userInfo = await getInfoFromUser(token,req.body.username)
+   
     
-    const { year,courseName } = await getYearAndCourse(token,id)
-  
-    const rolesInfo: object[] = await getUserCoursesAndRoles(token, id)
+    
+    const {fullname,email,idnumber,id} = userInfo
 
-    const getRoleNameAndPerms = () => {
-        if(rolesInfo.includes({
-            role: 'teacher'
-        })) return { name: 'Professor', perms: [ "exercice",
-            "exercicelist",
-            "exercicesubmit",
-            "me",
-            "exerciceadd",
-            "exercicedelete",
-            "exerciceupdate",
-        "courses"] }
-        else return { name: 'Aluno', perms: [ "exercice",
-            "exercicelist",
-            "exercicesubmit",
-            "me",
-            "exerciceadd",
-            "exercicedelete",
-            "exerciceupdate",
-            "courses"] }
-    }
-    const role = getRoleNameAndPerms()
+    const { year,courseName } = await getYearAndCourse(token,id)
+
     const profilePicture = await saveImageToDb(token,userInfo.profileimageurl,fullname,id)
     
     if(await checkIfUserExistsByschoolId(idnumber)){
-
-
 
         //Usuário já existe no banco de dados
         const user = await updateUser({
@@ -65,10 +41,19 @@ export default async function loginController(req: Request<{},{},bodyType>, res:
             newProfilePicture:profilePicture,
             newYear:year,
             newCourse:courseName,
-            newCourses: rolesInfo,
             newRole:{
-                name:role.name,
-                perms:role.perms
+                name:process.env.DEFAULT_ROLE_NAME || "Aluno",
+                perms: [
+                    "exercice",
+                    "exercicelist",
+                    "exercicesubmit",
+                    "me",
+                    "exerciceadd",
+                    "exercicedelete",
+                    "exerciceupdate"
+
+  
+                ]
             }
         })
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
@@ -79,8 +64,6 @@ export default async function loginController(req: Request<{},{},bodyType>, res:
 
     }else{
 
-
-        
         const user = await addUserToDb({
             year:year,
             course:courseName,
@@ -88,15 +71,19 @@ export default async function loginController(req: Request<{},{},bodyType>, res:
             fullname:fullname,
             email:email,
             profilePicture:profilePicture,
-            courses: rolesInfo, 
-         
             role:{
-                name:role.name,
-                perms:role.perms
+                name:process.env.DEFAULT_JOB_NAME || "Aluno",
+                perms: [
+                    "exercice",
+                    "exercicelist",
+                    "exercicesubmit",
+                    "me",
+                    "exerciceadd",
+                    "exercicedelete",
+                    "exerciceupdate"
+                ]
             }
-           
         })
-
 
         const token = jwt.sign({ id:user.id }, process.env.JWT_SECRET);
         

@@ -1,5 +1,5 @@
 import { courseAndRole } from '@prisma/client';
-import App from '../../../my-vue-app/src/App.vue';
+
 import AppErrorConstructor from '../../Errors/errorConstructor';
 import prisma from '../../libs/prisma/prisma';
 import checkIfUserExistsByschoolId from './checkIfUserExistsByschoolId';
@@ -47,34 +47,7 @@ export default async function addUserToDb(Info) {
             },
         });
 
-        for (let i in Info.courses) {
-            const courseName = Info.courses[i].course;
-           
-            const courseRole = Info.courses[i].roles[0];
-
-            let course = await prisma.course.findUnique({
-                where: {
-                    name: courseName,
-                },
-            });
-
-            if (!course) {
-                console.log("criando novo curso: ", courseName)
-                course = await prisma.course.create({
-                    data: {
-                        name: courseName
-                    }
-                })
-            }
-
-            await prisma.courseAndRole.create({
-                data: {
-                    courseId: course.id,
-                    userId: userResult.id,
-                    role: courseRole,
-                },
-            });
-        }
+      
 
         return userResult;
     } catch (error) {

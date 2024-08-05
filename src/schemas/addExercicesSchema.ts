@@ -6,7 +6,7 @@ const addExercicesSchema = object({
     genRandomData: boolean().required(),
     statement: string().required(),
     difficulty: number().required().min(0).max(5),
-    courses: array().of(string().required()).required(),
+    
     code: string().matches(/(programa|inicio)/).when("genRandomData", {
         is: true,
         then: (schema) => schema.required()

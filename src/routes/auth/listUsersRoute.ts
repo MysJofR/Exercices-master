@@ -7,6 +7,6 @@ import getUsersController from "../../controllers/auth/getUserController";
     
 const router = express.Router();
 
-router.get("/auth",listUsersController)
+router.get("/list",listUsersController)
 
 export default router;

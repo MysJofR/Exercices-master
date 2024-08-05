@@ -11,17 +11,7 @@ export default async function addExerciceToDB(exercice: exerciceDTO, testCases: 
         }
 
         // Verificar se todos os cursos existem
-        const courses = await prisma.course.findMany({
-            where: {
-                name: {
-                    in: exercice.courses,
-                },
-            },
-        });
-
-        if (courses.length !== exercice.courses.length) {
-            throw new AppErrorConstructor('One or more courses could not be found', 400);
-        }
+  
 
         // Criar o exercício e associar os testes
         const result = await prisma.exercice.create({
@@ -39,11 +29,8 @@ export default async function addExerciceToDB(exercice: exerciceDTO, testCases: 
                     })),
                 },
                 // Associar cursos ao exercício
-                courses: {
-                    connect: courses.map(course => ({
-                        id: course.id,
-                    })),
-                },
+              
+                
             },
             include: {
                 tests: true,

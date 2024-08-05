@@ -1,14 +1,11 @@
-<template>
-  <div  id="button" class="flex flex-col items-center">
-    <div @change="handleChange" ref="monacoContainer" class="monaco-editor-container h-full"></div>
-    
-  </div>
-</template>
+
 
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { onMounted, ref, onBeforeUnmount } from 'vue';
 import * as monaco from 'monaco-editor';
+
+
 
 
 // Variáveis
@@ -35,8 +32,8 @@ const handleChange = () => {
 
 
 
-onMounted(() => {
-  editor = monaco.editor.create(monacoContainer.value, {
+onMounted(async () => {
+  editor =  monaco.editor.create(monacoContainer.value, {
     value: `programa {
   funcao inicio() {
 
@@ -268,3 +265,9 @@ onBeforeUnmount(() => {
   background-color: #1e1e1e;
 }
 </style>
+<template>
+  <div  class="flex flex-col items-center">
+    <div @change="handleChange" ref="monacoContainer" class="monaco-editor-container h-full"></div>
+    
+  </div>
+</template>

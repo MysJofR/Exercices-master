@@ -1,0 +1,285 @@
+<script setup lang="ts">
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Input } from '@/components/ui/input';
+
+import { useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import * as z from 'zod';
+import { ref, reactive, onMounted } from 'vue';
+import { toast } from '@/components/ui/toast';
+import Label from '../ui/label/Label.vue';
+import Textarea from '../ui/textarea/Textarea.vue';
+import Toaster from '../ui/toast/Toaster.vue';
+import { stat } from 'fs';
+import Button from '../ui/button/Button.vue';
+
+const onEdit = ref(false);
+const exercice = ref(null);
+
+
+
+async function getExercice() {
+  try {
+    const requestOptions: RequestInit = {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "token": localStorage.getItem("token"),
+      },
+      redirect: 'follow',
+    };
+
+    const response = await fetch(`http://localhost:3000/exercice/${localStorage.getItem('exercice')}`, requestOptions);
+    const data = await response.json();
+
+    if (response.status === 200 && data) {
+    
+      exercice.value = data;
+      console.log(data)
+    } else {
+      throw new Error(data.message || "Erro ao buscar exercício");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+onMounted(async () => {
+  await getExercice();
+  await getUsers()
+});
+
+const users = ref(null)
+async function getUsers() {
+
+try {
+
+const requestOptions: RequestInit = {
+  method: 'GET',
+headers: {
+  "Content-Type": "application/json",
+  "Accept": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "token": localStorage.getItem('token')
+},
+redirect: 'follow'
+};
+
+const response = await fetch("http://localhost:3000/auth/list", requestOptions);
+const data = await response.json();
+
+if (response.status == 201) {
+if(data.length>0) users.value = data; 
+
+} else {
+console.log(data);
+
+toast({
+  title: 'Erro ao listar usuarios',
+  description: data.message,
+});
+}
+} catch (err) {
+console.error(err);
+localStorage.removeItem("token");
+}
+}
+
+const updateExerciceInfo = async (name: string, difficulty: number, statement: string) => {
+
+  if(!name || !difficulty || !statement){
+    console.log(name,difficulty,statement)
+    toast({
+      title: 'Erro ao editar exercicio',
+      description: 'Certifique-se de preencher todos os campos'
+    })
+    return
+  }
+
+
+ 
+  try {
+    const requestOptions: RequestInit = {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "token": localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        exerciceId: exercice.value.id,
+        doneBy: doneBy,
+        tests: exercice.value.tests,
+        difficulty: difficulty,
+        name: name,
+        statement: statement
+      }),
+      redirect: 'follow',
+    };
+
+    const response = await fetch(`http://localhost:3000/exercice/update`, requestOptions);
+    const data = await response.json();
+
+    if (response.status === 200 && data) {
+      await getExercice()
+      toast({ title: 'Operação concluida com sucesso', description: 'O exercicio foi editado com sucesso!'})
+      onEdit.value = false
+      
+    } else {
+      throw new Error(data.message || "Erro ao atualizar exercício");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const search = ref()
+const usersToList = ref([])
+const handleUsers = () => {
+  usersToList.value = []
+
+ users.value.map(e => {
+  if(!usersToList.value.includes(e)  &&  ( e.fullname.toLowerCase().includes(search.value.toLowerCase()) || e.schoolId.toLowerCase().includes(search.value.toLowerCase())) ) usersToList.value.push(e)
+ })
+}
+
+const updateUser =  async () => {
+
+const formattedDoneBy = exercice.value.doneBy.map(e => {
+  return e.schoolId
+})
+
+  try {
+    const requestOptions: RequestInit = {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "token": localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        exerciceId: exercice.value.id,
+       doneBy: formattedDoneBy,
+        tests: exercice.value.tests,
+        difficulty: exercice.value.difficulty,
+        name: exercice.value.name,
+        statement: exercice.value.statement
+      }),
+      redirect: 'follow',
+    };
+
+    const response = await fetch(`http://localhost:3000/exercice/update`, requestOptions);
+    const data = await response.json();
+
+    if (response.status === 200 && data) {
+      await getExercice()
+      toast({ title: 'Operação concluida com sucesso', description: 'O exercicio foi editado com sucesso!'})
+      
+      
+    } else {
+      throw new Error(data.message || "Erro ao atualizar exercício");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
+</script>
+
+
+<template>
+
+
+ 
+
+  <div v-if="exercice" class="w-full border-t-2 flex flex-col items-start border-gray-200 p-4 h-5/6">
+<div class="h-1/6">
+
+<input @keyup="handleUsers" v-model="search" type="text" class=" border-2 text-black p-1 rounded-lg border-black" placeholder="Buscar..."  />
+
+</div>
+  
+    <Table v-if="!search"  class=" h-5/6   w-5/6" >
+  
+    <TableHeader>
+      <TableRow class="hover:bg-neutral-100 bg-neutral-100">
+        <TableHead class=" text-black">
+          Nome
+        </TableHead>
+        <TableHead class="text-black">Matricula</TableHead>
+     
+        
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow class="bg-neutral-100  hover:bg-neutral-100 text-black" v-for="(user, index) in exercice.doneBy" :key="index">
+        <TableCell  class="font-medium ">
+          {{ user.fullname }}
+        </TableCell>
+        <TableCell>{{ user.schoolId }}</TableCell>
+       
+        <TableCell><Button @click=" exercice.doneBy.splice(index,1);updateUser();" variant="destructive" class="border-2 border-black hover:bg-zinc-200">Remover</Button></TableCell>
+      </TableRow>
+      
+    </TableBody>
+  </Table>
+
+  <Table v-else  class=" h-5/6   w-5/6" >
+  
+  <TableHeader>
+    <TableRow class="hover:bg-neutral-100 bg-neutral-100">
+      <TableHead class=" text-black">
+        Nome
+      </TableHead>
+      <TableHead class="text-black">Matricula</TableHead>
+   
+
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow class="bg-neutral-100  hover:bg-neutral-100 text-black" v-for="(user, index) in usersToList" :key="index">
+      <TableCell  class="font-medium ">
+        {{ user.fullname }}
+      </TableCell>
+      <TableCell>{{ user.schoolId }}</TableCell>
+      <TableCell v-if="exercice.doneBy.some(obj => obj.schoolId == user.schoolId)"><Button @click="" variant="destructive" class="border-2 border-black hover:bg-zinc-200">Remover</Button></TableCell>
+      <TableCell v-else><Button @click="exercice.doneBy.push(user);updateUser()" class="border-2 border-black hover:bg-zinc-200">Adicionar</Button></TableCell>
+    </TableRow>
+    
+    
+  </TableBody>
+</Table>
+
+  </div>
+</template>
+

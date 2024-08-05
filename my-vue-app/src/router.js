@@ -2,10 +2,11 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 import login from "@/components/login.vue"
 import landing from "@/components/landing.vue"
 import dashboard from "@/components/dashboard.vue"
-import code from "@/components/code.vue"
+import code from "@/components/coding.vue"
 import me from "@/components/me.vue"
 import tournaments from "@/components/tournaments.vue"
 import exercice from "@/components/exercice.vue"
+import createExercice from "@/components/exercice/createExercice.vue"
 const routes = [
   {path: '/dashboard', component: dashboard},
   { path: '/login', component: login },
@@ -13,6 +14,7 @@ const routes = [
   {path: '/me', component: me},
   {path: '/code', component: code},
   {path: '/exercice', component: exercice},
+  {path: '/test', component: createExercice},
   {path: '/tournaments', component: tournaments}
 ]
 

@@ -60,7 +60,7 @@ async function getExercices() {
     redirect: 'follow'
   };
 
-  const response = await fetch("http://localhost:3000/exercice/list", requestOptions);
+  const response = await fetch("http://localhost:3000/exercice", requestOptions);
   const data = await response.json();
 
   if (response.status === 200) {
@@ -74,7 +74,7 @@ async function getExercices() {
       });
     }
   } else {
-    window.location.href = '/login';
+  
     throw new Error(data.message || "Erro ao enviar exercício");
   }
 }

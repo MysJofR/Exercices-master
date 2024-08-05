@@ -6,5 +6,4 @@ export default interface exerciceDTO{
     name: string,
     creator: string,
     difficulty:number,
-    courses: string[]
 }

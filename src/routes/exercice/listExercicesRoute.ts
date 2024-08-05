@@ -3,6 +3,7 @@ import listExerciceController from "../../controllers/exercice/exerciceListAllCo
 import verifyPerm from "../../middleware/verifyPerm"
 const Router = express.Router();
 
-Router.get("/list",verifyPerm,listExerciceController)
+Router.get("/"
+    ,listExerciceController)
 
 export default Router;

@@ -10,7 +10,7 @@ import cors from "cors";
 
 import exerciceRoutes from "../routes/exercice/index";
 import authRoutes from "../routes/auth/index";
-import listMember from "../routes/courses/getCoursesRoute"
+
 import verifyPerm from "../middleware/verifyPerm"
 import errorHandler from "../Errors/errorHandler";
 import validateJWT from '../middleware/validateJWT';
@@ -42,20 +42,21 @@ app.use('/storage', express.static(storagePath));
     app.use("/auth", authRoutes.signUpRoute)
     app.use("/auth", authRoutes.loginRoute)
     app.use("/auth", authRoutes.checkTokenRoute)    
- 
+  
     
     app.use(validateJWT)
     app.use("/auth", isAdminRoute)
-    app.use("/list", listUsers)
+    app.use("/auth", listUsers)
+    app.use("/exercice", exerciceRoutes.getExerciceRoute)
     app.use(verifyPerm)
     app.use("/me", usersRoute)
-    app.use("/", listMember)
+    app.use("/exercice", exerciceRoutes.listExerciceRoute)
     app.use("/exercice", exerciceRoutes.updateExerciceRoute)
     app.use("/exercice", exerciceRoutes.addExerciceRoute)
     app.use("/exercice", exerciceRoutes.submitExerciceRoute)
-    app.use("/exercice", exerciceRoutes.getExerciceRoute)
+ 
     app.use("/exercice", exerciceRoutes.deleteExerciceRoute)
-    app.use("/exercice", exerciceRoutes.listExerciceRoute)
+  
 
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     

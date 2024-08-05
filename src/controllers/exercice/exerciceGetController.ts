@@ -17,7 +17,7 @@ export default async function getExerciceController(req:Request,res:Response){
     if(response){
         res.status(200).json(response)
     }else{
-        res.status(500).json("Internal server error")
+        res.status(500).json("Internssal server error")
     }
 
 }

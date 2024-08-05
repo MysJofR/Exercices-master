@@ -26,80 +26,76 @@ const route = useRoute()
 
 
 
-
-
-
-
 const formSchema = toTypedSchema(z.object({
-  username: z.string().min(2).max(50),
-  password: z.string().min(4).max(50)
+  username: z.string({required_error: 'Você deve inserir seu username para logar-se'}),
+  password: z.string({ required_error: 'Você deve inserir uma senha'}).min(4, 'A senha deve conter ao menos 4 caracteres'),
+ 
 }))
 
 const { handleSubmit } = useForm({
   validationSchema: formSchema,
 })
 
-const onSubmit = handleSubmit((values) => {
+const onSubmit =  handleSubmit(async (values) => {
+   
+ 
+     try {
+  
 
+  
+  var requestOptions: RequestInit = { 
+      method: 'POST',
+      headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    },
+      body: JSON.stringify({
+        username: values.username,
+        password: values.password
+      }),
+      redirect: 'follow'
+  };
 
+  const response = await fetch("http://localhost:3000/auth/login", requestOptions)
 
-
-  toast({
-    title: 'Estamos processando seu login.',
+  const data = await response.json();
+  
+  if (response.status == 200) {
     
-  })
+      localStorage.setItem('token', data.token)
+    router.push('/dashboard')
+     
+  }else{
 
-
-
-
-
-  fetch("http://localhost:3000/auth/login",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                        
-            },
-            body: JSON.stringify({
-                username:values.username,
-                password:values.password
-            })
-        }).then(async (response) => {
-
-            const data = await response.json();
-
-            if(response.status == 200){
-      
-             
-              localStorage.setItem('token', data.token);
-              router.push("/dashboard")
-
-            }else{
-               alert("Preencha os Campos Vazios");
-            }
-
-        }).catch((err) => {
-
-            throw new Error(err);
-        })
-
-  return false;
-      
+    toast({
+    title: 'Erro ao logar-se: ',
+    description: data.message
+   })
+  }
+} catch (err) {
+    console.log(err)
+  localStorage.removeItem("token");
+ 
+}
+ 
 })
-</script>
+</script> 
 
 <template>
-     <Toaster />
-  <form class="w-2/3 space-y-6" @submit="onSubmit">
+
+     <div class="h-full mt-10 w-full justify-right items-center flex flex-col">
+      <Toaster />
+      <h1 class="mt-5 font-bold text-2xl">Logar-se</h1>
+  <form class="w-3/6 p-10 space-y-2" @submit="onSubmit">
     <FormField v-slot="{ componentField }" name="username">
       <FormItem>
-        <FormLabel>Username</FormLabel>
+        <FormLabel>Matricula</FormLabel>
         <FormControl>
-          <Input type="text" placeholder="shadcn" v-bind="componentField" />
+          <Input type="text" class="text-gray-100" placeholder="Matrícula" v-bind="componentField" />
         </FormControl>
         <FormDescription>
-          This is your public display name.
+
         </FormDescription>
         <FormMessage />
       </FormItem>
@@ -108,18 +104,20 @@ const onSubmit = handleSubmit((values) => {
 
     <FormField v-slot="{ componentField }" name="password">
       <FormItem>
-        <FormLabel>Password</FormLabel>
+        <FormLabel>Senha</FormLabel>
         <FormControl>
-          <Input type="password" placeholder="password" v-bind="componentField" />
+          <Input type="password" class="text-gray-100" placeholder="Digite sua senha" v-bind="componentField" />
         </FormControl>
         <FormDescription>
-          Enter Your Password
+      
         </FormDescription>
         <FormMessage />
       </FormItem>
     </FormField>
-    <Button type="submit">
-      Submit
+
+   
+    <Button class="" type="submit">
+      Logar-se
     </Button>
-  </form>
+  </form></div>
 </template>

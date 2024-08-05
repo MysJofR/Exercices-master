@@ -13,12 +13,12 @@ export default async function getUserById(id: string){
             include:{
                 role:true,
                 exercisesDone: true,
-                courses: true
+             
                
             }
         })
         
-        if(!user) throw new AppErrorConstructor('User not found', 4004)
+        if(!user) throw new AppErrorConstructor('User not found', 404)
 
 
         return {
