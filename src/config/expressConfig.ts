@@ -17,6 +17,7 @@ import validateJWT from '../middleware/validateJWT';
 import isAdminRoute from '../routes/auth/isAdmRoute';
 import usersRoute from '../routes/auth/usersRoute';
 import listUsers from '../routes/auth/listUsersRoute';
+import getRole from "../routes/auth/getRoleRoute"
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 export default function expressConfig(): Express {
@@ -34,7 +35,8 @@ export default function expressConfig(): Express {
     //Configure routes
 
 
-    const storagePath = path.resolve(__dirname, 'src', 'storage');
+    const storagePath = path.resolve(__dirname, '..', 'storage');
+    console.log(`Serving storage path: ${storagePath}`); // Log para verificar o caminho
 
 app.use('/storage', express.static(storagePath));
 
@@ -50,6 +52,7 @@ app.use('/storage', express.static(storagePath));
     app.use("/exercice", exerciceRoutes.getExerciceRoute)
     app.use(verifyPerm)
     app.use("/me", usersRoute)
+    app.use("/role", getRole)
     app.use("/exercice", exerciceRoutes.listExerciceRoute)
     app.use("/exercice", exerciceRoutes.updateExerciceRoute)
     app.use("/exercice", exerciceRoutes.addExerciceRoute)

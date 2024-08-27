@@ -1,36 +1,36 @@
-import AppErrorConstructor from "../Errors/errorConstructor"
-import prisma from "../libs/prisma/prisma"
+import AppErrorConstructor from "../Errors/errorConstructor";
+import prisma from "../libs/prisma/prisma";
 
-
-
-export default async function getExerciceById(id: string){
+export default async function getExerciceById(id: string) {
+    console.time('DB Query');
 
     try {
-        console.log(id)
         const exercice = await prisma.exercice.findUnique({
             where: {
-                id: id
+                id: id,
             },
-            include:{
-             doneBy: true,
-             creator: true,
-             tests: true
-             
-             
-               
-            }
-        })
-        
-        if(!exercice) throw new AppErrorConstructor('Exercice not found', 404)
+            include: {
+                doneBy: true,
+                submissions: {
+                    include: {
+                        user: true
+                    }
+                },
+                creator: true,
+                tests: true,
+            },
+        });
 
+        console.timeEnd('DB Query');
+
+        if (!exercice) throw new AppErrorConstructor('Exercice not found', 404);
 
         return {
             ...exercice,
-        }
-
+        };
     } catch (err) {
-        if(err instanceof AppErrorConstructor) throw err
-        throw new AppErrorConstructor('Error geting exercice', 500)
+        console.timeEnd('DB Query');
+        if (err instanceof AppErrorConstructor) throw err;
+        throw new AppErrorConstructor('Error getting exercice', 500);
     }
-
 }

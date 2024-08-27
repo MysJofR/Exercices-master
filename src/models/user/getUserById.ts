@@ -11,8 +11,10 @@ export default async function getUserById(id: string){
                 id: id
             },
             include:{
+                
                 role:true,
                 exercisesDone: true,
+                submissions: true
              
                
             }

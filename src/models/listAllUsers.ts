@@ -1,4 +1,5 @@
 import AppErrorConstructor from "../Errors/errorConstructor";
+import returnUsablePathFromPicture from "../functions/returnUsablePathFromPicture";
 import prisma from "../libs/prisma/prisma";
 
 export default async function listAllUsers() {
@@ -9,10 +10,17 @@ export default async function listAllUsers() {
         select:{
             fullname: true,
             exercisesDone: true,
-            schoolId: true
+            schoolId: true,
+            profilePicture: true
         }
 
     });
+
+    users.map(e => {
+        e.profilePicture = returnUsablePathFromPicture(e.profilePicture)
+    })
+
+
     return users;
     } catch (err){
         throw new AppErrorConstructor('Não foi possivel listar os usuários', 404)

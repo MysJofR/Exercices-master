@@ -41,66 +41,12 @@ export default async function updateUser(Info) {
                 profilePicture: Info.newProfilePicture,
                 course: Info.newCourse,
                 year: Info.newYear,
-                role: {
-                    connect: {
-                        name: Info.newRole.name,
-                    },
-                },
+             
             },
         });
 
         // Atualize associações de cursos e roles
-        if (Info.newCourses) {
-            for (let i in Info.newCourses) {
-                const courseName = Info.newCourses[i].course;
-                const courseRole = Info.newCourses[i].roles[0];
-              
-                // Verifique se o curso existe
-                let course = await prisma.course.findUnique({
-                    where: {
-                        name: courseName,
-                    },
-                });
-
-                if (!course) {
-                    console.log("criando novo curso: ", courseName)
-                    course = await prisma.course.create({
-                        data: {
-                            name: courseName
-                        }
-                    })
-                }
-
-                // Verifique se a associação já existe
-                const existingAssociation = await prisma.courseAndRole.findFirst({
-                    where: {
-                            userId: updatedUser.id,
-                             courseId: course.id,
-                    },
-                });
-
-                if (existingAssociation) {
-                    // Atualize a associação existente
-                    await prisma.courseAndRole.update({
-                        where: {
-                            id: existingAssociation.id,
-                        },
-                        data: {
-                            role: courseRole,
-                        },
-                    });
-                } else {
-                    // Crie uma nova associação
-                    await prisma.courseAndRole.create({
-                        data: {
-                            courseId: course.id,
-                            userId: updatedUser.id,
-                            role: courseRole,
-                        },
-                    });
-                }
-            }
-        }
+        
 
         return updatedUser;
     } catch (error) {

@@ -13,7 +13,7 @@ export default async function addExerciceToDB(exercice: exerciceDTO, testCases: 
         // Verificar se todos os cursos existem
   
 
-        // Criar o exercício e associar os testes
+        // Criar o Tarefa e associar os testes
         const result = await prisma.exercice.create({
             data: {
                 name: exercice.name,
@@ -28,7 +28,7 @@ export default async function addExerciceToDB(exercice: exerciceDTO, testCases: 
                         output: testCase.output,
                     })),
                 },
-                // Associar cursos ao exercício
+                // Associar cursos ao Tarefa
               
                 
             },

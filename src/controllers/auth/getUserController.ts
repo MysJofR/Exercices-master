@@ -18,7 +18,7 @@ export default async function getUsersController(req: Request, res: Response) {
 
     user.profilePicture = returnUsablePathFromPicture(user.profilePicture)
     
-    const { roleId:_,email:__,id:___, ...userInfo} = user
+    const { roleId:_,email:__, ...userInfo} = user
     const response = userInfo
     res.status(200).json(response)
 }

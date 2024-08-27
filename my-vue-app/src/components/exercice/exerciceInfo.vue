@@ -24,13 +24,16 @@ import Label from '../ui/label/Label.vue';
 import Textarea from '../ui/textarea/Textarea.vue';
 import Toaster from '../ui/toast/Toaster.vue';
 import { stat } from 'fs';
+import CircleLoader from '../circleLoader.vue';
 
 const onEdit = ref(false);
+const test = ref(localStorage.getItem('exercice'))
 const exercice = ref(null);
 const exerciceToUpdate = ref(null)
 
 
 async function getExercice() {
+
   try {
     const requestOptions: RequestInit = {
       method: 'GET',
@@ -48,33 +51,38 @@ async function getExercice() {
 
     if (response.status === 200 && data) {
     
+    
       exercice.value = data;
       exerciceName.value = data.name
       exerciceStatement.value = data.statement
       exerciceDifficulty.value = data.difficulty
+
+
+      isLoading.value = false
     } else {
-      throw new Error(data.message || "Erro ao buscar exercício");
+      throw new Error(data.message || "Erro ao buscar Tarefa");
     }
   } catch (err) {
     console.error(err);
   }
 }
-
+const isLoading = ref(false)
 onMounted(async () => {
+  isLoading.value = true
   await getExercice();
 });
 
 const updateExerciceInfo = async (name: string, difficulty: number, statement: string) => {
 
   if(!name || !difficulty || !statement){
-    console.log(name,difficulty,statement)
+  
     toast({
       title: 'Erro ao editar exercicio',
       description: 'Certifique-se de preencher todos os campos'
     })
     return
   }
-
+isLoading.value = true
 
   const doneBy = exercice.value.doneBy.map(e => {
     return e.schoolId
@@ -104,11 +112,13 @@ const updateExerciceInfo = async (name: string, difficulty: number, statement: s
 
     if (response.status === 200 && data) {
       await getExercice()
+
+     
       toast({ title: 'Operação concluida com sucesso', description: 'O exercicio foi editado com sucesso!'})
-      onEdit.value = false
-      
+     
+      isLoading.value = false
     } else {
-      throw new Error(data.message || "Erro ao atualizar exercício");
+      throw new Error(data.message || "Erro ao atualizar Tarefa");
     }
   } catch (err) {
     console.error(err);
@@ -123,79 +133,80 @@ const exerciceStatement = ref(null)
 
 
 <template>
+  
 
+  
 
  
 
-  <div class="w-full border-t-2 flex flex-row items-start border-gray-200 p-4 h-5/6">
-    <div class="flex flex-col w-3/6">
-    <header class="w-full h-1/6 space-x-2">
-      <Button v-if="!onEdit" @click="onEdit = true; exerciceName = exercice.name; exerciceDifficulty = exercice.difficulty, exerciceStatement = exercice.statement" class="border-black border-2 hover:bg-zinc-200">Modo Edição</Button>
-      <Button v-if="!onEdit" class="border-black border-2 hover:bg-zinc-200">Acessar exercício</Button>
-    </header>
+  <div class="grid grid-cols-1 md:grid-cols-2  gap-4 p-4 h-full w-full">
+    <div v-if="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+  <div v-if="exercice && !isLoading" class="flex flex-col justify-center h-full space-y-4 w-full">
+    <div>
+      <Label class="">Nome do Tarefa:</Label>
+      <Input id="nameUpdate" v-model="exerciceName" class="text-gray-100 w-full" type="text" />
+    </div>
 
-    <div v-if="exercice" class="flex flex-col justify-center h-full py-6 w-full">
-      
-        <div>
-          <Label  class="text-gray-600">Nome do exercício:</Label>
-          <Input id="nameShow" v-if="!onEdit" :default-value="exercice.name" readonly class="text-black  bg-neutral-400 w-3/6" type="text" />
-        
-                <Input id="nameUpdate" v-if="onEdit" v-model="exerciceName"  class="text-black bg-neutral-100 w-3/6" type="text" />
-              
-              
-              
-              
-             
-        </div>
+    <div>
+      <Label class="">Dificuldade:</Label>
+      <Select id="difficultyUpdate" v-model="exerciceDifficulty">
+        <SelectTrigger class="w-full">
+          <SelectValue placeholder="Selecione a dificuldade" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem :value="1">1</SelectItem>
+            <SelectItem :value="2">2</SelectItem>
+            <SelectItem :value="3">3</SelectItem>
+            <SelectItem :value="4">4</SelectItem>
+            <SelectItem :value="5">5</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
 
-        <div>
-          <Label class="text-gray-600">Dificuldade:</Label>
-          <Input id="difficultyShow" v-if="!onEdit" :default-value="exercice.difficulty" readonly class="w-3/6 text-black bg-neutral-400" type="text" />
-        
-        
-                <Select id="difficultyUpdate" v-model="exerciceDifficulty"  v-if="onEdit" >
-            <SelectTrigger class="bg-neutral-100 w-3/6">
-              <SelectValue   class="text-black" placeholder="Selecione a dificuldade" />
-            </SelectTrigger>
-            <SelectContent class="bg-neutral-100 text-black">
-              <SelectGroup>
-                <SelectItem :value="1">1</SelectItem>
-                <SelectItem :value="2">2</SelectItem>
-                <SelectItem :value="3">3</SelectItem>
-                <SelectItem :value="4">4</SelectItem>
-                <SelectItem :value="5">5</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-           
-        
-        
-        </div>
-
-        <div>
-          <Label class="text-gray-600">Descrição do exercício:</Label>
-          <Textarea style="resize: none" id="statementShow" v-if="!onEdit" :default-value="exercice.statement" readonly class="text-black bg-neutral-400 w-3/6" type="text" />
-       
-                
-                <Textarea id="statementUpdate" @click.prevent="" v-model="exerciceStatement" style="resize: none" maxlength="80" v-if="onEdit"  class="text-black bg-neutral-100 w-3/6" type="text" />
-             
-        </div>
-
-        <footer class="w-full p-4 flex justify-end items-end space-x-2 h-1/6">
-          <Button v-if="onEdit" @click.prevent="onEdit = false" variant="destructive">Cancelar Edição</Button>
-          <Button v-if="onEdit" type="submit" @click="updateExerciceInfo(exerciceName, exerciceDifficulty, exerciceStatement)" variant="outline">Concluir</Button>
-        </footer>
-      </div>
-
-        </div>
-    
-      
-
-      <div v-if="exercice" class="w-3/6 border-l-2 p-2 text-center border-zinc-200 h-full">
-        <p class="text-black">Este exercício foi feito por: {{ exercice.doneBy.length }} usuário(s)</p>
-       
-      </div>
+    <div>
+      <Label class="">Descrição do Tarefa:</Label>
+      <Textarea id="statementUpdate" v-model="exerciceStatement" class="w-full" style="resize: none" />
+     
+    </div>
     
   </div>
+  <div class="w-full justify-center  items-center flex">
+  <Button @click="updateExerciceInfo(exerciceName, exerciceDifficulty, exerciceStatement)" variant="outline" class="w-3/6 ">Enviar alterações</Button>  
+</div>
+</div>
+
+ 
 </template>
 
+<style scoped>
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+ 
+  border-top: 6px solid white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

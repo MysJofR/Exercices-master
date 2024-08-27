@@ -1,0 +1,9 @@
+docker compose
+entender criação automatica
+página 404- talvez
+
+Aba de ajuda
+Aba competições
+Aba saiba mais - landing
+melhor filtragem de buscas
+design

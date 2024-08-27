@@ -18,14 +18,25 @@ model exercice {
   creatorId  String
   creator    user     @relation("CreatedExercises", fields: [creatorId], references: [id])
 
-
+  submissions submission[]
   doneBy     user[]   @relation("DoneExercises")
 
   tests      tests[]
 }
 
 
-
+model submission{
+  id              String         @id @default(uuid())
+  user            user           @relation(fields: [userId], references: [id])
+  userId          String
+  code       String
+  attempts     Int
+  correctAttempt Int
+  exercice            exercice           @relation(fields: [exerciceId], references: [id])
+  exerciceId          String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now())
+}
 
 
 model user {
@@ -36,7 +47,8 @@ model user {
   profilePicture  String
   course          String
   
-  year            String
+  year           String
+  
   exercisesDone   exercice[]     @relation("DoneExercises")
   createdExercises exercice[]    @relation("CreatedExercises")
 
@@ -45,6 +57,8 @@ model user {
 
   role            Role           @relation(fields: [roleId], references: [id])
   roleId          String
+  submissions     submission[]
+
 }
 
 model Role {
@@ -62,6 +76,7 @@ enum Routes {
   exercicesubmit
   exerciceupdate
   me
+  role
 }
 
 model tests {

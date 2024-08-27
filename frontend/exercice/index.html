@@ -461,7 +461,7 @@ for(let i in data){
     
 } else {
     window.location.href = '/';
-   throw new Error(data.message || "Erro ao enviar exercício");
+   throw new Error(data.message || "Erro ao enviar Tarefa");
    
 }
         
@@ -650,7 +650,7 @@ if (response.status == 201) {
    window.location.reload()
 } else {
    console.log('Erro ao criar exercicio') 
-   throw new Error(data.message || "Erro ao enviar exercício");
+   throw new Error(data.message || "Erro ao enviar Tarefa");
    window.location.href = '/'
 }
 
@@ -778,12 +778,12 @@ return data
 
     }else{
 
-       return 'Não há nenhum exercício à ser listado'
+       return 'Não há nenhum Tarefa à ser listado'
     }
     
 } else {
     window.location.href = '/';
-   throw new Error(data.message || "Erro ao enviar exercício");
+   throw new Error(data.message || "Erro ao enviar Tarefa");
    
 }
 
@@ -824,7 +824,7 @@ if (response.status == 200){
 } else {
    console.log('Erro ao excluir')
 // window.location.href = '/'
-   throw new Error(data.message || "Erro ao enviar exercício");
+   throw new Error(data.message || "Erro ao enviar Tarefa");
 }
 
 }).catch((err) => {

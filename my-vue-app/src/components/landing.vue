@@ -14,6 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useRoute, useRouter } from 'vue-router'
 import { Button } from '@/components/ui/button'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
+
 const router = useRouter()
 const route = useRoute()
 const mode = useColorMode()
@@ -60,151 +61,59 @@ try {
 
 
  }
-const components: { title: string, href: string, description: string }[] = [
-  {
-    title: 'Alert Dialog',
-    href: '/docs/primitives/alert-dialog',
-    description:
-      'A modal dialog that interrupts the user with important content and expects a response.',
-  },
-  {
-    title: 'Hover Card',
-    href: '/docs/primitives/hover-card',
-    description:
-      'For sighted users to preview content available behind a link.',
-  },
-  {
-    title: 'Progress',
-    href: '/docs/primitives/progress',
-    description:
-      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
-  },
-  {
-    title: 'Scroll-area',
-    href: '/docs/primitives/scroll-area',
-    description: 'Visually or semantically separates content.',
-  },
-  {
-    title: 'Tabs',
-    href: '/docs/primitives/tabs',
-    description:
-      'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
-  },
-  {
-    title: 'Tooltip',
-    href: '/docs/primitives/tooltip',
-    description:
-      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
-  },
-]
+
 </script>
 
 <template>
- 
-  <div class="w-full items-center flex justify-center mt-3 ">
-  
-  <NavigationMenu class="border-2 rounded-lg p-1">
-    <NavigationMenuList>
-      <NavigationMenuItem>
-        <NavigationMenuTrigger>Sobre Nós</NavigationMenuTrigger>
-        <NavigationMenuContent>
-          <ul class="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[minmax(0,.75fr)_minmax(0,1fr)]">
-            <li class="row-span-3">
-              <NavigationMenuLink as-child>
-                <a
-                  class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                  href="/"
-                >
-                  <img src="https://www.radix-vue.com/logo.svg" class="h-6 w-6">
-                  <div class="mb-2 mt-4 text-lg font-medium">
-                    shadcn/ui
-                  </div>
-                  <p class="text-sm leading-tight text-muted-foreground">
-                    Beautifully designed components built with Radix UI and
-                    Tailwind CSS.
-                  </p>
-                </a>
-              </NavigationMenuLink>
-            </li>
 
-            <li>
-              <NavigationMenuLink as-child>
-                <a
-                  href="/docs"
-                  class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                >
-                  <div class="text-sm font-medium leading-none">Introduction</div>
-                  <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Re-usable components built using Radix UI and Tailwind CSS.
-                  </p>
-                </a>
-              </NavigationMenuLink>
-            </li>
-            <li>
-              <NavigationMenuLink as-child>
-                <a
-                  href="/docs/installation"
-                  class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                >
-                  <div class="text-sm font-medium leading-none">Installation</div>
-                  <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    How to install dependencies and structure your app.
-                  </p>
-                </a>
-              </NavigationMenuLink>
-            </li>
-            <li>
-              <NavigationMenuLink as-child>
-                <a
-                  href="/docs/primitives/typography"
-                  class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                >
-                  <div class="text-sm font-medium leading-none">Typography</div>
-                  <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Styles for headings, paragraphs, lists...etc
-                  </p>
-                </a>
-              </NavigationMenuLink>
-            </li>
-          </ul>
-        </NavigationMenuContent>
-      </NavigationMenuItem>
-      <NavigationMenuItem>
-        <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-        <NavigationMenuContent>
-          <ul class="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-            <li v-for="component in components" :key="component.title">
-              <NavigationMenuLink as-child>
-                <a
-                  :href="component.href"
-                  class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                >
-                  <div class="text-sm font-medium leading-none">{{ component.title }}</div>
-                  <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    {{ component.description }}
-                  </p>
-                </a>
-              </NavigationMenuLink>
-            </li>
-          </ul>
-        </NavigationMenuContent>
-      </NavigationMenuItem>
-      <NavigationMenuItem>
-        <NavigationMenuLink href="/docs" :class="navigationMenuTriggerStyle()">
-          Documentation
-        </NavigationMenuLink>
-      </NavigationMenuItem>
-    </NavigationMenuList>
-  </NavigationMenu>
+
+<div class="overflow-y-auto h-screen">
+    <div class="h-full w-full flex flex-col  ">
+
+
+        <div class="w-full px-8 py-4 h-1/6 flex-row flex ">
+          
+            <nav class="w-full rounded-lg">
+             
+
+
+                <div class="flex w-full items-end flex-row space-x-8 justify-start">
+                    <div>   <h1 class="font-extrabold text-gray-100  text-3xl">LogiC</h1></div>
+                    <div>
+                        <a class=" text-md font-semibold font-sans  hover:text-accent " href="#about">Sobre</a>
+                    </div>
+                   
+                </div>
+            </nav>
+        </div>
+        <div class="h-5/6 w-full flex-col items-center flex justify-center">
+            <div class="flex h-full px-10 w-full flex-row">
+                <div class="w-4/6 h-4/6 space-y-4 flex flex-col items-center justify-end">
+                    <h1 class="font-bold  justify-center text-center w-8/12 text-4xl">O lugar perfeito para praticar lógica de programação!</h1>
+                    <p class="text-gray-400 justify-center text-center text-sm w-3/6">Simplifique os seus estudos submetendo exercicios e participando de competições</p>
+                    <Button variant="outline" @click="handleStartButton" class="shadow-md  w-52 rounded-md h-10">Começar</Button>
+                </div>
+                <div class="w-3/6 h-4/6">
+                    <img src="/LogiC.png" class="shadow-lg rounded-lg"  width="430">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nova Seção com overflow -->
+    <div class="h-full w-full flex flex-col ">
+        <div class="h-full w-full  space-y-8 flex-col items-center flex ">
+            <h1 id="about" class="font-bold  justify-center text-center w-7/12 text-4xl">Maximize sua lógica!</h1>
+            <p class="text-gray-400 justify-center text-center text-sm w-3/6">O projeto LogiC visa facilitar o estudo da lógica de programação através de uma plataforma dedicada, onde os alunos podem submeter Tarefas online de maneira mais ágil e simplificada. Tradicionalmente, a resolução e submissão de Tarefas envolve a leitura do enunciado, a abertura de um editor de texto e o envio manual dos arquivos. A plataforma LogiC elimina essas etapas, proporcionando um ambiente integrado que otimiza o processo de aprendizagem. Este sistema não apenas economiza tempo, mas também aprimora a experiência educacional, permitindo que os alunos se concentrem no desenvolvimento de suas habilidades em lógica de programação de forma mais eficaz.</p>
+
+                
+            <button @click="handleStartButton"  class="shadow-md bg-gray-100 hover:bg-gray-300 border-2 border-gray-400 text-black font-semibold w-1/6 rounded-md h-10">Quero participar!</button>
+        </div>
+    </div>
 </div>
-<div class="h-screen w-full items-center flex justify-center">
-   
-  <div id="content" class="absolute flex flex-col">
-    
-<Button @click="handleStartButton"  class="bg-black text-gray-100 border-black border-2  hover:text-black hover:bg-gray-100">Get Started</Button>
 
 
 
-</div>
-</div>
+
+
 </template>

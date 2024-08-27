@@ -41,20 +41,7 @@ export default async function loginController(req: Request<{},{},bodyType>, res:
             newProfilePicture:profilePicture,
             newYear:year,
             newCourse:courseName,
-            newRole:{
-                name:process.env.DEFAULT_ROLE_NAME || "Aluno",
-                perms: [
-                    "exercice",
-                    "exercicelist",
-                    "exercicesubmit",
-                    "me",
-                    "exerciceadd",
-                    "exercicedelete",
-                    "exerciceupdate"
-
-  
-                ]
-            }
+            
         })
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
         
@@ -78,9 +65,7 @@ export default async function loginController(req: Request<{},{},bodyType>, res:
                     "exercicelist",
                     "exercicesubmit",
                     "me",
-                    "exerciceadd",
-                    "exercicedelete",
-                    "exerciceupdate"
+                    "role"
                 ]
             }
         })
@@ -88,6 +73,7 @@ export default async function loginController(req: Request<{},{},bodyType>, res:
         const token = jwt.sign({ id:user.id }, process.env.JWT_SECRET);
         
         res.json({
+            
             token:token,
             
         }).status(200)

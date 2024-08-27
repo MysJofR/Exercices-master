@@ -85,7 +85,7 @@ const onSubmit = handleSubmit(async (values) => {
         genRandomData: values.switch == 'manual' ? false : true,
         code: values.switch == 'random' ? code.value : undefined,
         entries: formValues.entries? formValues.entries: undefined,
-        ioData: values.switch == 'random' ?tests.value:undefined
+        ioData: values.switch == 'random' ?undefined:tests.value
       }),
       redirect: 'follow'
     };
@@ -100,19 +100,15 @@ const onSubmit = handleSubmit(async (values) => {
     
 
 
-    console.log("Response data:", data);
+   
 
     if (response.status == 201) {
      emit('getChange', 'change')
-      toast({
-        title: 'Exercício criado com sucesso',
-        description: 'O exercício foi criado e adicionado à lista.',
-      });
+     
     } else {
-      console.log(data);
-      console.log(2)
+    
       toast({
-        title: 'Erro ao criar exercício',
+        title: 'Erro ao criar Tarefa',
         description: data.message,
       });
     }
@@ -156,24 +152,24 @@ const handleTests = () => {
    
       <Dialog>
         <DialogTrigger as-child>
-          <Button variant="outline">Criar exercício</Button>
+<slot></slot>
         </DialogTrigger>
-        <DialogContent class="sm:max-w-[500px] h-4/6 transition-all">
-          <DialogHeader>
-            <DialogTitle>Criar exercício</DialogTitle>
+        <DialogContent class=" h-4/6 transition-all">
+          <DialogHeader class="flex flex-col">
+            <DialogTitle>Criar Tarefa</DialogTitle>
             <DialogDescription>
-              Crie o exercício da forma que desejar.
+              Crie a Tarefa da forma que desejar.
             </DialogDescription>
           </DialogHeader>
           <form @submit.prevent="onSubmit">
-            <div class=" min-h-[150px]">
-              <div v-show="step === 1" class="space-y-2 flex flex-col transition-opacity duration-500">
+            <div class="">
+              <div v-show="step === 1" class="space-y-2  flex flex-col transition-opacity duration-500">
                 <div class="flex flex-row w-full space-x-4">
                   <FormField name="name" v-slot="{ field }">
                     <FormItem class="flex flex-col">
-                      <FormLabel>Nome do exercício:</FormLabel>
+                      <FormLabel>Nome da Tarefa:</FormLabel>
                       <FormControl>
-                        <Input v-model="formValues.name" autocomplete="" v-bind="field" placeholder="Nome" class="w-full bg-background text-gray-100 rounded-sm" />
+                        <Input v-model="formValues.name" autocomplete="" v-bind="field" placeholder="Nome" class="w-full bg-background  rounded-sm" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -189,7 +185,7 @@ const handleTests = () => {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectItem value="2">1</SelectItem>
+                              <SelectItem value="1">1</SelectItem>
                               <SelectItem value="2">2</SelectItem>
                               <SelectItem value="3">3</SelectItem>
                               <SelectItem value="4">4</SelectItem>
@@ -204,7 +200,7 @@ const handleTests = () => {
 
                   <FormField name="switch" v-slot="{ field }">
                     <FormItem class="flex flex-col w-2/6">
-                      <FormLabel>Testes do exercício:</FormLabel>
+                      <FormLabel>Testes da Tarefa:</FormLabel>
                       <FormControl>
                         <Select v-model="formValues.switch" v-bind="field">
                           <SelectTrigger>
@@ -224,9 +220,9 @@ const handleTests = () => {
                 </div>
                 <FormField name="statement" v-slot="{ field }">
                   <FormItem class="flex flex-col">
-                    <FormLabel>Descrição do exercício:</FormLabel>
+                    <FormLabel>Descrição da Tarefa:</FormLabel>
                     <FormControl>
-                      <Textarea v-model="formValues.statement" placeholder="Descrição" v-bind="field" class="p-1 bg-background text-gray-100 rounded-sm" />
+                      <Textarea v-model="formValues.statement" style="resize: none" placeholder="Descrição" v-bind="field" class="p-2 bg-background  rounded-sm" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -238,20 +234,17 @@ const handleTests = () => {
                   <MonacoExampleCode class="h-[180px]" @getChange="handleCode"></MonacoExampleCode>
                   <Input v-model="formValues.entries" placeholder="Entradas: inteiro,real
 
- " class="p-1 bg-background text-gray-100 rounded-sm" />
+ " class="p-1 bg-background  rounded-sm" />
                 </div>
               </div>
-              <div v-show="step === 2 && formValues.switch === 'manual'" class="flex flex-col space-y-2 transition-opacity duration-500">
-                <div class="flex flex-row space-x-16">
-                  <Label>Inputs:</Label>
-                  <Label>Output:</Label>
-                </div>
+              <div v-show="step === 2 && formValues.switch === 'manual'" class="flex flex-col h-full items-start space-y-2 transition-opacity duration-500">
+
                 <div class="flex space-x-3 flex-row">
-                  <Input v-model="formValues.inputs" placeholder="5,5,10.2" class="p-1 bg-background text-gray-100 rounded-sm" />
-                  <Input v-model="formValues.output" placeholder="10" class="p-1 bg-background text-gray-100 rounded-sm" />
+                  <Input v-model="formValues.inputs" placeholder="5,5,10.2" class="p-1 bg-background  rounded-sm" />
+                  <Input v-model="formValues.output" placeholder="10" class="p-1 bg-background  rounded-sm" />
                   <Button class="font-bold" @click.prevent="handleTests" variant="outline">+</Button>
                 </div>
-                <div v-if="tests.length > 0" class="overflow-y-auto max-h-16">
+                <div v-if="tests.length > 0" class="overflow-y-auto max-h-20 w-full">
                   <div v-for="(test, index) in tests" class="space-x-2" :key="index">
                     <button @click.prevent="tests.splice(index, 1)" class="text-red-700 font-bold text-md">X</button>
                     <Label>{{index + 1}} - Inputs: {{ test.inputs.toString() }}</Label>
@@ -267,7 +260,7 @@ const handleTests = () => {
               <Button v-if="step < totalSteps && formValues.switch && formValues.difficulty && formValues.name && formValues.statement" @click.prevent="nextStep" variant="outline">Próximo</Button>
 
               <DialogClose>
-              <Button v-if="step == totalSteps" type="submit" variant="outline">Criar exercício</Button>
+              <Button v-if="step == totalSteps && tests.length > 0" type="submit" variant="outline">Criar Tarefa</Button>
             </DialogClose>
 
             </DialogFooter>

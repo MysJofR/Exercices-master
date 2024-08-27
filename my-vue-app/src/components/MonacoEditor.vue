@@ -1,9 +1,9 @@
 <template>
-  <div  id="button" class="flex flex-col items-center">
-    <div @change="handleChange" ref="monacoContainer" class="monaco-editor-container h-full"></div>
+  <div  id="button" class="flex flex-col items-center ">
+    <div @change="handleChange" ref="monacoContainer" class=" monaco-editor-container h-full"></div>
     <Button 
     
-      class="border-2 w-6/6 max-h-6/6 h-6/6 text-left border-black block bg-gray-100 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-black hover:text-gray-100"
+      class="border-2 w-6/6 max-h-6/6 h-6/6 text-left border-black block bg-gray-100 select-none rounded-md p-3 leading-none no-underline outline-none transition-colors text-black hover:bg-black hover:text-gray-100"
       @click="handleButtonClick"
     >
       Enviar Resolução

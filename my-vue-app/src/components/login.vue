@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
@@ -26,19 +26,17 @@ const route = useRoute()
 
 
 
-const formSchema = toTypedSchema(z.object({
-  username: z.string({required_error: 'Você deve inserir seu username para logar-se'}),
-  password: z.string({ required_error: 'Você deve inserir uma senha'}).min(4, 'A senha deve conter ao menos 4 caracteres'),
- 
-}))
-
-const { handleSubmit } = useForm({
-  validationSchema: formSchema,
-})
-
-const onSubmit =  handleSubmit(async (values) => {
+const username = ref('')
+const password = ref('')
+const handleSubmit = async (values) => {
    
- 
+ if(values.username == '' || values.password == ''){
+   toast({
+     title: 'Erro ao logar-se:',
+     description: 'Por favor, preencha todos os campos corretamente.'
+   });
+   return
+ }
      try {
   
 
@@ -64,6 +62,7 @@ const onSubmit =  handleSubmit(async (values) => {
   if (response.status == 200) {
     
       localStorage.setItem('token', data.token)
+      
     router.push('/dashboard')
      
   }else{
@@ -79,45 +78,56 @@ const onSubmit =  handleSubmit(async (values) => {
  
 }
  
-})
+}
 </script> 
 
 <template>
 
-     <div class="h-full mt-10 w-full justify-right items-center flex flex-col">
-      <Toaster />
-      <h1 class="mt-5 font-bold text-2xl">Logar-se</h1>
-  <form class="w-3/6 p-10 space-y-2" @submit="onSubmit">
-    <FormField v-slot="{ componentField }" name="username">
-      <FormItem>
-        <FormLabel>Matricula</FormLabel>
-        <FormControl>
-          <Input type="text" class="text-gray-100" placeholder="Matrícula" v-bind="componentField" />
-        </FormControl>
-        <FormDescription>
-
-        </FormDescription>
-        <FormMessage />
-      </FormItem>
-    </FormField>
 
 
-    <FormField v-slot="{ componentField }" name="password">
-      <FormItem>
-        <FormLabel>Senha</FormLabel>
-        <FormControl>
-          <Input type="password" class="text-gray-100" placeholder="Digite sua senha" v-bind="componentField" />
-        </FormControl>
-        <FormDescription>
-      
-        </FormDescription>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+<Toaster />
 
-   
-    <Button class="" type="submit">
-      Logar-se
-    </Button>
-  </form></div>
+
+<div  class="w-full lg:grid lg:min-h-screen lg:grid-cols-1 xl:min-h-screen">
+    <div class="flex items-center justify-center py-12">
+      <div class="mx-auto grid w-[350px] gap-6">
+        <div class="grid gap-2 text-center">
+          <h1 class="text-3xl font-bold">
+           Logando-se
+          </h1>
+          <p class="text-balance text-muted-foreground">
+           Faça login com sua conta Moodle IFRS Canoas
+          </p>
+        </div>
+        <div class="grid gap-4">
+          <div class="grid gap-2">
+            <Label for="matricula">Matricula</Label>
+            <Input
+              v-model="username"
+              id="Matricula"
+              type="text"
+              placeholder="Matrícula do Usuário"
+              required
+            />
+          </div>
+          <div class="grid gap-2">
+            <div class="flex items-center">
+              <Label for="Senha">Senha</Label>
+         
+            </div>
+            <Input id="Senha" type="password" v-model="password" placeholder="Senha do Usuário" required />
+          </div>
+          <Button type="submit" @click="handleSubmit({username: username, password: password})" class="w-full">
+            Entrar
+          </Button>
+          <!-- <Button variant="outline" class="w-full">
+            Entrar com google
+          </Button> -->
+        </div>
+       
+      </div>
+    </div>
+  
+    
+  </div>
 </template>

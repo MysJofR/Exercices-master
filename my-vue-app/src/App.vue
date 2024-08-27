@@ -17,7 +17,7 @@ import {
 
 const mode = useColorMode()
 
-
+mode.value = 'dark'
 
 
 </script>
