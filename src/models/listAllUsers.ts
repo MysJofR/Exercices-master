@@ -11,7 +11,8 @@ export default async function listAllUsers() {
             fullname: true,
             exercisesDone: true,
             schoolId: true,
-            profilePicture: true
+            profilePicture: true,
+            submissions: true
         }
 
     });

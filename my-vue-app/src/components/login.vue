@@ -99,9 +99,9 @@ const handleSubmit = async (values) => {
            Faça login com sua conta Moodle IFRS Canoas
           </p>
         </div>
-        <div class="grid gap-4">
+        <div class="grid gap-3 items-center ">
           <div class="grid gap-2">
-            <Label for="matricula">Matricula</Label>
+           
             <Input
               v-model="username"
               id="Matricula"
@@ -112,14 +112,17 @@ const handleSubmit = async (values) => {
           </div>
           <div class="grid gap-2">
             <div class="flex items-center">
-              <Label for="Senha">Senha</Label>
+            
          
             </div>
             <Input id="Senha" type="password" v-model="password" placeholder="Senha do Usuário" required />
           </div>
-          <Button type="submit" @click="handleSubmit({username: username, password: password})" class="w-full">
+
+          <div class="w-full justify-center flex">
+          <Button type="submit" @click="handleSubmit({username: username, password: password})" class="w-4/6  ">
             Entrar
           </Button>
+        </div>
           <!-- <Button variant="outline" class="w-full">
             Entrar com google
           </Button> -->

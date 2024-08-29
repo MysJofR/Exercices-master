@@ -67,35 +67,32 @@ try {
 <template>
 
 
-<div class="overflow-y-auto h-screen">
+<div class="overflow-y-auto h-screen bg-gradient-to-br from-background via-black to-gray-700">
     <div class="h-full w-full flex flex-col  ">
 
 
-        <div class="w-full px-8 py-4 h-1/6 flex-row flex ">
+        <div class="w-full   h-1/6 flex-row  flex ">
           
-            <nav class="w-full rounded-lg">
+            <nav class="w-full items-center flex  px-8 ">
              
 
 
-                <div class="flex w-full items-end flex-row space-x-8 justify-start">
-                    <div>   <h1 class="font-extrabold text-gray-100  text-3xl">LogiC</h1></div>
-                    <div>
-                        <a class=" text-md font-semibold font-sans  hover:text-accent " href="#about">Sobre</a>
-                    </div>
+                <div class="flex w-full items-center flex-row space-x-2 justify-start">
+                    <div><img src="/LogiC.svg" class="shadow-lg rounded-lg "  width="26"></div>
+                    <div>    <h1 class="text-4xl font-extrabold text-white">LOGIC</h1></div>
+               
                    
                 </div>
             </nav>
         </div>
-        <div class="h-5/6 w-full flex-col items-center flex justify-center">
-            <div class="flex h-full px-10 w-full flex-row">
-                <div class="w-4/6 h-4/6 space-y-4 flex flex-col items-center justify-end">
+        <div class="h-5/6 w-full   flex-col items-center flex justify-center">
+            <div class="flex h-full px-10 justify-center w-full flex-row">
+                <div class="w-3/6 h-4/6 space-y-4 flex flex-col items-center justify-end">
                     <h1 class="font-bold  justify-center text-center w-8/12 text-4xl">O lugar perfeito para praticar lógica de programação!</h1>
                     <p class="text-gray-400 justify-center text-center text-sm w-3/6">Simplifique os seus estudos submetendo exercicios e participando de competições</p>
-                    <Button variant="outline" @click="handleStartButton" class="shadow-md  w-52 rounded-md h-10">Começar</Button>
+                    <Button variant="outline" @click="handleStartButton" class="shadow-md bg-gray-800 w-52 rounded-md h-10">Começar</Button>
                 </div>
-                <div class="w-3/6 h-4/6">
-                    <img src="/LogiC.png" class="shadow-lg rounded-lg"  width="430">
-                </div>
+               
             </div>
         </div>
     </div>
@@ -107,7 +104,7 @@ try {
             <p class="text-gray-400 justify-center text-center text-sm w-3/6">O projeto LogiC visa facilitar o estudo da lógica de programação através de uma plataforma dedicada, onde os alunos podem submeter Tarefas online de maneira mais ágil e simplificada. Tradicionalmente, a resolução e submissão de Tarefas envolve a leitura do enunciado, a abertura de um editor de texto e o envio manual dos arquivos. A plataforma LogiC elimina essas etapas, proporcionando um ambiente integrado que otimiza o processo de aprendizagem. Este sistema não apenas economiza tempo, mas também aprimora a experiência educacional, permitindo que os alunos se concentrem no desenvolvimento de suas habilidades em lógica de programação de forma mais eficaz.</p>
 
                 
-            <button @click="handleStartButton"  class="shadow-md bg-gray-100 hover:bg-gray-300 border-2 border-gray-400 text-black font-semibold w-1/6 rounded-md h-10">Quero participar!</button>
+            <Button @click="handleStartButton" variant="outline" class="shadow-md bg-gray-800 w-52 rounded-md h-10">Quero participar!</Button>
         </div>
     </div>
 </div>

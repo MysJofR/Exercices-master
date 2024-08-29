@@ -83,7 +83,7 @@ if(validate.error instanceof AppErrorConstructor){
 
         await userPass(((req as any).user), req.body.exerciceId)
 
-        return res.status(200).json({message: 'Parabens, você concluiu o Tarefa!'})
+        return res.status(200).json({message: 'Parabens, você concluiu a Tarefa!'})
 
     }
 

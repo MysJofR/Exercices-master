@@ -41,6 +41,7 @@ const user = ref(null)
 onMounted(async () => {
   await getUser()
 })
+const testRole = localStorage.getItem('role') === 'Professor'? true : false
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -61,7 +62,7 @@ import { routerKey } from 'vue-router';
           class="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
         
-          <h1 class="font-bold text-2xl">LogiC</h1>
+        <img src="/LogiC.svg" class="shadow-lg rounded-lg "  width="80">
       </button>
         <button
         @click="$router.push('/dashboard')"
@@ -82,7 +83,7 @@ import { routerKey } from 'vue-router';
           Competições
 </button> -->
         <button
-          v-if="user?.role.name === 'Professor'"
+  :class="testRole ? 'visible' : 'invisible'"
          @click="$router.push('/exercice')"
           class="text-muted-foreground transition-colors hover:text-foreground"
         >

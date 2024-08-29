@@ -81,7 +81,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import {File,Activity, ArrowUpRight, CircleUser, CreditCard, DollarSign, Menu, Package2, Search, Users, RocketIcon, Text, Ruler, RulerIcon, CheckIcon, Check, CrossIcon, Cross } from 'lucide-vue-next'
+import {File,Activity, ArrowUpRight, CircleUser, CreditCard, DollarSign, Menu, Package2, Search, Users, RocketIcon, Text, Ruler, RulerIcon, CheckIcon, Check, CrossIcon, Cross, Book, BookOpen } from 'lucide-vue-next'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -213,6 +213,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { toast } from './ui/toast';
 const router = useRouter()
 const route = useRoute()
+const testRole = localStorage.getItem('role') === 'Professor'? true : false
 </script>
 
 <template>
@@ -220,12 +221,12 @@ const route = useRoute()
   <div class="flex min-h-screen w-full flex-col">
     <header class=" top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-end md:gap-5 md:text-sm lg:gap-6">
-        <button
+        <button 
           @click="$router.push('/')"
           class="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
         
-          <h1 class="font-bold text-2xl">LogiC</h1>
+        <img  src="/LogiC.svg" class="shadow-lg rounded-lg "  width="80">
       </button>
         <button
         @click="$router.push('/dashboard')"
@@ -246,7 +247,7 @@ const route = useRoute()
           Competições
 </button>--> 
         <button
-          v-if="user?.role.name === 'Professor'"
+            :class="testRole ? 'visible' : 'invisible'"
          @click="$router.push('/exercice')"
           class="text-muted-foreground transition-colors hover:text-foreground"
         >
@@ -331,7 +332,7 @@ const route = useRoute()
         <Card class="xl:col-span-1 ">
           <CardHeader class="flex flex-row items-center">
             <div class="grid gap-2">
-              <CardTitle>Resolução da tarefa</CardTitle>
+              <CardTitle class="flex items-center gap-2"><BookOpen class="h-6 w-8" /> Resolução da tarefa</CardTitle>
               <CardDescription>
                Após o termino envie a resolução
               </CardDescription>

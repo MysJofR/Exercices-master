@@ -59,6 +59,7 @@ async function getUser() {
     if (response.status === 200) {
      
       user.value = data;
+      localStorage.setItem('role', data.role.name)
      
     }
   } catch (err) {
@@ -111,7 +112,7 @@ const getPosition = (users: object[]) => {
           class="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
         
-          <h1 class="font-bold text-2xl">LogiC</h1>
+     <img src="/LogiC.svg" class="shadow-lg rounded-lg "  width="80">
       </button>
         <button
         @click="$router.push('/dashboard')"
@@ -132,9 +133,10 @@ const getPosition = (users: object[]) => {
           Competições
 </button>--> 
         <button
-      v-if="user?.role.name === 'Professor'"
+        :class="user?.role.name === 'Professor' ? 'visible' : 'invisible'"
+    
          @click="$router.push('/exercice')"
-          class="text-muted-foreground transition-colors hover:text-foreground"
+          class="text-muted-foreground  transition-colors hover:text-foreground"
         >
           Tarefas
 </button>
@@ -212,7 +214,8 @@ const getPosition = (users: object[]) => {
       <div v-if="isLoading" class="loading-overlay">
     <div class="spinner"></div>
   </div>
-      <div v-else class="grid gap-4 md:gap-8 lg:grid-cols-1 xl:grid-cols-2   ">
+      <div v-else class="grid gap-4 md:gap-8 lg:grid-cols-1 xl:grid-cols-1 px-20   ">
+        <h1 class="font-bold text-2xl">{{ user?.fullname ? 'Bem-vindo ' + user.fullname.split(' ')[0] + '!' : 'Bem-vindo!'}}</h1>
        <!-- <Card  class="xl:col-span-2 hidden">
           <CardHeader class="flex flex-row items-center">
             <div class="grid gap-2">
@@ -280,7 +283,7 @@ const getPosition = (users: object[]) => {
         </Card> -->
        
 
-        <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-1">
+        <div class="grid gap-4 md:grid-cols-1 md:gap-8 lg:grid-cols-2">
         <Card>
           <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle class="text-sm font-medium">
@@ -331,7 +334,7 @@ const getPosition = (users: object[]) => {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card class="max-h-[120px]">
           <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle class="text-sm font-medium">
               Posição no ranking geral
@@ -345,6 +348,18 @@ const getPosition = (users: object[]) => {
             <p class="text-xs text-muted-foreground">
 
             </p>
+          </CardContent>
+        </Card>
+        <Card class="">
+          <CardHeader class="border-b-2 items-center flex ">
+            <CardTitle class="flex flex-row items-center gap-4"><Trophy class="h-7 w-6 text-muted-foreground" /> Ranking Geral</CardTitle>
+          </CardHeader>
+          <CardContent class="grid gap-8 p-4 ">
+            <Ranking @getUsers="getPosition">
+              
+            </Ranking>
+          
+       
           </CardContent>
         </Card>
         <!--     <Card>
@@ -362,18 +377,7 @@ const getPosition = (users: object[]) => {
           </CardContent>
         </Card> -->
       </div>
-      <Card class="">
-          <CardHeader class="border-b-2 ">
-            <CardTitle class="flex flex-row items-center gap-4"><Trophy class="h-7 w-6 text-muted-foreground" /> Ranking Geral</CardTitle>
-          </CardHeader>
-          <CardContent class="grid gap-8 p-4">
-            <Ranking @getUsers="getPosition">
-              
-            </Ranking>
-          
-       
-          </CardContent>
-        </Card>
+      
       </div>
     </main>
   </div>

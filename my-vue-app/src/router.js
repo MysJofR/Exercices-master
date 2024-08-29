@@ -3,7 +3,7 @@ import login from "@/components/login.vue"
 import landing from "@/components/landing.vue"
 import dashboard from "@/components/dashboard.vue"
 import code from "@/components/code.vue"
-import me from "@/components/me.vue"
+
 import tournaments from "@/components/tournaments.vue"
 import exercice from "@/components/exercice.vue"
 import createExercice from "@/components/ranking.vue"
@@ -13,10 +13,10 @@ const routes = [
   {path: '/dashboard', component: dashboard},
   { path: '/login', component: login },
   { path: '/', component: landing },
-  {path: '/me', component: me},
+ 
   {path: '/code', component: code},
   {path: '/exercice', component: exercice},
-  {path: '/test', component: createExercice},
+ 
   {path: '/tournaments', component: tournaments},
   {path: '/help', component: help},
   {path: '/settings', component: settings},

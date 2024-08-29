@@ -189,7 +189,7 @@ const logout = () => {
           class="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
         
-          <h1 class="font-bold text-2xl">LogiC</h1>
+        <img src="/LogiC.svg" class="shadow-lg rounded-lg "  width="80">
       </button>
         <button
         @click="$router.push('/dashboard')"
@@ -293,7 +293,7 @@ const logout = () => {
           <Input
             type="search"
             placeholder="Buscar..."
-            class="w-full h-9 rounded-lg bg-background  md:w-[200px] lg:w-[315px]"
+            class="w-full h-9 rounded-lg hidden bg-background  md:w-[200px] lg:w-[315px]"
           />
          
             <TabsList>
